@@ -2,7 +2,7 @@ import java.util.HashMap;
 
 public class Character {
 
-    private Boolean frozen;
+    private Boolean frozen = false;
     private String name;
     private String SPA;
     private int damage;
