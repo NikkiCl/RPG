@@ -6,11 +6,11 @@ public class Main {
 	
 	
 	static void MainMenu() throws InterruptedException {
-		Scanner imp = new Scanner(System.in);
+		Scanner w = new Scanner(System.in);
 		int userInp;
 		DPO("Welcome to RPG game name here idk",10);
 		System.out.println("\n\n1. Start game\n2. Quit");
-		userInp = imp.nextInt();
+		userInp = w.nextInt();
 		
 		if (userInp == 1) {
 			startGame();
@@ -28,7 +28,7 @@ public class Main {
 	}
 
     static void combat(Character X, Alien Enemy) throws InterruptedException {
-        int userInp = 0;
+        int userInp;
         Scanner imp = new Scanner(System.in);
 
         //combat loop
@@ -44,7 +44,6 @@ public class Main {
                 if (userInp == 1) {
                     Attack(X,Enemy);
                     //if the enemy gets slain, it skips the enemy's turn and goes straight to the cutscene
-                    DPO("You slash " + Enemy.getName() + " with your sword and deal " + X.getDmg() + " damage.",10);
                     if (Enemy.getHP() < 0) {
                         continue;
                     }
@@ -79,12 +78,13 @@ public class Main {
                 //if user inputs any other number or letter, an error is raised.
                 else {
                     throw new ArithmeticException();
-                }
+               }
 
                 Thread.sleep(400);
 
                 //enemy's turn.
                 Attack(Enemy,X);
+                
 
                 if(Enemy.getCounter() > 0) {
                 	SpecialAttack(X,Enemy);
@@ -95,8 +95,8 @@ public class Main {
                 System.out.println("Enemy HP: " + Enemy.getHP());
                 Thread.sleep(1000);
             }
-            catch(Exception e) {
-                System.out.println("Please enter a number from 1-3.");
+            catch(Exception ArithmeticException) {
+                System.out.println("Please enter a number between 1-4");
 
             }
 
@@ -108,7 +108,6 @@ public class Main {
             DPO("Enemy " + Enemy.getName() + " has been slained!",10 );
             DPO(Enemy.getName() + " has dropped a " + Enemy.getItem(),10);
         }
-        imp.close();
     }
     
     
@@ -119,7 +118,7 @@ public class Main {
     
     
     public static void main(String[] args) throws InterruptedException {
-    	MainMenu();
+    	//MainMenu();
         Character t1 = new Character("n",10,100);
         Alien t2 = new Alien("f",10,100,2,2,"sword");
 
@@ -138,8 +137,8 @@ public class Main {
     
     static boolean Attack(Character X, Character Enemy) throws InterruptedException {
     	if (X.getTTA() == 0) {
-            DPO("Enemy " + Enemy.getName() + " has dealt " + Enemy.getDmg() + " damage",10);
 	    	X.dmg(Enemy);
+	    	DPO(X.getName() + " attacks " + Enemy.getName() + " and deals " + X.getDmg() + " damage",10);
 	    	return true;
     	}
     	else {
@@ -157,12 +156,12 @@ public class Main {
     
     static void SpecialAttack(Character X, Character Enemy) throws InterruptedException {
         	if (X.getSPA().equals("Poison")) {
-            DPO("Enemy is poisoned... take 5 damage",10);
+            DPO(Enemy.getName() + " is poisoned... take 5 damage",10);
             Enemy.setHP(Enemy.getHP() - X.getSpecialAttacks().get(X.getSPA()));
 
         	}
         	else if (X.getSPA().equals("Frozen")) {
-        		DPO("Enemy is frozen for " + X.getSpecialAttacks().get(X.getSPA()) + " turns",10);
+        		DPO(Enemy.getName() + " is frozen for " + X.getSpecialAttacks().get(X.getSPA()) + " turns",10);
         		
         	}
         	
