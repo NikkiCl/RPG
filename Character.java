@@ -2,12 +2,13 @@ import java.util.HashMap;
 
 public class Character {
 
-    private String status;
+    private Boolean frozen;
     private String name;
     private String SPA;
     private int damage;
     private int HP;
     private int Counter;
+    private int turnsToAttack;
 
 
 
@@ -18,14 +19,19 @@ public class Character {
            put("Ice", 2);
         }
     };
-
-    public void fight(Character enemy) {
+    
+    
+    public void dmg(Character enemy) {
         enemy.HP -= this.damage;
+    
     }
 
     public void StartSPA(Character enemy) {
         if (this.SPA.equals("Poison")) {
             enemy.Counter = 3;
+        }
+        else if (this.SPA.equals("Ice")) {
+        	enemy.Counter = 2;
         }
     }
 
@@ -42,7 +48,18 @@ public class Character {
         damage = dmg;
         HP = health;
         SPA = null;
+        turnsToAttack = 0;
     }
+    
+    
+    Character(String n,int dmg, int health,int turnsToAttack){
+        name = n;
+        damage = dmg;
+        HP = health;
+        SPA = null;
+        this.turnsToAttack = turnsToAttack;
+    }
+
 
 //setters
 
@@ -55,9 +72,9 @@ public class Character {
             System.out.println("Oops, check if you mispelled anything.");
         }
     }
-
-    public int getCounter() {
-        return Counter;
+    
+    public void setTTA(int amt) {
+    	turnsToAttack = amt;
     }
 
     public void setCounter(int Counter) {
@@ -85,6 +102,17 @@ public class Character {
     }
 
     //getters
+    
+    public boolean isFrozen() {
+    	return frozen;
+    }
+    public int getCounter() {
+        return Counter;
+    }
+    
+    public int getTTA() {
+    	return turnsToAttack;
+    }
     public String getName() {
         return name;
     }
