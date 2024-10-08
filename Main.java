@@ -39,6 +39,13 @@ public class Main {
         Character t1 = new Character("n",10,100);
         Alien t2 = new Alien("f",10,100,2,2,"sword");
 
+		Scanner scanner = new Scanner(System.in);
+		Map map = new Map();
+		map.printMap();
+		System.out.println("Enter direction");
+		String dir = scanner.nextLine();
+		map.locationChange(dir);
+		map.printMap();
         t1.setSPA("Ice");
         Combat.combat(t1,t2);
 
