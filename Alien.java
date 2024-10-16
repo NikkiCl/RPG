@@ -1,13 +1,11 @@
-
 public class Alien extends Character {
-	private int attackTime,turnsToAttack;
+	private int attackTime;
 	private String itemDropped;
 	//subclass
-	public Alien(String name, int damage,int HP, int attackTime, String itemDropped) {
-		super(name,damage,HP);
+	public Alien(String name, int damage,int HP, int attackTime, int turnsToAttack, String itemDropped) {
+		super(name,damage,HP,turnsToAttack);
 		this.attackTime = attackTime;
 		this.itemDropped = itemDropped;
-		this.turnsToAttack = attackTime;
 	}
 	
 	
@@ -17,19 +15,12 @@ public class Alien extends Character {
 		return itemDropped;
 	}
 	
-	public boolean Afight(Character enemy) {
-		if (turnsToAttack == 1) {
-			this.fight(enemy);
-			turnsToAttack = attackTime;
-			return true;
-		}
-		turnsToAttack -= 1;
-		return false;
-		
-		
-		
-		
+	public int getAttackTime() {
+		return attackTime;
 	}
+	
 }
 
+	
+	
 
