@@ -58,6 +58,7 @@ public class Main {
 
                 else if (userInp == 4) {
                 	//should check for inventory before allowing to use item.
+                    Character.InventorySystem();
                 }
 
                 //if user inputs any other number or letter, an error is raised.
