@@ -3,6 +3,9 @@ import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
+
+
+Map map = new Map();
 	static void MainMenu() throws InterruptedException {
 		Scanner w = new Scanner(System.in);
 		int userInp;
@@ -12,6 +15,11 @@ import java.util.concurrent.TimeUnit;
 		
 		if (userInp == 1) {
 			startGame();
+		}else if (userInp == 2) {
+			System.out.println("Quitting");
+		} else {
+			System.out.println("Wrong input"); //just some input validation
+			MainMenu();
 		}
 	}
 	
@@ -327,4 +335,3 @@ import java.util.concurrent.TimeUnit;
             TimeUnit.MILLISECONDS.sleep(delay);
         }
     }
-}
