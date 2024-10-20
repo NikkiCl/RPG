@@ -24,8 +24,24 @@ Map map = new Map();
 	}
 	
 	static void startGame() throws InterruptedException {
-		SceneOne();
-			
+		Scanner Uinput = new Scanner(System.in);
+		DPO("Enter your name: ",35);
+		String name = Uinput.next();
+		//uses userinput to get name 
+		Character x = new Character(name,10,100);
+		//SceneOne();
+		//mayeb use while statement 
+		//put the map and move functions here
+		
+		//add an if (at this location) statement for the map thingy.
+		
+		//if map location == alien slums:
+		AlienSlums();
+		
+		//if map location == bear Fight:
+		wingedbearF(x);
+		
+		
 		}
 	
     
@@ -163,6 +179,29 @@ Map map = new Map();
 		
 		
 		
+    }
+
+    static void wingedbearF(Character x) throws InterruptedException {
+    	//initiates the first player fight with a winged bear
+    	Alien WingedBear = new Alien("Winged Bear",10,35,0,0,"Sword");
+    	Combat.combat(x,WingedBear);
+    }
+    
+    
+    static void AlienSlums() throws InterruptedException {
+		Scanner sc = new Scanner(System.in);
+		int userChoice;
+		DPO("\n\n\n\n\nTravelling...................",55);
+		DPO(textBox("You've arrived at: Alien Slums"),25);
+		DPO("You arrive in a wasteland riddled with less ugly aliens. It looks like this is their version of a market.",25);
+		DPO("1 - go to merchant 	2 - keep on walking",25);
+		userChoice = sc.nextInt();
+		if (userChoice == 1) {
+			//put ur merchant dialogue and stuff here
+		}
+		else if (userChoice == 2) {
+			//move past the alien slums 
+		}
     }
 
     static void combat(Character X, Alien Enemy, InventorySystem inventory) throws InterruptedException {
