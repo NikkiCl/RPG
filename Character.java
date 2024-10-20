@@ -1,64 +1,50 @@
 import java.util.HashMap;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
 
-class Character {
-    private String status;
+public class Character {
+
     private String name;
-    private String SPA;
     private int damage;
     private int HP;
     private int Counter;
-
-    // Hashmap for special attacks
-    private HashMap<String, Integer> SpecialAttacks = new HashMap<String, Integer>() {
-        {
-            put("Poison", 5);
-            put("Ice", 2);
-        }
-    };
-
-    public void fight(Character enemy) {
+    private int turnsToAttack;
+    
+    
+    public void dmg(Character enemy) {
         enemy.HP -= this.damage;
+    
     }
 
-    public void StartSPA(Character enemy) {
-        if (this.SPA != null && this.SPA.equals("Poison")) {
-            enemy.Counter = 3;
-        }
+
+
+    //constructors
+    Character(){
+
     }
 
-    // Constructors
-    Character() {}
-
-    Character(String n, int dmg, int health) {
+    Character(String n,int dmg, int health){
         name = n;
         damage = dmg;
         HP = health;
-        SPA = null;
+        turnsToAttack = 0;
+    }
+    
+    
+    Character(String n,int dmg, int health,int turnsToAttack){
+        name = n;
+        damage = dmg;
+        HP = health;
+        this.turnsToAttack = turnsToAttack;
     }
 
-    // Setters
-    public void setSPA(String AT) {
-        // Checks to see if the string AT is inside the hashmap
-        if (SpecialAttacks.get(AT) != null) {
-            SPA = AT;
-        } else {
-            System.out.println("Oops, check if you mispelled anything.");
-        }
-    }
 
-    public int getCounter() {
-        return Counter;
+//setters
+
+    public void setTTA(int amt) {
+    	turnsToAttack = amt;
     }
 
     public void setCounter(int Counter) {
         this.Counter = Counter;
-    }
-
-    public HashMap<String, Integer> getSpecialAttacks() {
-        return SpecialAttacks;
     }
 
     public void setName(String n) {
@@ -73,7 +59,15 @@ class Character {
         HP = health;
     }
 
-    // Getters
+    //getters
+    
+    public int getCounter() {
+        return Counter;
+    }
+    
+    public int getTTA() {
+    	return turnsToAttack;
+    }
     public String getName() {
         return name;
     }
@@ -86,13 +80,12 @@ class Character {
         return HP;
     }
 
-    public String getSPA() {
-        return SPA;
-    }
 
     public String toString() {
         return "----------------\nName: " + name + "\nDamage: " + damage + "\nHealth: " + HP;
     }
+
+
 }
 
 //INVENTORY
