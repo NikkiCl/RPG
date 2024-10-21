@@ -17,14 +17,14 @@ Filling Empty Spaces: I started by using a simple "-" to represent empty spaces,
 Compass Alignment: Aligning the compass with the map rows took a bit of trial and error. I eventually figured it out by integrating the compass printing into the iteration method that prints the map line by line.
 
 Search for a Random Number Generator: At one point, I needed a good way to generate random numbers for sneak attempts. I decided to search for "java random number generator" and found a method called ThreadLocalRandom which I saw my coding partners using. I learned more about it and I decided to intergrate it within my code as it seemed like the best option as well to avoid complications. Then the next issue was trying to see what odds i should give the player and i decided that 1 out of three will be perfect with a %33.33 chance to sneak and %66.66 chance of failing to sneak because after all he is mentioned to be a "Dork". 
-
-
-
-
-
-
-
-
+-
+-
+-
+-
+-
+-
+-
+-
 **Difficulties of Nikki:**
 I wanted the combat mechanics to have 3 functions, attack, sneak, and use item. I originally intended for special attacks, however I was unsure of where it would fit into the story, so I scrapped it. So it left me with this skeleton code structure:
 if player picks 1:
