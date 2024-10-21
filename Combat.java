@@ -4,11 +4,10 @@ import java.util.concurrent.TimeUnit;
 
 
 public class Combat {
-	
 	   static void combat(Character X, Alien Enemy) throws InterruptedException {
 	        int userInp;
+			InventorySystem inventory = new InventorySystem();
 	        Scanner imp = new Scanner(System.in);
-
 	        //combat loop
 	        while (X.getHP() > 0 && Enemy.getHP() > 0) {
 	        	//while main character HP and enemy HP arent below 0:
@@ -43,6 +42,7 @@ public class Combat {
 
 	                else if (userInp == 3) {
 	                	//should check for inventory before allowing to use item.
+						inventory.displayInventory();
 	                }
 
 	                //if user inputs any other number or letter, an error is raised.
@@ -73,6 +73,21 @@ public class Combat {
 	        if (Enemy.getHP() <= 0) {
 	            DPO("Enemy " + Enemy.getName() + " has been slained!",10 );
 	            DPO(Enemy.getName() + " has dropped a " + Enemy.getItem(),10);
+				Scanner playerItem = new Scanner(System.in);
+				System.out.println("\n1. Pick Up\n2. Leave Item\n\nWhat would you like to do? : ");
+				int playerInp = playerItem.nextInt();
+			
+				if (playerInp == 1) {
+					if (inventory.items.size() < 4) {
+						inventory.addItem(Enemy.getItem());
+					} 
+					else if(inventory.items.size() > 4) {
+						inventory.addItem(Enemy.getItem());
+						inventory.addItem(Enemy.getItem());
+					}
+				} else {
+					System.out.println("You left " + Enemy.getItem() + " on the ground.");
+				}
 	        }
 	    }
 	    

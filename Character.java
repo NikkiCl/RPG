@@ -1,5 +1,6 @@
-import java.util.HashMap;
-
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 public class Character {
 
     private String name;
@@ -90,6 +91,7 @@ public class Character {
 
 //INVENTORY
 class InventorySystem {
+    private String chosenitem;
     private int slotMax = 5;
     private Scanner itemScanner = new Scanner(System.in);
     public ArrayList<String> items = new ArrayList<>();
@@ -116,14 +118,17 @@ class InventorySystem {
         for (int i = 0; i < items.size(); i++) {
             System.out.println("- " + items.get(i));
         }
-
+        if(!items.isEmpty()){
         System.out.printf("\nWhat item would you like to use?: ");
         String chosenItem = itemScanner.nextLine();
-
-        if (items.contains(chosenItem)) {
+            if (items.contains(chosenItem)) {
             System.out.printf("\nYou chose to use %s\n", chosenItem);
-        } else {
-            System.out.println("Item not found in inventory. (Check for spelling mistakes)");
+            }else {
+                System.out.println("Item not found in inventory. (Check for spelling mistakes)\n");
+        }
+        }
+        else{
+            System.out.println("There is nothing in your Inventory.");
         }
     }
 
