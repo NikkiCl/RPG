@@ -1,11 +1,47 @@
+import java.awt.ItemSelectable;
 import java.util.Scanner;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
-
-
-public class Main {
+public class Main{
 	static InventorySystem inventory = new InventorySystem();
-	Map map = new Map();
-	static void MainMenu() throws InterruptedException {
+	static Map map = new Map();//Initialize the map object
+
+	static void gameMenu() throws InterruptedException {
+		Scanner inpt = new Scanner(System.in); // Initialize scanner object
+
+		// Display the menu options before getting user input
+		System.out.println("\n\n1. View Map\n2. Show Inventory\n3. Quit");
+		
+		// Get user input
+		int choice = inpt.nextInt();
+	
+		// Handle menu choices using a switch statement
+		switch (choice) {
+			case 1:
+				// Call print map method
+				map.printMap();
+				break;
+	
+			case 2:
+				//minh needs to impliment the inventory print function here
+				inventory.displayInventory();
+				break;
+	
+			case 3:
+				// Quit the game
+				System.out.println("Exiting game,\n Going back to start");
+				welcome(); //goes back to the start of game
+				break;
+	
+			default:
+				// Handle invalid input
+				System.out.println("Invalid input. Please choose a valid option.");
+				break;
+		}
+	}
+
+
+	static void welcome() throws InterruptedException { //renamed to avoid naming conflicts
 		Scanner w = new Scanner(System.in);
 		int userInp;
 		DPO("Welcome to RPG game name here idk",10);
@@ -13,38 +49,74 @@ public class Main {
 		userInp = w.nextInt();
 		
 		if (userInp == 1) {
-			startGame();
+			startGame(w);//Passing the scanner object to the function to mainstream code and reuse the object
+		}else if (userInp == 2) {
+			System.out.println("Quitting");
+		} else {
+			System.out.println("Wrong input"); //just some input validation
+			welcome();
 		}
 	}
 	
-	static void startGame() throws InterruptedException {
-		Scanner Uinput = new Scanner(System.in);
+	static void startGame(Scanner uInput) throws InterruptedException {  //Recieves the scanner object as parameter
 		//user input
 		DPO("Enter your name: ",35);
-		String name = Uinput.next();
+		String name = uInput.next();
 		//uses userinput to get name 
 		Character x = new Character(name,10,100);
 		//in this instance, whenever we refer to "x" we are referring to the main character aka the player.
-		SceneOne(x,Uinput);
-		//mayeb use while statement 
-		//put the map and move functions here
 		
-		//add an if (at this location) statement for the map thingy.
-		
-		//if map location == alien slums:
-		AlienSlums();
-		
-		//if map location == bear Fight:
-		wingedbearF(x);
-		
-		//if map location == weak alien soldier fight:
-		weakAlienSoldierF(x);
-		
-		//if map location == mountain:
-		mountainCrossRoads(x,Uinput);
-		
+		boolean isPlaying = true;// Main game loop, keeps running until/if broken in the menu
+		while (isPlaying) {
+			input(uInput);//passing the scanner object to the function to reuse and write less lines of code
+			//also calling it after any part of the story is ran
+			gameMenu();
+
+			if (map.getCurrentLocation().contains("Start")){
+				SceneOne(x,uInput);
+			}else if (map.getCurrentLocation().contains("Alien slums")) { // Check player's current location and trigger specific scenes or fights
+				AlienSlums();  // call Alien slums function
+			} else if (map.getCurrentLocation().contains("Angry bear")) {
+				wingedbearF(x);
+			} else if (map.getCurrentLocation().contains("Soldier")) {
+				weakAlienSoldierF(x); 
+			} else if (map.getCurrentLocation().contains("Mountain")) {
+				mountainCrossRoads(x, uInput);  
+			}
 		}
+	}
 	
+    static void input(Scanner uInput) throws InterruptedException { //Recieves scanner object as a parameter
+        System.out.println("Enter direction to move (n, e, s, w) or enter 1 for menu:");
+        
+        
+        if (uInput.hasNextInt()) {//Checks if the next input is an integer and if so it will execute that block 
+            int input = uInput.nextInt();
+            
+            // If input is '1', open the menu
+            if (input == 1) {
+                System.out.println("Menu");
+                gameMenu();
+            } else {
+                System.out.println("Invalid number. Only '1' is valid for menu.");
+            }
+        } else { // Else, treat the input as a string (for movement directions)
+            String dir = uInput.next().toLowerCase(); //Cap safe
+            
+            // Handle the player's direction
+            switch (dir) {
+                case "n":
+                case "e":
+                case "s":
+                case "w":
+                    map.locationChange(dir);
+                    break;
+                default:
+                    System.out.println("Invalid direction. Please enter 'n', 'e', 's', or 'w'.");
+                    break;
+            }
+        }
+    }
     
     
     
@@ -53,8 +125,8 @@ public class Main {
     
     
     
-    public static void main(String[] args) throws InterruptedException {
-    	MainMenu();
+    public static void Main (String[] args) throws InterruptedException {
+    	//MainMenu();
         //Combat.combat(t1,t2);
         startGame();
     	
@@ -164,7 +236,7 @@ public class Main {
 				+ "      _\\   -.,_____,.-   /_         \r\n"
 				+ "  ,.-\"  \"-.,_________,.-\"  \"-.,");
 		
-		for (int i = 2; i <= 1 ; i--) {
+		for (int i = 2; i > 1 ; i--) {
 			DPO("1 - take a step back",25);
 			
 			userChoice = scanner.nextInt();
@@ -188,50 +260,12 @@ public class Main {
 		DPO("\nUgly man:\n'To find him you have to climb that mountain….uhhmm oh no this other one… orrrr umm maybe the ones back that way. You know what Ill just give you my map. I dont leave my farm anyways'\n",35);
 		
 		DPO(textBox("NEW ITEM UNLOCKED: map"),25);
-
+		map.printMap();
 		
 		
-		
-		
-    }
-    
-    
-    static void mountainCrossRoads(Character x, Scanner scanner) throws InterruptedException {
-    	DPO("You arrive and take in the scenery, as a mountain filled with lush greenery and a waterfall that cascaded down into a lagoon appeared before you.",25);
-    	DPO("What would you like to do?\n1 - Climb up the mountain	2 - Search the waterfall",25);
-    	int userinp = scanner.nextInt();
-    	if (userinp == 1) {
-    		//go to mountain and sloth fight happens
-    		slothF(x);
-    		
-    	}
-    	else if (userinp == 2) {
-    		// go to waterfall
-    		DPO("You travel through a hidden tunnel wedged beneath the waterfall and stumble across a pot of gold",25);
-    		DPO(textBox("You have received: 50 gold coins"),25);
-    		DPO("\n 'I wonder if I can use trade this for something....'",35);
-    		
-    	}
-    	
     }
 
     
-    static void Mansion(Character X, Scanner scanner) throws InterruptedException {
-    	DPO("You arrive at the frontyard of a massive mansion, surrounded by golden gates and a delectable collection of trinkets",25);
-    	while (true) {
-        	DPO("1 - Open front door	2 - Head to backyard",25);
-        	int userInp = scanner.nextInt();
-        	if (userInp == 1) {
-        		DPO("Your height limits you from being able to reach the door handle.",25);
-        		
-        	}
-        	else if (userInp == 2) {
-        		DPO("You head to the backyard",25);
-        		//travel to backyard
-        		break;
-        	}
-    	}
-    }
     
 	static void AlienSlums() throws InterruptedException { 
 		Scanner sc = new Scanner(System.in);
