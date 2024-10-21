@@ -48,27 +48,10 @@ public class Map {
     }
 
     public void locationChange(String dir) {
-        dir = dir.toLowerCase(); // Input is no longer case sensetive
         int x = getPlayerX(); // Grab the player's x and y coordinates
         int y = getPlayerY();
-
-        // Store valid directions in an array
-        String[] directions = { "n", "e", "s", "w" };
-
-        // Variable to track if input is valid
-        boolean isValid = false;
-
-        // Iterate through the directions array to check for a match
-        for (String direction : directions) { //For every direction in directions Array
-            if (dir.equals(direction)) {
-                isValid = true;
-                break; // If it is valid then stop the itiration
-            }
-        }
-
-        if (!isValid) {
-            System.out.println("Wrong input. Choose between: n, e, w, s.");
-        } else if (dir.equals("n") && x > 0) { // if direction equals n and the axis is not out of bounce
+        
+        if (dir.equals("n") && x > 0) { // if direction equals n and the axis is not out of bounce
             x--; // Decriment the x axis by one to move up
         } else if (dir.equals("e") && y < 4) {
             y++;
@@ -97,7 +80,7 @@ public class Map {
         grid[1][1] = "|Mansion      |";// 15 characters long
         grid[1][2] = "|Bird         |";
         grid[2][0] = "|Tunnel       |";
-        grid[2][4] = "|Solder       |";
+        grid[2][4] = "|Soldier      |";
         grid[3][0] = "|Waterfall    |";
         grid[3][1] = "|Mountain     |";
         grid[3][2] = "|Alien slums  |";
