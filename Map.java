@@ -12,8 +12,8 @@ public class Map {
     public Map(int X, int Y) { // Constructor method that makes instance of class
         grid = new String[rows][colms]; // Initialises 2D grid with 5 rows and 5 columns in the index values
         initializeMap(); // Calls the function that initilizes the map
-        setPlayerX(X);
-        setPlayerY(Y);
+        playersX = X; // Directly setting the coordinants
+        playersY = Y; 
     }
 
     // Getter for playerX

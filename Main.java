@@ -5,8 +5,31 @@ import java.util.concurrent.TimeUnit;
 
 
 
-Map map = new Map();
-	static void MainMenu() throws InterruptedException {
+static Map map = new Map(); // static making it available by every method
+
+static void gameMenu() throws InterruptedException{
+	Scanner inpt = new Scanner(System.in); //initilaise scanner object
+
+	System.out.println("\n\n1. View Map\n2. Show Inventory\n4. Quit");
+	int choice = inpt.nextInt();//grab input after prompt
+	switch(choice) {
+		case 1:
+		map.printMap();//Call print map method
+		break;
+		//The inventory case needs to be written by minh
+		case 2:
+		System.out.println("Exiting game");
+		welcome(); //goes back to the start of the game
+		break;
+		default:
+		System.out.println("Invalid input");//handles invalid input
+		break;
+	}
+
+
+
+}
+	static void welcome() throws InterruptedException { //arvin renamed function for code clarity
 		Scanner w = new Scanner(System.in);
 		int userInp;
 		DPO("Welcome to RPG game name here idk",10);
@@ -19,7 +42,7 @@ Map map = new Map();
 			System.out.println("Quitting");
 		} else {
 			System.out.println("Wrong input"); //just some input validation
-			MainMenu();
+			welcome();
 		}
 	}
 	
@@ -149,7 +172,7 @@ Map map = new Map();
 				+ "      _\\   -.,_____,.-   /_         \r\n"
 				+ "  ,.-\"  \"-.,_________,.-\"  \"-.,");
 		
-		for (int i = 2; i <= 1 ; i--) {
+		for (int i = 2; i > 1 ; i--) {
 			DPO("1 - take a step back",25);
 			
 			userChoice = inp.nextInt();
@@ -173,13 +196,11 @@ Map map = new Map();
 		DPO("\nUgly man:\n'To find him you have to climb that mountain….uhhmm oh no this other one… orrrr umm maybe the ones back that way. You know what Ill just give you my map. I dont leave my farm anyways'\n",35);
 		
 		DPO(textBox("NEW ITEM UNLOCKED: map"),25);
-		
-		
-		
-		
+		map.printMap();
 		
 		
     }
+
 
     static void wingedbearF(Character x) throws InterruptedException {
     	//initiates the first player fight with a winged bear
