@@ -2,6 +2,7 @@ import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
+
 public class Combat {
 	
 	   static void combat(Character X, Alien Enemy) throws InterruptedException {
@@ -14,14 +15,14 @@ public class Combat {
 	            try {
 	                System.out.println("\n\n\n");
 	                DPO("What would you like to do?",10);
-	                DPO("1 - Fight		2 - Sneak	3 - Use item\n",10);
+	                DPO("1 - Fight	2 - Sneak	3 - Use item\n",10);
 	                TimeUnit.SECONDS.sleep(2);
 	                //if user inputs 1, they fight, else 2, they sneak.
 	                userInp = imp.nextInt();
 	                if (userInp == 1) {
 	                    Attack(X,Enemy);
 	                    //if the enemy gets slain, it skips the enemy's turn and goes straight to the cutscene
-	                    if (Enemy.getHP() < 0) {
+	                    if (Enemy.getHP() <= 0) {
 	                        continue;
 	                    }
 	                }
@@ -52,7 +53,7 @@ public class Combat {
 	                Thread.sleep(400);
 
 	                //enemy's turn.
-	                Attack(Enemy,X);
+	                Attack(Enemy,X); 
 	                
 
 	                Thread.sleep(400);
@@ -61,7 +62,7 @@ public class Combat {
 	                Thread.sleep(1000);
 	            }
 	            catch(Exception ArithmeticException) {
-	                System.out.println("f");
+	                System.out.println("Please enter a proper number between 1 - 3");
 
 	            }
 
@@ -76,19 +77,21 @@ public class Combat {
 	    }
 	    
     
-    static boolean Attack(Character X, Character Enemy) throws InterruptedException {
+    static void Attack(Character X, Character Enemy) throws InterruptedException {
+    	int AttackT = X.getTTA();
+    	//get initial attack time 
+    	System.out.println(AttackT + X.getName());
     	//if the turns to attack are 0, then they can attack.
     	if (X.getTTA() == 0) {
 	    	X.dmg(Enemy);
 	    	DPO(X.getName() + " attacks " + Enemy.getName() + " and deals " + X.getDmg() + " damage",10);
-	    	return true;
+	    	X.setTTA(AttackT);
     	}
     	else {
-             DPO("Enemy " + Enemy.getName() + " is charging up their attack...",10);
+             DPO("Enemy " + X.getName() + " is charging up their attack...",10);
+             X.setTTA(X.getTTA() - 1);
     		}
     		//TTA--
-        X.setTTA(X.getTTA() - 1);
-    	return false;
     	
     }
         
