@@ -70,6 +70,7 @@ import java.util.concurrent.TimeUnit;
 		while (isPlaying) {
 			input(uInput);//passing the scanner object to the function to reuse and write less lines of code
 			//also calling it after any part of the story is ran
+			gameMenu();
 
 			if (map.getCurrentLocation().contains("Start")){
 				SceneOne(x,uInput);
