@@ -66,11 +66,10 @@ public class Main{
 		Character x = new Character(name,10,100);
 		//in this instance, whenever we refer to "x" we are referring to the main character aka the player.
 		
-		boolean isPlaying = true;// Main game loop, keeps running until/if broken in the menu
+		boolean isPlaying = true;// Main game loop, keeps running until/if broken in the menu otherwise almost infinate
 		while (isPlaying) {
 			input(uInput);//passing the scanner object to the function to reuse and write less lines of code
 			//also calling it after any part of the story is ran
-			gameMenu();
 
 			if (map.getCurrentLocation().contains("Start")){
 				SceneOne(x,uInput);
@@ -87,11 +86,11 @@ public class Main{
 	}
 	
     static void input(Scanner uInput) throws InterruptedException { //Recieves scanner object as a parameter
-        System.out.println("Enter direction to move (n, e, s, w) or enter 1 for menu:");
+        System.out.println("Enter direction to move (n, e, s, w) or enter 1 to display menu:");
         
         
         if (uInput.hasNextInt()) {//Checks if the next input is an integer and if so it will execute that block 
-            int input = uInput.nextInt();
+            int input = uInput.nextInt(); //If so then put it into the scanner int object
             
             // If input is '1', open the menu
             if (input == 1) {
@@ -103,7 +102,7 @@ public class Main{
         } else { // Else, treat the input as a string (for movement directions)
             String dir = uInput.next().toLowerCase(); //Cap safe
             
-            // Handle the player's direction
+            // validate their input otherwise print error msg
             switch (dir) {
                 case "n":
                 case "e":
