@@ -2,12 +2,12 @@ import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
-
 public class Combat {
-	   static void combat(Character X, Alien Enemy) throws InterruptedException {
+	static Map map = new Map();//Initialize the map object
+	static void combat(Character X, Alien Enemy) throws InterruptedException {
 	        int userInp;
-			InventorySystem inventory = new InventorySystem();
 	        Scanner imp = new Scanner(System.in);
+	        int attackTime = Enemy.getTTA();
 	        //combat loop
 	        while (X.getHP() > 0 && Enemy.getHP() > 0) {
 	        	//while main character HP and enemy HP arent below 0:
@@ -19,7 +19,7 @@ public class Combat {
 	                //if user inputs 1, they fight, else 2, they sneak.
 	                userInp = imp.nextInt();
 	                if (userInp == 1) {
-	                    Attack(X,Enemy);
+	                    Attack(X,Enemy,X.getTTA());
 	                    //if the enemy gets slain, it skips the enemy's turn and goes straight to the cutscene
 	                    if (Enemy.getHP() <= 0) {
 	                        continue;
@@ -27,6 +27,10 @@ public class Combat {
 	                }
 
 	                else if (userInp == 2) {
+	                	if (map.getCurrentLocation().contains("Final boss fight") && map.getCurrentLocation().contains("Mini boss fight")) {
+	                		DPO("You try to make a run for it, with no success",25);
+	                		continue;
+	                	}
 	                	//This is the sneak chance, 1 in 3 chance of getting away.
 	                    int sneakCh = ThreadLocalRandom.current().nextInt(1,4);
 
@@ -42,7 +46,6 @@ public class Combat {
 
 	                else if (userInp == 3) {
 	                	//should check for inventory before allowing to use item.
-						inventory.displayInventory();
 	                }
 
 	                //if user inputs any other number or letter, an error is raised.
@@ -53,7 +56,7 @@ public class Combat {
 	                Thread.sleep(400);
 
 	                //enemy's turn.
-	                Attack(Enemy,X); 
+	                Attack(Enemy,X,attackTime); 
 	                
 
 	                Thread.sleep(400);
@@ -73,29 +76,21 @@ public class Combat {
 	        if (Enemy.getHP() <= 0) {
 	            DPO("Enemy " + Enemy.getName() + " has been slained!",10 );
 	            DPO(Enemy.getName() + " has dropped a " + Enemy.getItem(),10);
-				Scanner playerItem = new Scanner(System.in);
-				System.out.println("\n1. Pick Up\n2. Leave Item\n\nWhat would you like to do? : ");
-				int playerInp = playerItem.nextInt();
-			
-				if (playerInp == 1) {
-					if (inventory.items.size() < 4) {
-						inventory.addItem(Enemy.getItem());
-					} 
-					else if(inventory.items.size() > 4) {
-						inventory.addItem(Enemy.getItem());
-						inventory.addItem(Enemy.getItem());
-					}
-				} else {
-					System.out.println("You left " + Enemy.getItem() + " on the ground.");
-				}
+	        }
+	        
+	        //if YOUR hp is below or equal to zero then u get the end game cutscene 
+	        if (X.getHP() <= 0) {
+	        	DPO("You fall to the ground as the mixture of blood and exhaustion finally becomes too much for you to handle",25);
+	        	DPO("\n\n100 years into the future....",25);
+	        	DPO("Ugly man:\n'ere lies my good friend, I never quite got their name but I call them Dave short for Daveinchi, ",35);
+	        	DPO("The skeletal remains of what looked like a human can be seen, surrounded by an assortment of flowers that the citizens have placed to pay their respects",25);
+	        	Main.welcome();
 	        }
 	    }
 	    
     
-    static void Attack(Character X, Character Enemy) throws InterruptedException {
-    	int AttackT = X.getTTA();
+    static void Attack(Character X, Character Enemy, int AttackT) throws InterruptedException {
     	//get initial attack time 
-    	System.out.println(AttackT + X.getName());
     	//if the turns to attack are 0, then they can attack.
     	if (X.getTTA() == 0) {
 	    	X.dmg(Enemy);
@@ -110,6 +105,8 @@ public class Combat {
     	
     }
         
+    //TECHNICALLY.... you can avoid extra lines of code by going main.DPO but it also adds more characters by having the need to type main everytime
+    //so i went with copy n pasting the functions. 
     static void DPO(String str, long delay) throws InterruptedException {
     	//for character in string that has been turned into a list, print out the character after a certain amount of milliseconds.
         System.out.println();
