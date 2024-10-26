@@ -71,6 +71,8 @@ public class Main{
 			input(uInput);//passing the scanner object to the function to reuse and write less lines of code
 			//also calling it after any part of the story is ran
 
+			SceneOne(x,uInput);
+
 			if (map.getCurrentLocation().contains("Start")){
 				SceneOne(x,uInput);
 			}else if (map.getCurrentLocation().contains("Alien slums")) { // Check player's current location and trigger specific scenes or fights
@@ -82,6 +84,11 @@ public class Main{
 			} else if (map.getCurrentLocation().contains("Mountain")) {
 				mountainCrossRoads(x, uInput);  
 			}
+
+			//if map == mansion 
+			Mansion(x,uInput);
+			//if map == backyard
+			backYard(x);
 		}
 	}
 	
@@ -124,11 +131,12 @@ public class Main{
     
     
     
-    public static void Main (String[] args) throws InterruptedException {
+    public static void main(String[] args) throws InterruptedException {
     	//MainMenu();
         //Combat.combat(t1,t2);
-        startGame();
-    	
+        //startGame();
+		Character t1 = new Character("d",50,100,0);
+    	backYard(t1);
         
         
     }
@@ -252,7 +260,7 @@ public class Main{
 		
 		DPO("\n“Uhm.. oh no..its just.. I've had a lot on my mind recently, a large bird just took something important from me.\n",35);
 		
-		DPO("Ugly man:\n'Oh yea i saw that, that'll be blarbazops little pet. Hes the biggest thief. \nMatter a fact the reason why everyone is poor here. He just keeps stealing our things that are valuable'",35);
+		DPO("Ugly man:\n'Oh yea i saw that, that'll be Blarbazops little pet. Hes the biggest thief. \nMatter a fact the reason why everyone is poor here. He just keeps stealing our things that are valuable'",35);
 		
 		DPO("\n'Well that thing he took was my only way to get back home so i need to find that *bleep blap* and get my antenna back from him. Sad thing is i dont know where it went.'",35);
 		
@@ -302,6 +310,139 @@ public class Main{
 		}
 	}
     
+
+	static void Mansion(Character X, Scanner scanner) throws InterruptedException {
+    	DPO("You arrive at the frontyard of a massive mansion, surrounded by golden gates and a delectable collection of trinkets",25);
+    	while (true) {
+        	DPO("1 - Open front door	2 - Head to backyard",25);
+        	int userInp = scanner.nextInt();
+        	if (userInp == 1) {
+        		DPO("Your height limits you from being able to reach the door handle.",25);
+        		
+        	}
+        	else if (userInp == 2) {
+        		DPO("You head to the backyard",25);
+        		//travel to backyard
+        		break;
+        	}
+    	}
+    }
+
+	static void backYard(Character X) throws InterruptedException {
+		DPO("Upon arrival, the bird who stole your antenna notices you.",25);
+		DPO("Jock Bird:\nCAW CAW. DORK, DORK",35);
+		DPO("Blarbazop:\nWhat are you doing here!! Chris Hansen kill that stranger!!!!!",35);
+		DPO("Chris Hansen(Previously known as Jock Bird):\nCAWWWWWW!",35);
+		System.out.println("\n\n\n   _______          ______   ____   _____ _    _ _ "+
+		"\n  / ____\\ \\        / / __ \\ / __ \\ / ____| |  | | |\n"
+		+ " | (___  \\ \\  /\\  / / |  | | |  | | (___ | |__| | |\n"
+		+ "  \\___ \\  \\ \\/  \\/ /| |  | | |  | |\\___ \\|  __  | |\n"
+		+ "  ____) |  \\  /\\  / | |__| | |__| |____) | |  | |_|\n"
+		+ " |_____/    \\/  \\/   \\____/ \\____/|_____/|_|  |_(_)");
+		wingedCreatureMiniBoss(X);
+		DPO("You hastily make a run for the antenna, before hearing a loud siren",25);
+		DPO(textBox("LOCK DOWN INITIATING... INTRUDER DETECTED...."),25);
+		DPO("You look up in horror as the gates, once still and devoid of life, had begun to transform itself into an impenetrable fortress, blocking each and every crevice of the area.",25);
+
+		System.out.println("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡠⠔⠀⠀⢀⣀⣤⣶⣴⣶⣶⣿⣿⣿⣷⣾⣷⣤⡀⠐⢄⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
+						"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⠔⠋⠀⣀⣴⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣍⠺⣿⣿⣤⣈⠢⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
+						"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡚⠁⣀⣴⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣖⣿⣿⣿⣿⣷⣌⠢⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
+						"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣊⣴⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
+						"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
+						"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣬⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
+						"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢿⣿⣿⣿⣿⢿⡿⣿⣿⡿⣽⣟⣟⣿⣿⣿⣻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
+						"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣻⣞⡿⣟⣿⣻⣿⡷⣟⣷⣿⣻⡿⢿⡿⣿⣽⣾⣿⣿⢿⣿⣿⣿⣿⣿⣿⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
+						"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣻⣶⣿⣱⣯⣿⣾⣿⣷⠿⢟⢻⢖⣣⣟⣬⣷⣿⣿⣿⣽⣽⣿⣿⣿⣿⣿⣿⣿⣇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
+						"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⣮⣷⣿⣛⣫⣤⣶⠿⣶⣟⣿⣯⢽⣽⣾⣟⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣿⣷⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
+						"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⣽⠾⣽⣿⣿⣷⣯⣿⣿⣟⣻⣿⣯⣿⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
+						"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⡿⣟⣯⣿⣷⣿⣿⣿⣿⣯⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
+						"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⣟⣿⣽⣿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⣿⣿⣿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
+						"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢻⣿⣿⣿⣿⣿⣷⣿⣿⢟⣷⡿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡏⣉⠛⣿⣿⣿⢿⣿⣿⡿⣶⣟⠙⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
+						"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⡿⣫⣾⣿⣿⣿⣿⣯⣿⣿⣧⣻⢿⣟⣸⠿⢿⣿⣿⣿⣿⣿⣾⣿⠿⣿⣙⠿⡿⢃⣿⣿⣷⣺⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
+						"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠯⢹⣴⣴⣿⣿⣿⣿⣻⣿⣿⣿⣿⣶⣉⠋⠙⣛⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
+						"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⢟⣭⣿⣻⣿⣿⣿⣿⣿⣿⣿⡷⣭⣿⣿⣿⣿⣿⣷⣽⣟⢻⡛⢭⠧⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
+						"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣭⣿⣵⣿⣿⣿⣿⣿⣿⣿⣿⣿⣳⣿⣿⣿⣿⣿⣿⢿⣿⣷⣮⣽⢞⣾⣿⣿⣿⣿⡿⠁⢹⡿⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
+						"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⣿⣿⣿⡏⠉⠉⢻⣿⣿⡿⠿⡿⣷⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠀⠀⢸⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
+						"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣲⡏⣻⢟⣿⣷⣆⣱⣾⣿⣿⣿⣙⣦⢻⣿⣿⣿⣿⣿⣿⣿⣿⡿⠁⠀⠀⠸⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
+						"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⣧⢿⣽⣿⣿⣿⣿⣿⣿⣿⣿⣿⣟⠧⣛⡿⣿⣿⣿⣿⣿⣿⡿⠁⠀⠀⠀⠀⣧⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
+						"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠻⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣯⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣯⢷⣽⣿⣿⣿⣿⠿⠁⠀⠀⠀⠀⠀⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
+						"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠛⣿⣿⣿⣷⣿⣿⣿⣿⣿⣿⣭⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⠀⠀⠀⠀⠀⠀⠀⠀⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
+						"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢹⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⣿⣿⣿⣿⢿⣿⣿⣿⣿⣿⣿⣿⣿⠃⠀⠀⠀⠀⠀⠀⠀⠀⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
+						"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
+						"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣇⠀⠀⠀⠀⠀⠀⠀⠀⢠⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
+						"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣯⣟⣷⣿⣷⣾⣽⣿⣿⣿⣿⣿⣿⣿⣿⣿⣤⠤⡀⠀⠀⠀⠀⠀⠸⡿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
+						"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢼⡏⢲⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
+						"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢤⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣼⡷⠲⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
+						"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣿⣿⣿⡿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⡎⢦⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
+						"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⢞⠋⣡⣾⣿⣿⣴⣿⣿⣿⣿⣿⣿⣿⣿⣟⡿⡟⢯⣩⢗⣯⣻⣿⢿⣟⣾⣿⣿⣿⣿⣿⡿⢿⣿⣿⣷⣿⣿⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
+						"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣴⡿⠖⣼⣿⣿⣿⣿⣿⣿⣿⣿⡿⣿⣿⣿⣿⣿⣼⢫⢏⡵⢯⣶⣿⡿⣯⢾⣽⣿⣿⣿⣿⣿⣷⣿⣿⣿⣿⣿⣭⡳⠤⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
+						"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⠴⢶⣿⡿⢁⣽⣿⣺⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣯⢟⣿⣟⡾⣽⢳⣻⣿⣿⣿⣿⣿⣝⣿⣿⣿⢿⣿⣿⣿⣿⣦⠜⣿⡶⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
+						"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠴⢛⣤⣴⣿⠟⣠⣾⡿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣚⡿⣞⣾⣿⣱⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣌⠿⢿⣿⣿⣿⣿⣆⢸⣿⣿⣵⣦⣄⣀⣠⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
+						"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣴⣤⣾⣿⣿⣿⣿⡏⣩⣽⣿⣽⣯⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣿⣯⣿⣿⣿⣶⣿⣾⣿⣿⣿⣿⣿⣿⣯⣿⣿⣿⣿⣾⣿⠿⣿⣿⣿⣆⣺⣿⣿⣿⣿⣿⣿⣿⣿⣦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
+						"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣴⣾⣽⣿⣿⣿⣿⣿⣿⣿⣻⣿⣿⣽⣾⣻⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⢿⣿⣿⣿⣿⣿⣽⣿⠿⣵⣿⣿⣿⣿⣿⣿⣿⣿⣼⢿⣿⣿⣿⣿⣟⡅⡾⣿⣿⣿⣽⣻⣿⣿⣶⡿⠿⠿⣿⣿⡷⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
+						"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⣴⣾⣿⣿⣿⣿⣯⣜⣿⣿⣿⣿⣿⣿⣯⣿⣿⣿⣿⣿⣿⣿⠟⡻⣿⣻⣿⡿⣿⠿⡇⠹⣿⣿⣿⣿⡿⢃⡾⡿⢻⠟⡛⢳⡟⢋⠻⣿⣿⣿⣿⣋⡟⢻⣿⣷⣦⣿⣿⣿⣟⣿⣿⣿⣿⣷⣀⢴⣯⣗⣷⣮⣗⣤⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
+						"⠀⠀⠀⠀⠀⠀⠀⢀⣠⣶⣻⣿⡿⣿⣟⣯⣿⣿⣿⣿⣿⣿⣿⣿⣿⢿⣿⣿⣿⡿⣏⡿⣿⣿⣿⡷⣽⢷⣻⡵⣎⣖⣤⡐⠠⣙⢯⣝⣮⡟⣧⡟⡷⣞⣴⡿⣾⣷⣿⣿⣿⢛⡿⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣻⣿⣟⣿⣿⣯⣛⣿⣿⣝⣿⣿⣯⣳⣄⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
+						"⠀⠀⠀⠀⠀⣠⣶⣿⣯⣿⢿⣿⣷⣾⣿⣯⣿⣿⣿⣿⣿⣿⣿⣿⣼⣿⣿⣿⣿⣧⢹⣏⠿⣿⣷⢿⣯⣟⣷⣿⣶⢭⢣⠝⡶⣉⠾⣞⡵⣟⣳⣽⣳⢯⣾⣷⣿⢯⣿⣿⣟⣿⡇⣾⣿⣷⣿⣯⣿⣿⣿⣿⣿⣿⣿⣿⡿⣭⣿⣭⣹⣿⣿⣿⡟⣿⣿⣿⣷⣄⡀⠀⠀⠀⠀⠀\r\n" + //
+						"⠀⠀⠀⢀⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣟⣽⣿⣿⡇⢿⡄⣿⣿⣺⣎⣟⡻⢷⡬⢛⡷⡎⣵⢊⣿⢼⣳⢯⡾⢶⣹⣮⣿⣿⣯⢿⣿⣿⣾⡟⢉⣿⣿⣿⡼⣿⣿⣿⣿⣿⣿⣿⡿⣾⣿⣯⣿⣷⣺⣿⣿⣿⣿⣿⣿⣻⣿⣿⡙⣦⡀⠀⠀⠀\r\n" + //
+						"⠀⠀⢠⡿⣿⣿⣯⣿⣿⣿⣿⣿⣯⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡷⡍⣿⣿⡏⢸⣧⣿⣿⣳⢿⣺⣽⡟⣻⣵⢢⢵⡨⢯⣽⣾⢿⣿⣋⣯⢧⣿⣿⣿⣾⢯⣿⣿⢻⣇⣼⣿⣿⣿⣇⢟⣿⣿⣿⣿⣿⣿⣿⣿⣿⣯⢩⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣷⣷⣄⠀⠀\r\n" + //
+						"⠀⢠⣾⣿⣿⣟⣿⣿⣿⣿⢿⣧⡻⣗⣻⣿⣿⣿⣿⣿⣿⣿⣿⣯⣿⣿⣗⢳⣿⠿⣷⢏⣿⢸⣾⡹⣏⣿⠼⡿⣅⢿⣷⡎⢷⣿⢿⡽⣳⣶⢯⠻⣿⣿⣯⢷⡿⣿⣿⣿⣫⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣛⣿⣿⣿⣿⣯⣹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣆⠀\r\n" + //
+						"⠰⠺⠿⠿⠿⠯⠿⠿⠿⠿⠿⠿⠿⠿⠷⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠮⠿⠿⠿⠿⠿⠿⠿⠷⠷⠾⠿⠶⠿⠷⠿⠿⠶⠾⠾⠾⠾⠿⠶⠿⠿⠷⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠷⠿⠿⠿⠿⠿⠿⠿⠿⠷⠿⠿⠿⠿⠿⠿⠦");
+		DPO("Blarbazop:\nYou have killed my favourite pet, the only creature that I viewed as an equal in this mundane hellscape of a planet.",35);
+		DPO("\nYou inch away, spouting out mumbled apologies and desperately searching for a possible escape",25);
+		DPO("Blarbazop:\nI hope you don't believe that you're getting away with this.",35);
+		finalBoss(X);
+		
+
+	}
+	
+	static void ending(Character x,Scanner scanner) throws InterruptedException {
+		DPO("You take a deep breath of relief and walk up to grab your antenna before noticing the ugly man you had met from earlier, who seemed somehow even uglier than before.",25);
+		
+		System.out.println("\n                _\r\n"
+				+ "            ,.-\" \"-.,\r\n"
+				+ "           /   ===   \\\r\n"
+				+ "          /  =======  \\\r\n"
+				+ "       __|  (-)   (-)  |__      \r\n"
+				+ "      / _|   |.---.|   |_ \\         \r\n"
+				+ "     | /.----/ O O \\----.\\ |       \r\n"
+				+ "      \\/     |     |     \\/        \r\n"
+				+ "      |                   |            \r\n"
+				+ "      |                   |           \r\n"
+				+ "      |                   |          \r\n"
+				+ "      _\\   -.,_____,.-   /_         \r\n"
+				+ "  ,.-\"  \"-.,_________,.-\"  \"-.,");
+		DPO("Ugly man(sniffling):\nAll praise the prophet. Oh holy is the day you have freed us from that evil evil man. Please stay back and guid us back into building our society. Help us live the golden days again.",35);
+		DPO("What would you like to do?\n1 - stay and rule 		2 - return back to your planet",25);
+		int userInp = scanner.nextInt();
+		if (userInp == 1) {
+			DPO("\n'OH BLESSED THEE!'\nThe ugly man exclaimed, wrapping his wrinkly arms around you",25);
+			DPO("'Okay okay, that's enough...'\nYou inch away from the ugly man, still trying to wrap your brain around everything that has happened over the past few days",25);
+			DPO("You pick up the crown from the ground, and carefully place it atop your head.",25);
+			DPO("'I guess this is home now.'",35);
+		}
+		
+		else if (userInp == 2) {
+			DPO("'Sorry but I can't just pick up and leave like that.'",35);
+			DPO("You try to avoid the ugly man's gaze, as his tears, once filled with joy were now overrun by sadness",25);
+			DPO("'I'll still come and visit though!'",35);
+			DPO("After waiting for the ugly man to calm down, you head back to the spaceship and attach the antenna onto the rooftop before finally being able to start the update",25);
+			DPO(textBox("UPDATE COMPLETE"),25);
+			DPO("By now, the sun had started to set and before starting up the engine, you gazed back at the planet solemnly as it finally sets in that you will have to return to your mundane life as a cog in the machine.",25);
+			
+		}
+	}
+	
+	static void mountainCrossRoads(Character x, Scanner scanner) throws InterruptedException {
+		DPO("The sight of a luscious green mountain coupled with an amazing waterfall greets your eyes.",25);
+		DPO("Where would you like to go?\n1 - Waterfall		2 - Mountain",25);
+		int userInp = scanner.nextInt();
+		if (userInp == 1) {
+			DPO("You walk beneath the waterfall and find a hidden tunnel, with ancient hieroglyphics scattered across the walls",25);
+			DPO("You stumble across a pot of gold, with a note which contained an unknown phrase",25);
+			DPO(textBox("NEW ITEM UNLOCKED: pot of gold"),25);
+			DPO("'I wonder if I can use this to trade...'",35);
+			}
+		}
     
     
     //fights to gain items. 
@@ -320,6 +461,18 @@ public class Main{
     	Alien sloth = new Alien("Sloth",50,50,3,"pair of Sloth Claws");
     	Combat.combat(x, sloth);
     }
+
+	static void wingedCreatureMiniBoss(Character x) throws InterruptedException{
+		Alien jock = new Alien("Jock Bird",100,100,0,"Antenna");
+		Combat.combat(x, jock);
+	}
+
+	static void finalBoss(Character x) throws InterruptedException{
+		Alien finalBoss = new Alien("Blarbazop",50,100,2,"Crown");
+		Combat.combat(x,finalBoss);
+	}
+
+
     
     
     
@@ -328,7 +481,9 @@ public class Main{
 		DPO("\n\n\n\n\nTravelling...................\n\n\n",55);
 		DPO(textBox("You have arrived at: " + location),25);
     }
-        static String textBox(String str) {
+
+
+    static String textBox(String str) {
     	//function for a framed word 
     	String d = "";
     	int i = 0;
@@ -359,6 +514,7 @@ public class Main{
     	
     	return d;
     }
+
     static void DPO(String str, long delay) throws InterruptedException {
     	//for character in string that has been turned into a list, print out the character after a certain amount of milliseconds.
         System.out.println();
