@@ -6,7 +6,7 @@ public class Map {
 
     // Default constructor with player's start position at (4, 4)
     public Map() {
-        this(4, 4); // Calls the other Map constructor and gives it the default start position
+        this(3, 4); // Calls the other Map constructor and gives it the default start position
     }
 
     public Map(int X, int Y) { // Constructor method that makes instance of class
@@ -74,20 +74,19 @@ public class Map {
     }
 
     private void initializeMap() { // Initilize 2d grid with String values assigned to each location
-        grid[0][3] = "|Crowning     |";
-        grid[0][1] = "|Evil Lord    |";
+        grid[0][2] = "|Ending       |";
         grid[1][0] = "|Secret door  |"; // Hardcoding the formatting for the table cell to be printed each cell will be
         grid[1][1] = "|Mansion      |";// 15 characters long
-        grid[1][2] = "|Bird         |";
+        grid[1][2] = "|Backyard     |";
         grid[2][0] = "|Tunnel       |";
         grid[2][4] = "|Soldier      |";
         grid[3][0] = "|Waterfall    |";
         grid[3][1] = "|Mountain     |";
         grid[3][2] = "|Alien slums  |";
         grid[3][3] = "|Angry bear   |";
-        grid[3][4] = "|Strange man  |";
+        grid[3][4] = "|Start        |";
         grid[4][2] = "|Merchant     |";
-        grid[4][4] = "|Start        |";
+        
 
         // Populate unpopulates parts of grid with - meaning its empty
         for (int i = 0; i < rows; i++) {
@@ -108,7 +107,7 @@ public class Map {
             "         S         " // index of 4 or the 5th element of the array
         };
 
-        for (int i = 0; i < rows; i++) { // Go through each row
+        for (int i = 0; i < rows; i++) { // Go through each row of the initilised map row
             for (int j = 0; j < colms; j++) { // For every row go through all columns
                 
                 String currentLocation = getCurrentLocation(); // store players location in variable within function scope

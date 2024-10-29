@@ -6,7 +6,7 @@ https://www.educative.io/answers/how-to-generate-random-numbers-in-java
 **Difficulties of Arvin:**
 Of course, I had a rough idea of what my code needed for the mapping system in this game. The challenges really started after I had written the basic class code with its getters and setters. I was aiming for something functional at first that I could build on later. But I did run into a few issues, and here's what they were and how overcame them:
 
-Indexing Issues: I initially set the player's starting position at (0, 0), which landed them in the top-left corner—far from the actual starting point of the game. To fix it, I set the default starting position to (4, 4) so the player starts in the bottom-right corner where "Start" was planned to be.
+Indexing Issues: I initially set the player's starting position at (0, 0), which landed them in the top-left corner—far from the actual starting point of the game. To fix it, I set the default starting position to (3, 4) so the player starts from next to the bottom-right corner where "Start" was planned to be.
 
 Movement Challenges: The movement mechanics were tricky. At first, I had a hard time keeping the player from moving out of bounds or into empty spaces. I solved it by adding two checks: one to make sure the input was a valid direction, and another to ensure the player stays within the grid and doesn't walk into obstacles.
 

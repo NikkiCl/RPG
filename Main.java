@@ -10,7 +10,7 @@ public class Main{
 		Scanner inpt = new Scanner(System.in); // Initialize scanner object
 
 		// Display the menu options before getting user input
-		System.out.println("\n\n1. View Map\n2. Show Inventory\n3. Quit");
+		System.out.println("\n\nOR\n\n1. View Map\n2. Show Inventory\n3. Quit");//Added or there because the funvtion will run after the location change prmopt
 		
 		// Get user input
 		int choice = inpt.nextInt();
@@ -67,32 +67,33 @@ public class Main{
 		//in this instance, whenever we refer to "x" we are referring to the main character aka the player.
 		
 		boolean isPlaying = true;// Main game loop, keeps running until/if broken in the menu otherwise almost infinate
+
+		SceneOne(x,uInput);
 		while (isPlaying) {
-			input(uInput);//passing the scanner object to the function to reuse and write less lines of code
+			
+			plyrMove(uInput);//passing the scanner object to the function to reuse and write less lines of code
 			//also calling it after any part of the story is ran
 
-			SceneOne(x,uInput);
-
-			if (map.getCurrentLocation().contains("Start")){
-				SceneOne(x,uInput);
-			}else if (map.getCurrentLocation().contains("Alien slums")) { // Check player's current location and trigger specific scenes or fights
-				AlienSlums();  // call Alien slums function
-			} else if (map.getCurrentLocation().contains("Angry bear")) {
+				
+			if (map.getCurrentLocation().contains("Angry bear")) {
 				wingedbearF(x);
 			} else if (map.getCurrentLocation().contains("Soldier")) {
 				weakAlienSoldierF(x); 
-			} else if (map.getCurrentLocation().contains("Mountain")) {
+			} else if (map.getCurrentLocation().contains("Alien slums")) { // Check player's current location and trigger specific scenes or fights
+			AlienSlums();  // call Alien slums function
+			}else if (map.getCurrentLocation().contains("Mountain")) {
 				mountainCrossRoads(x, uInput);  
-			}
-
-			//if map == mansion 
+			} else if (map.getCurrentLocation().contains("Mansion")) {
 			Mansion(x,uInput);
-			//if map == backyard
-			backYard(x);
+			} else if (map.getCurrentLocation().contains("Backyard")) {
+			backYard(x);	
+			}else if (map.getCurrentLocation().contains("Ending")) {
+			ending(x, uInput);	
+			}
 		}
 	}
 	
-    static void input(Scanner uInput) throws InterruptedException { //Recieves scanner object as a parameter
+    static void plyrMove(Scanner uInput) throws InterruptedException { //Recieves scanner object as a parameter
         System.out.println("Enter direction to move (n, e, s, w) or enter 1 to display menu:");
         
         
@@ -116,6 +117,8 @@ public class Main{
                 case "s":
                 case "w":
                     map.locationChange(dir);
+					DPO("\n\n\n\n\nTravelling...................\n\n\n",55);
+					DPO(textBox("You have arrived at: " + map.getCurrentLocation()),25);
                     break;
                 default:
                     System.out.println("Invalid direction. Please enter 'n', 'e', 's', or 'w'.");
@@ -132,11 +135,9 @@ public class Main{
     
     
     public static void main(String[] args) throws InterruptedException {
-    	//MainMenu();
-        //Combat.combat(t1,t2);
-        //startGame();
-		Character t1 = new Character("d",50,100,0);
-    	backYard(t1);
+    	welcome();
+		//Character t1 = new Character("d",50,100,0);
+    	//backYard(t1);
         
         
     }
@@ -267,6 +268,7 @@ public class Main{
 		DPO("\nUgly man:\n'To find him you have to climb that mountain….uhhmm oh no this other one… orrrr umm maybe the ones back that way. You know what Ill just give you my map. I dont leave my farm anyways'\n",35);
 		
 		DPO(textBox("NEW ITEM UNLOCKED: map"),25);
+		DPO("\n\n",35);
 		map.printMap();
 		
 		
@@ -471,16 +473,6 @@ public class Main{
 		Alien finalBoss = new Alien("Blarbazop",75,120,2,"Crown");
 		Combat.combat(x,finalBoss);
 	}
-
-
-    
-    
-    
-    //put this dialogue before reaching a location 
-    static void travelDialogue(String location) throws InterruptedException {
-		DPO("\n\n\n\n\nTravelling...................\n\n\n",55);
-		DPO(textBox("You have arrived at: " + location),25);
-    }
 
 
     static String textBox(String str) {
