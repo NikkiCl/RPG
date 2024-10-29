@@ -46,6 +46,7 @@ public class Combat {
 
 	                else if (userInp == 3) {
 	                	//should check for inventory before allowing to use item.
+						Main.inventory.displayInventory();
 	                }
 
 	                //if user inputs any other number or letter, an error is raised.
@@ -76,6 +77,17 @@ public class Combat {
 	        if (Enemy.getHP() <= 0) {
 	            DPO("Enemy " + Enemy.getName() + " has been slained!",10 );
 	            DPO(Enemy.getName() + " has dropped a " + Enemy.getItem(),10);
+				DPO("1. Pick up Item (Press 0 to Leave Item): ", 10);
+				int pickUp = imp.nextInt();
+				if(pickUp == 1){
+					Main.inventory.pickUpItem(Enemy.getItem());
+				}
+				else if(pickUp == 0){
+					DPO("You decided to leave the " + Enemy.getItem() + " behind and continued on." , 10);
+				}
+				else{
+					DPO("INVALID INPUT... leaving the " + Enemy.getItem() + " behind and continuing on." , 10);
+				}
 	        }
 	        
 	        //if YOUR hp is below or equal to zero then u get the end game cutscene 

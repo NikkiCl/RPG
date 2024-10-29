@@ -124,6 +124,14 @@ As I was writing my code, I noticed that I was using the text box too often, so 
 The rest of the code, mainly consisting of dialogue and descriptions, wasn't that hard to implement. I added the dialogue options and little comments of where my groupmates should add in their functions after a certain dialogue is pressed (such as 1 - climb mountain). So it mainly consisted of copying and pasting the text that we agreed upon in one of our group meetings.
 
 
+
+
+
+
+**Difficulties of Minh:**
+I aimed to make 
+
+
 ## Task allocations
 
 **Storyline and dialogue -** Arvin, Minh, Nikki

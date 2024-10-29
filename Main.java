@@ -1,6 +1,4 @@
-import java.awt.ItemSelectable;
 import java.util.Scanner;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
 public class Main{

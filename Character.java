@@ -219,7 +219,7 @@ class MerchantSystem {
         private boolean canAfford(Item item, InventorySystem characterInventory) {
             switch (item.name) {
                 case "Health Potion":
-                    return characterInventory.getItems().contains("Stick"); // Example requirement
+                    return characterInventory.getItems().contains("Rusty Sword"); // Example requirement
                 case "Sword":
                     return characterInventory.getItems().contains("Shield") && characterInventory.getItems().contains("Stick");
                 case "Shield":
