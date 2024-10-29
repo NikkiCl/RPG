@@ -25,7 +25,7 @@ public class Main{
 	}
 	
 	
-	static void intro(Scanner uInput) throws InterruptedException {  //Recieves the scanner object as parameter
+	static void intro(Scanner uInput) throws InterruptedException {  //Recieves the scanner object as parameter and now seprated from startGame
 		//user input
 		DPO("Enter your name: ",35);
 		String name = uInput.next();
@@ -39,13 +39,13 @@ public class Main{
 		
 		boolean isPlaying = true;// Main game loop, keeps running until/if broken in the menu otherwise almost infinate
 
-		//if (map.getCurrentLocation().contains("Start")) {
-		//	SceneOne(x,uInput);
-		//}
+		if (map.getCurrentLocation().contains("Start")) { // execute scene one outside of loop to avoid calling plyrChoice before it
+			SceneOne(x,uInput);
+		}
 
 		while (isPlaying) {
 			
-			plyrMove(uInput,x);//passing the scanner object to the function to reuse and write less lines of code
+			plyrChoice(uInput,x);//passing the scanner object to the function to reuse and write less lines of code
 			//also calling it after any part of the story is ran
 
 				
@@ -57,7 +57,7 @@ public class Main{
 			AlienSlums();  // call Alien slums function
 			}else if (map.getCurrentLocation().contains("Mountain")) {
 				mountainCrossRoads(x, uInput);  
-			} else if (map.getCurrentLocation().contains("Mansion")) {
+			} else if (map.getCurrentLocation().contains("Mansion")) { //placed in order for efficiency
 			Mansion(x,uInput);
 			} else if (map.getCurrentLocation().contains("Backyard")) {
 			backYard(x);	
@@ -87,7 +87,6 @@ public class Main{
 				break;
 	
 			case 2:
-				//minh needs to impliment the inventory print function here
 				inventory.displayInventory();
 				if (backBtn(uInput)) { // if returned true meaning input is valid
 					gameMenu(uInput,x); // call gameMenu
@@ -95,7 +94,7 @@ public class Main{
 				break;
 	
 			case 3:
-			startGame(uInput, x);
+			startGame(uInput, x);// go back to startgame passing the players stats
 				break;
 			case 4:
 				// Quit the game
@@ -110,7 +109,7 @@ public class Main{
 		}
 	}
 	
-    static void plyrMove(Scanner uInput, Character x) throws InterruptedException { //Recieves scanner object as a parameter
+    static void plyrChoice(Scanner uInput, Character x) throws InterruptedException { //Recieves scanner object as a parameter
         System.out.println("\nEnter direction to move (n, e, s, w) or enter 1 to display menu:");
         
         
@@ -134,8 +133,8 @@ public class Main{
                 case "s":
                 case "w":
                     map.locationChange(dir);
-					DPO("\n\n\n\n\nTravelling...................\n\n\n",55);
-					DPO(textBox("You have arrived at: " + map.getCurrentLocation()),25);
+					//DPO("\n\n\n\n\nTravelling...................\n\n\n",55);
+					//DPO(textBox("You have arrived at: " + map.getCurrentLocation()),25);
                     break;
                 default:
                     System.out.println("Invalid direction. Please enter 'n', 'e', 's', or 'w'.");

@@ -4,6 +4,8 @@ public class Map {
     private String[][] grid; // 2d Grid declared but not initialized with values yet assigned
     private int playersX, playersY; // Players X and Y coordinates declared with no value
 
+    static Main Main  = new Main();
+    
     // Default constructor with player's start position at (4, 4)
     public Map() {
         this(3, 4); // Calls the other Map constructor and gives it the default start position
@@ -68,6 +70,9 @@ public class Map {
         if (grid[x][y].equals("|      🌲     |")) {
             System.out.println("You can't move to an empty space. Try a different direction.");
             return; // Do not move player and return nothing if they are at empty space
+        } else {
+            System.out.print("\n\n\nTravelling...................\n\n\n");
+			System.out.println("You have arrived at: " + getCurrentLocation());
         }
 
         movePlayer(x, y); // Move player to new coordinates
