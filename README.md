@@ -40,13 +40,8 @@ The planet’s landscape is as bizarre as its inhabitants. Alien slums litter th
 
 ## Map
 
-|    🌲🌲    ||    🌲🌲    ||Ending       ||    🌲🌲    ||    🌲🌲    |             N         
-|Secret door  ||Mansion      ||Backyard     ||    🌲🌲    ||    🌲🌲    |             |         
-|Tunnel       ||    🌲🌲    ||    🌲🌲    ||    🌲🌲    ||Soldier      |         W --+-- E     
-|Waterfall    ||Mountain     ||Alien slums  ||Angry bear   ||Start        |             |         
-|    🌲🌲    ||    🌲🌲    ||Merchant     ||    🌲🌲    ||    🌲🌲    |             S         
-
 ![Map](image.png)
+
 
 ## Features
 
