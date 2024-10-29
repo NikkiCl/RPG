@@ -6,40 +6,6 @@ public class Main{
 	static InventorySystem inventory = new InventorySystem();
 	static Map map = new Map();//Initialize the map object
 
-	static void gameMenu() throws InterruptedException {
-		Scanner inpt = new Scanner(System.in); // Initialize scanner object
-
-		// Display the menu options before getting user input
-		System.out.println("\n\nOR\n\n1. View Map\n2. Show Inventory\n3. Quit");//Added or there because the funvtion will run after the location change prmopt
-		
-		// Get user input
-		int choice = inpt.nextInt();
-	
-		// Handle menu choices using a switch statement
-		switch (choice) {
-			case 1:
-				// Call print map method
-				map.printMap();
-				break;
-	
-			case 2:
-				//minh needs to impliment the inventory print function here
-				inventory.displayInventory();
-				break;
-	
-			case 3:
-				// Quit the game
-				System.out.println("Exiting game,\n Going back to start");
-				welcome(); //goes back to the start of game
-				break;
-	
-			default:
-				// Handle invalid input
-				System.out.println("Invalid input. Please choose a valid option.");
-				break;
-		}
-	}
-
 
 	static void welcome() throws InterruptedException { //renamed to avoid naming conflicts
 		Scanner w = new Scanner(System.in);
@@ -49,7 +15,7 @@ public class Main{
 		userInp = w.nextInt();
 		
 		if (userInp == 1) {
-			startGame(w);//Passing the scanner object to the function to mainstream code and reuse the object
+			intro(w);//Passing the scanner object to the function to mainstream code and reuse the object
 		}else if (userInp == 2) {
 			System.out.println("Quitting");
 		} else {
@@ -58,20 +24,28 @@ public class Main{
 		}
 	}
 	
-	static void startGame(Scanner uInput) throws InterruptedException {  //Recieves the scanner object as parameter
+	
+	static void intro(Scanner uInput) throws InterruptedException {  //Recieves the scanner object as parameter
 		//user input
 		DPO("Enter your name: ",35);
 		String name = uInput.next();
 		//uses userinput to get name 
 		Character x = new Character(name,10,100);
 		//in this instance, whenever we refer to "x" we are referring to the main character aka the player.
+		startGame(uInput, x);
+
+	}
+	static void startGame(Scanner uInput, Character x) throws InterruptedException {  //Recieves the scanner object as parameter
 		
 		boolean isPlaying = true;// Main game loop, keeps running until/if broken in the menu otherwise almost infinate
 
-		SceneOne(x,uInput);
+		//if (map.getCurrentLocation().contains("Start")) {
+		//	SceneOne(x,uInput);
+		//}
+
 		while (isPlaying) {
 			
-			plyrMove(uInput);//passing the scanner object to the function to reuse and write less lines of code
+			plyrMove(uInput,x);//passing the scanner object to the function to reuse and write less lines of code
 			//also calling it after any part of the story is ran
 
 				
@@ -92,9 +66,52 @@ public class Main{
 			}
 		}
 	}
+
+	static void gameMenu(Scanner uInput, Character x) throws InterruptedException {
+
+		// Display the menu options before getting user input
+		System.out.println("\n\n1. View Map\n2. Show Inventory\n3. Back\n4. Quit");
+		
+		// Get user input
+		int choice = uInput.nextInt();
 	
-    static void plyrMove(Scanner uInput) throws InterruptedException { //Recieves scanner object as a parameter
-        System.out.println("Enter direction to move (n, e, s, w) or enter 1 to display menu:");
+		// Handle menu choices using a switch statement
+		switch (choice) {
+			case 1:
+				// Call print map method
+				map.printMap();
+				 //give a way back to the student
+				 if (backBtn(uInput)) { // if returned true meaning input is valid
+					gameMenu(uInput,x); // call gameMenu
+				}
+				break;
+	
+			case 2:
+				//minh needs to impliment the inventory print function here
+				inventory.displayInventory();
+				if (backBtn(uInput)) { // if returned true meaning input is valid
+					gameMenu(uInput,x); // call gameMenu
+				}
+				break;
+	
+			case 3:
+			startGame(uInput, x);
+				break;
+			case 4:
+				// Quit the game
+				System.out.println("Exiting game,\n Going back to start");
+				welcome(); //goes back to the start of game
+				break;
+	
+			default:
+				// Handle invalid input
+				System.out.println("Invalid input. Please choose a valid option.");
+				break;
+		}
+	}
+	
+    static void plyrMove(Scanner uInput, Character x) throws InterruptedException { //Recieves scanner object as a parameter
+        System.out.println("\nEnter direction to move (n, e, s, w) or enter 1 to display menu:");
         
         
         if (uInput.hasNextInt()) {//Checks if the next input is an integer and if so it will execute that block 
@@ -103,7 +120,7 @@ public class Main{
             // If input is '1', open the menu
             if (input == 1) {
                 System.out.println("Menu");
-                gameMenu();
+                gameMenu(uInput,x);
             } else {
                 System.out.println("Invalid number. Only '1' is valid for menu.");
             }
@@ -126,6 +143,18 @@ public class Main{
             }
         }
     }
+
+	static boolean backBtn(Scanner uInput) throws InterruptedException {
+		
+		System.out.println("\nPress 1 to go back");
+		int input = uInput.nextInt();boolean valid = true;
+	if (input == 1) {
+		return valid;
+	} else {
+		System.out.println("Invalid number.");
+		return !valid;
+	}
+	}
     
     
     
