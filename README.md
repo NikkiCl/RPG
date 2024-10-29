@@ -1,7 +1,84 @@
-# RPG
+# RPG Game Summary
 
-https://emojipedia.org/evergreen-tree 
-https://www.educative.io/answers/how-to-generate-random-numbers-in-java 
+This is a Cli text-based RPG game developed using Java, where the player explores a mysterious world, battles enemies, collects items, and navigates a variety of challenges. The game incorporates various elements such as map navigation, random events, inventory, and an engaging storyline that unfolds through character interactions and has multiple endings.
+
+
+## Table of Contents
+- [Game Background](#background)
+- [Objective](#objective)
+- [Characters](#main-characters)
+- [Map](#map)
+- [Features](#features)
+- [Development](#development)
+- [Task Allocations](#task-allocations)
+- [References](#references)
+
+
+## Background
+
+The game begins with you on another journey to find the quietest place to swim deep within the unknown parts of space. All of a sudden a warning pops up. A scheduled, forced software update which goes horribly wrong. As you scramble to avoid disaster, your ship is forced to make an emergency landing on a random planet close by. After a safe automated landing, the ships reception disconnects from the server and you have to attach your external antenna to the ship for the update to proceed. You finally manage to pop in the antenna but when you think you’re back in control, Chris Hanson, bird-like creature, swoops in and steals the antenna right before he mocks you.
+
+Since you had made your emergency landing in someone's farm. An ugly man approaches you. Stunning you with his breath and ugliness. He also gives you a map that points to where that birdlike creature lies, next to his master Blarbazorp. Your journey to recover the antenna and find your way home begins. Along the way, you’ll uncover the planet's tragic history and decide whether to help its inhabitants or focus solely on your escape.
+
+
+## Objective
+Although this story starts in mid space most of it takes place on an eccentric, forsaken planet deep in the galaxy. Once a bustling hub of trade and technology, now a chaotic wasteland. The once-thriving society has crumbled, largely due to the actions of a ruthless overlord, Blarbazop, who steals and hoards everyone's resources with the assistance of his pet/henchman Chris Hansen a mischievous bird-like creature who causes trouble for everyone—especially you, the player.
+
+The planet’s landscape is as bizarre as its inhabitants. Alien slums litter the surface, where creatures scrape by, selling oddities in decrepit markets. Majestic but deteriorating, mountains loom in the distance, covering ruins of the planet’s former glory. In the heart of this planet stands Blarbazop’s mansion, a fortress of wealth where he holds his stolen treasure. So that's where you as the main player will be heading to. To take back whats yours.
+
+
+## Main Characters
+
+**The Protagonist (Player Character):** You are a space traveler who gets stranded on a forsaken planet. With a sarcastic and sharp-tongued personality, you navigate this absurd planet in search of your stolen antenna. Your main goal is to fix your ship and get off the planet, but along the way, you’ll encounter unexpected challenges and opportunities.
+
+**Chris Hanson (The Bird Thief):** Introduced initially as Jock Bird, Chris Hanson is a winged creature who taunts and steals from anyone and everyone. Though seemingly mischievous, he is far more than just a petty thief. He's Blarbazop's henchman, Chris plays a pivotal role in keeping the planet’s residents poor and miserable. His snide comments and unpredictable behavior make him a constant thorn in your side.
+
+**Blarbazop (The Boss):** The ultimate antagonist, Blarbazop is an evil and greedy overlord who rules the planet with an iron fist. Through his manipulation and hoarding, he has thrown the entire planet into ruin, keeping its inhabitants weak and desperate. He hides away in his mansion, surrounded by wealth and power, while the rest of the planet crumbles. He has something that belongs to you. Blarbazop’s downfall becomes not just your mission to escape, but the key to liberating the planet.
+
+**Ugly Man:** A local alien farmer with a face that’s, well, hard to look at. Despite his appearance and bad breath, Ugly Man is one of the friendliest and most helpful characters you meet. After some really bad directions he actually gives you a map that leads you to Blarbazop's mansion.
+
+
+## Map
+
+|    🌲🌲    ||    🌲🌲    ||Ending       ||    🌲🌲    ||    🌲🌲    |             N         
+|Secret door  ||Mansion      ||Backyard     ||    🌲🌲    ||    🌲🌲    |             |         
+|Tunnel       ||    🌲🌲    ||    🌲🌲    ||    🌲🌲    ||Soldier      |         W --+-- E     
+|Waterfall    ||Mountain     ||Alien slums  ||Angry bear   ||Start        |             |         
+|    🌲🌲    ||    🌲🌲    ||Merchant     ||    🌲🌲    ||    🌲🌲    |             S         
+
+
+## Features
+
+- **Map Navigation**: The player can explore the map using directional inputs (n: north, e: east, s: south, w: west).
+- **Combat System**: Engage in combat with various enemies, using attack, sneak, and item options. Combat is turn-based with some enemies being more powerful than others.
+- **Inventory System**: The player can acquire items during their journey and use them in combat or trade them with merchants.
+- **Random Events**: Sneak attempts, are randomly determined, adding an element of chance to the game.
+- **Text-Based Interaction**: The game simulates dialogue and descriptions using a delay-based text output (`DPO`), providing a more immersive storytelling experience.
+
+
+## How to Play
+
+### Prerequisites
+Before running the game, ensure the following are installed on your system:
+- **Java Development Kit (JDK)**  
+  You can download the latest version of the JDK [here](https://www.oracle.com/java/technologies/javase-downloads.html).
+- **A terminal or command line interface** (for running commands)
+
+**Clone or download the project:**
+   - If using Git, run the following command in your terminal:
+     ```bash
+     git clone https://github.com/your-repository/game-project.git
+     ```
+   - Alternatively, download the ZIP file from the repository and extract it.
+
+1. **Starting the Game**: Use play button to run code, the player will be asked to enter their name to create their character.
+2. **Moving Around the Map**: Use `n`, `e`, `s`, `w` commands to navigate the game world. The game will notify you of your current location.
+3. **Combat**: When encountering enemies, you'll have options to attack, sneak, or use an item from your inventory. Combat is turn-based.
+4. **Interacting with NPCs**: You can trade with merchants and engage in story-driven dialogue with other characters.
+5. **Game Menu**: Press `1` at any time to open the game menu and access the map or inventory.
+
+
+## Development
 
 **Difficulties of Arvin:**
 Of course, I had a rough idea of what my code needed for the mapping system in this game. The challenges really started after I had written the basic class code with its getters and setters. I was aiming for something functional at first that I could build on later. But I did run into a few issues, and here's what they were and how overcame them:
@@ -15,16 +92,15 @@ Marking Player's Position: Initially, the only way the player knew their positio
 Filling Empty Spaces: I started by using a simple "-" to represent empty spaces, but it didn’t look right to me. After some quick research, I remembered I could use emojis in code, so I went with the tree emoji 🌲 to make it visually clear which areas were unwalkable.
 
 Compass Alignment: Aligning the compass with the map rows took a bit of trial and error. I eventually figured it out by integrating the compass printing into the iteration method that prints the map line by line.
+ 
 
-Search for a Random Number Generator: At one point, I needed a good way to generate random numbers for sneak attempts. I decided to search for "java random number generator" and found a method called ThreadLocalRandom which I saw my coding partners using. I learned more about it and I decided to intergrate it within my code as it seemed like the best option as well to avoid complications. Then the next issue was trying to see what odds i should give the player and i decided that 1 out of three will be perfect with a %33.33 chance to sneak and %66.66 chance of failing to sneak because after all he is mentioned to be a "Dork". 
--
--
--
--
--
--
--
--
+Collabiration: Working with my coleagues was great as we communicated and voted for ideas building the game. The incorporation of the code into the main file was difficult specially since a lot of the other functions also relied on it. I had to write the plyrMove,gameMenu function so the user could choose to move or access the map and inventory, I tinkered with the welcome function, I renamed and separated the startGame into startgame and intro so i could call them separately and also trounleshoot later if needed. The back and forth was difficult as we all troubleshooted our code and tied everything in together.
+
+
+
+
+
+
 **Difficulties of Nikki:**
 I wanted the combat mechanics to have 3 functions, attack, sneak, and use item. I originally intended for special attacks, however I was unsure of where it would fit into the story, so I scrapped it. So it left me with this skeleton code structure:
 if player picks 1:
@@ -49,4 +125,27 @@ It was mainly hard to figure out the right pacing for the game, although I don't
 
 As I was writing my code, I noticed that I was using the text box too often, so I figured i might as well write a function for it. This was not too hard to do, as I didn't really think about the logic behind it, more so got the result through trial and error. But essentially I got the function to return a framed word through slowly constructing the String with for loops. 
 
-The rest of the code, mainly consisting of dialogue and descriptions, wasn't that hard to implement. I added the dialogue options and little comments of where my groupmates should add in their functions after a certain dialogue is pressed (such as 1 - climb mountain). So it mainly consisted of copying and pasting the text that we agreed upon in one of our group meetings. 
+The rest of the code, mainly consisting of dialogue and descriptions, wasn't that hard to implement. I added the dialogue options and little comments of where my groupmates should add in their functions after a certain dialogue is pressed (such as 1 - climb mountain). So it mainly consisted of copying and pasting the text that we agreed upon in one of our group meetings.
+
+
+## Task allocations
+
+**Storyline and dialogue -** Arvin, Minh, Nikki
+**Combat -** Nikki
+**Merchant -** Minh
+**Game Menu -** Arvin
+**Main -** Nikki
+**Stats display -** Minh
+**Map -** Arvin
+**Inventory -** Minh
+**Readme.md -** Arvin
+**Documentation -** Arvin, Minh, Nikki
+**Visuals -** Nikki
+**Refrences -** Arvin, Minh, Nikki
+
+## References
+
+
+Emojipedia. (n.d.) Evergreen Tree Emoji. Available at: https://emojipedia.org/evergreen-tree (Accessed: 8 October 2024).
+
+Educative. (n.d.) How to generate random numbers in Java. Available at: https://www.educative.io/answers/how-to-generate-random-numbers-in-java (Accessed: 15 October 2024).

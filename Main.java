@@ -2,6 +2,7 @@ import java.awt.ItemSelectable;
 import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
+
 public class Main{
 	static InventorySystem inventory = new InventorySystem();
 	static Map map = new Map();//Initialize the map object
@@ -163,7 +164,8 @@ public class Main{
     
     
     public static void main(String[] args) throws InterruptedException {
-    	welcome();
+    	map.printMap();
+		welcome();
 		//Character t1 = new Character("d",50,100,0);
     	//backYard(t1);
         
