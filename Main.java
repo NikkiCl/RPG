@@ -37,9 +37,9 @@ public class Main{
 		
 		boolean isPlaying = true;// Main game loop, keeps running until/if broken in the menu otherwise almost infinate
 
-		//if (map.getCurrentLocation().contains("Start")) { // execute scene one outside of loop to avoid calling plyrChoice before it
-		//	SceneOne(x,uInput);
-		//}
+		if (map.getCurrentLocation().contains("Start")) { // execute scene one outside of loop to avoid calling plyrChoice before it
+			SceneOne(x,uInput);
+		}
 
 		while (isPlaying) {
 			
