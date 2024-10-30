@@ -4,7 +4,6 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
 public class Combat {
-	static Map map = new Map();//Initialize the map object
 	static ArrayList<String> deadEnemies = new ArrayList<String>();
 	//when enemy dies the loc gets added to map 
 	static void combat(Character X, Alien Enemy) throws InterruptedException {
@@ -13,7 +12,7 @@ public class Combat {
 	        int attackTime = Enemy.getTTA();
 	        
 	        //if the arraylist contains the map location then the enemy has been killed before so you skip the combat sequence 
-	        if (deadEnemies.contains(map.getCurrentLocation())) {
+	        if (deadEnemies.contains(Map.getCurrentLocation())) {
 	        	DPO("You carefully step over the dead " + Enemy.getName(),25);
 	        	//should be able to pick up item if they wish 
 	        	itemPickup(X,Enemy,imp);
@@ -143,7 +142,7 @@ public class Combat {
 		                }
 	
 		                else if (userInp == 2) {
-		                	if (map.getCurrentLocation().contains("Final boss fight") && map.getCurrentLocation().contains("Mini boss fight")) {
+		                	if (Map.getCurrentLocation().contains("Final boss fight") && Map.getCurrentLocation().contains("Mini boss fight")) {
 					//i made the decision to remove a players turn when they try to sneak, as to up the difficulty and make sure that
 		                	//they are 'punished' for thinking that they found a loophole. 
 		                		DPO("You try to make a run for it, with no success",25);
@@ -197,7 +196,7 @@ public class Combat {
 		            DPO(Enemy.getName() + " has dropped a " + Enemy.getItem(),10);
 		            itemPickup(X,Enemy,imp);
 		            X.setHP(100);
-		            deadEnemies.add(map.getCurrentLocation());
+		            deadEnemies.add(Map.getCurrentLocation());
 		            //when the enemy dies, it adds the location of the map to the arraylist 
 		        }
 		        
