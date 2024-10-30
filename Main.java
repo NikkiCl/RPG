@@ -16,6 +16,7 @@ public class Main{
 			intro(w);//Passing the scanner object to the function to mainstream code and reuse the object
 		}else if (userInp == 2) {
 			System.out.println("Quitting");
+			System.exit(userInp);
 		} else {
 			System.out.println("Wrong input"); //just some input validation
 			welcome();

@@ -27,7 +27,6 @@ class MerchantSystem {
             inventory = new ArrayList<>();
             inventory.add(new Item("Health Potion"));
             inventory.add(new Item("Sword"));
-            inventory.add(new Item("Shield"));
         }
 
         // Display the merchant's inventory to the character
