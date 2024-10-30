@@ -40,7 +40,7 @@ The planet’s landscape is as bizarre as its inhabitants. Alien slums litter th
 
 ## Map
 
-![Map](image.png)
+![Map](Recources/image.png)
 
 
 ## Features
