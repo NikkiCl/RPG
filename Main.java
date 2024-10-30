@@ -344,7 +344,7 @@ public class Main{
 					MerchantSystem.Item boughtItem = merchant.buyItem(itemChoice - 1, inventory);
 					if (boughtItem != null) {
 						inventory.addItem(boughtItem.toString());
-						DPO("You bought: " + boughtItem, 10);
+						DPO("You bought: " + boughtItem + "\n\n", 10);
 					} else {
 						DPO("You could not buy that item.", 10);
 					}
@@ -478,6 +478,7 @@ public class Main{
 			DPO(x.getName() + ":\nOkay okay, that's enough...\nYou inch away from the ugly man, still trying to wrap your brain around everything that has happened over the past few days",25);
 			DPO("You pick up the crown from the ground, and carefully place it atop your head.",25);
 			DPO("'I guess this is home now.'",35);
+			System.exit(userInp);
 		}
 		
 		else if (userInp == 2) {
@@ -487,7 +488,7 @@ public class Main{
 			DPO("After waiting for the ugly man to calm down, you head back to the spaceship and attach the antenna onto the rooftop before finally being able to start the update",25);
 			DPO(textBox("UPDATE COMPLETE"),25);
 			DPO("By now, the sun had started to set and before starting up the engine, you gazed back at the planet solemnly as it finally sets in that you will have to return to your mundane life as a cog in the machine.",25);
-			
+			System.exit();
 		}
 	}
     
