@@ -3,8 +3,6 @@ public class Map {
     private final int colms = 5;
     private String[][] grid; // 2d Grid declared but not initialized with values yet assigned
     private int playersX, playersY; // Players X and Y coordinates declared with no value
-
-    static Main Main  = new Main();
     
     // Default constructor with player's start position at (4, 4)
     public Map() {

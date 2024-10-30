@@ -63,7 +63,7 @@ Before running the game, ensure the following are installed on your system:
 **Clone or download the project:**
    - If using Git, run the following command in your terminal:
      ```bash
-     git clone https://github.com/your-repository/game-project.git
+     git clone git@github.com:NikkiCl/RPG.git 
      ```
    - Alternatively, download the ZIP file from the repository and extract it.
 

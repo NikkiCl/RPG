@@ -162,7 +162,6 @@ public class Main{
     
     
     public static void main(String[] args) throws InterruptedException {
-    	map.printMap();
 		welcome();
 		//Character t1 = new Character("d",50,100,0);
     	//backYard(t1);
