@@ -520,12 +520,12 @@ public class Main{
     }
 
 	static void wingedCreatureMiniBoss(Character x) throws InterruptedException{
-		Alien jock = new Alien("Jock Bird",50,50,0,"Antenna");
+		Alien jock = new Alien("Jock Bird",25,50,1,"Antenna");
 		Combat.combat(x, jock);
 	}
 
 	static void finalBoss(Character x) throws InterruptedException{
-		Alien finalBoss = new Alien("Blarbazop",75,120,2,"Crown");
+		Alien finalBoss = new Alien("Blarbazop",30,120,2,"Crown");
 		Combat.combat(x,finalBoss);
 	}
 
