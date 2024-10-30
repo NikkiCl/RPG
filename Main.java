@@ -28,9 +28,14 @@ public class Main{
 		DPO("Enter your name: ",35);
 		String name = uInput.next();
 		//uses userinput to get name 
-		Character x = new Character(name,100,100);
+		
+		//CHARACTER CREATION HERE!!!! 
+		Character X = new Character(name,10,100);
+		// - -- - -  -- - - 
+		
+		
 		//in this instance, whenever we refer to "x" we are referring to the main character aka the player.
-		startGame(uInput, x);
+		startGame(uInput, X);
 
 	}
 	static void startGame(Scanner uInput, Character X) throws InterruptedException {  //Recieves the scanner object as parameter
@@ -38,7 +43,7 @@ public class Main{
 		boolean isPlaying = true;// Main game loop, keeps running until/if broken in the menu otherwise almost infinate
 
 		if (Map.getCurrentLocation().contains("Start")) { // execute scene one outside of loop to avoid calling plyrChoice before it
-			//SceneOne(x,uInput);
+			SceneOne(X,uInput);
 		}
 
 		while (isPlaying) {
@@ -369,7 +374,7 @@ public class Main{
         	else if (userInp == 2) {
         		DPO("You head to the backyard",25);
         		Map.movePlayer(1, 2); 
-        		backYard(X);
+        		backYard(X,scanner);
         		//travel to backyard
         		break;
         	}
@@ -392,10 +397,10 @@ public class Main{
 		wingedbearF(X);
 	}
 
-	static void backYard(Character X) throws InterruptedException {
+	static void backYard(Character X,Scanner scanner) throws InterruptedException {
 		DPO("Upon arrival, the bird who stole your antenna notices you.",25);
-		DPO("Jock Bird:\nCAW CAW. DORK, DORK",35);
-		DPO("Blarbazop:\nWhat are you doing here!! Chris Hansen kill that stranger!!!!!",35);
+		DPO("Jock Bird:\nCAW CAW. DORK, DORK\n",35);
+		DPO("Blarbazop:\nWhat are you doing here!! Chris Hansen kill that stranger!!!!!\n",35);
 		DPO("Chris Hansen(Previously known as Jock Bird):\nCAWWWWWW!",35);
 		System.out.println("\n\n\n   _______          ______   ____   _____ _    _ _ "+
 		"\n  / ____\\ \\        / / __ \\ / __ \\ / ____| |  | | |\n"
@@ -456,6 +461,7 @@ public class Main{
 		DPO("Blarbazop:\nI hope you don't believe that you're getting away with this.",35);
 		Map.movePlayer(1, 1);
 		finalBoss(X);
+		ending(X,scanner);
 		
 
 	}
@@ -483,6 +489,7 @@ public class Main{
 		}
 
 	static void ending(Character x,Scanner scanner) throws InterruptedException {
+		scanner.nextLine();
 		DPO("You take a deep breath of relief and walk up to grab your antenna before noticing the ugly man you had met from earlier, who seemed somehow even uglier than before.",25);
 		
 		System.out.println("\n                _\r\n"
@@ -502,16 +509,16 @@ public class Main{
 		DPO("What would you like to do?\n1 - stay and rule 		2 - return back to your planet",25);
 		int userInp = scanner.nextInt();
 		if (userInp == 1) {
-			DPO("\n'OH BLESSED THEE!'\nThe ugly man exclaimed, wrapping his wrinkly arms around you",25);
+			DPO("\n'OH BLESSED THEE!'\nThe ugly man exclaimed, wrapping his wrinkly arms around you\n",25);
 			DPO(x.getName() + ":\nOkay okay, that's enough...\nYou inch away from the ugly man, still trying to wrap your brain around everything that has happened over the past few days",25);
-			DPO("You pick up the crown from the ground, and carefully place it atop your head.",25);
+			DPO("You carefully place the crown on top of your head.",25);
 			DPO("'I guess this is home now.'",35);
 			System.exit(userInp);
 		}
 		
 		else if (userInp == 2) {
-			DPO(x.getName() + ":\nSorry but I can't just pick up and leave like that.",35);
-			DPO("You try to avoid the ugly man's gaze, as his tears, once filled with joy were now overrun by sadness",25);
+			DPO("\n" + x.getName() + ":\nSorry but I can't just pick up and leave like that.",35);
+			DPO("You try to avoid the ugly man's gaze, as his tears, once filled with joy were now overrun by sadness\n",25);
 			DPO(x.getName() + ":\nI'll still come and visit though!",35);
 			DPO("After waiting for the ugly man to calm down, you head back to the spaceship and attach the antenna onto the rooftop before finally being able to start the update",25);
 			DPO(textBox("UPDATE COMPLETE"),25);
