@@ -48,7 +48,7 @@ public class Map {
         setPlayerY(newY);
     }
 
-    public static void locationChange(String dir) {
+    public static void locationChange(String dir) {// This method actually contains the logic to turn the players input into actual change of character location with boundry checks
         int x = getPlayerX(); // Grab the player's x and y coordinates
         int y = getPlayerY();
         
@@ -62,8 +62,8 @@ public class Map {
             y--;
         } else {
             System.out.println("Cannot move in that direction! Boundary reached.");
-            return; // Stop and return nothing --- Later on we will have to return another function
-                    // to enable movement again
+            return;// return nothing and handle loop where fuction can be called again this is to prevent errors
+                    
         }
         if (grid[x][y].equals("|      🌲     |")) {
             System.out.println("You can't move to an empty space. Try a different direction.");
@@ -71,13 +71,13 @@ public class Map {
         }
         movePlayer(x, y); // Move player to new coordinates
 
-            System.out.print("\n\n\nTravelling...................\n\n\n");
+            System.out.print("\n\n\nTravelling...................\n\n\n");// After moving the players coordinant then print message with their new location
 			System.out.println("You have arrived at: " + getCurrentLocation());
 
     }
 
-    private void initializeMap() { // Initilize 2d grid with String values assigned to each location
-        grid[0][2] = "|Ending       |";
+    private void initializeMap() { // Initilize 2d grid with String values assigned to each location this is the heart of the map class
+        grid[0][2] = "|    🌲🌲     |";
         grid[1][0] = "|Secret door  |"; // Hardcoding the formatting for the table cell to be printed each cell will be
         grid[1][1] = "|Mansion      |";// 15 characters long
         grid[1][2] = "|Backyard     |";
@@ -92,7 +92,7 @@ public class Map {
         grid[4][2] = "|Merchant     |";
         
 
-        // Populate unpopulates parts of grid with - meaning its empty
+        // Populate unpopulates parts of grid with tree emoji - meaning its empty
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < colms; j++) {
                 if (grid[i][j] == null) {
@@ -102,7 +102,7 @@ public class Map {
         }
     }
 
-    public static void printMap() {
+    public static void printMap() {// This is the method thats responsible for viewing the map, compass and the players location
         String[] compass = {
             "         N         ",  // Index 0 of compass
             "         |         ",
@@ -111,8 +111,8 @@ public class Map {
             "         S         " // index of 4 or the 5th element of the array
         };
 
-        for (int i = 0; i < rows; i++) { // Go through each row of the initilised map row
-            for (int j = 0; j < colms; j++) { // For every row go through all columns
+        for (int i = 0; i < colms; i++) { // Go through each colm of the initilised map colmns - row is a 
+            for (int j = 0; j < rows; j++) { // For every colmn go through all rows within
                 
                 String currentLocation = getCurrentLocation(); // store players location in variable within function scope
                 if (grid[i][j].equals(currentLocation)){ //if the part of grid being itirated through matches the players location
@@ -122,7 +122,7 @@ public class Map {
                 }
             }
             if (i < compass.length) { //if the index of map being printed meaning its still being printed is less than 5 then execute code below
-                System.out.print("    " + compass[i]); //prints empty space and the row of compass that matches the map
+                System.out.print("    " + compass[i]); //prints empty space and the row of compass that matches the map column
             }
             System.out.println(); // Move to the next line after each row and its colums is printed
         }

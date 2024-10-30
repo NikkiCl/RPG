@@ -79,18 +79,25 @@ Before running the game, ensure the following are installed on your system:
 **Difficulties of Arvin:**
 Of course, I had a rough idea of what my code needed for the mapping system in this game. The challenges really started after I had written the basic class code with its getters and setters. I was aiming for something functional at first that I could build on later. But I did run into a few issues, and here's what they were and how overcame them:
 
+Grid: I knew that for a grid layout i needed some sort of an array that held every square within it. After as bit of though it made sence that the x and the y axis could fit perfectly within a two dimentional array. I then thought it would be alot to have 25 squares (5x5) all with values and most of them being empty. So i then figured out to only assign value to the needed squares but leave the rest as null. Then i looped through each square and i replaced the null with emojis.
+
+Formatting the map: Aesthetically was also a challange that i managed to fix by setting a rule that every square will be 15 Charactars long which i deemed to be sufficient spacing and aesthetcally pleasing. Something was missing after i ran the prototype and saw the map. i was using letters as directions and it would be hard navigating with nthe keys n,e,s,w since they are not next to each other. Therefore within the loop that wouuld go through the columns and the rows of the main map and print its content i encorporated a if statement that printed a compass broken down into 5 elements matching the number of rows that the loop itirates through.
+
 Indexing Issues: I initially set the player's starting position at (0, 0), which landed them in the top-left corner—far from the actual starting point of the game. To fix it, I set the default starting position to (3, 4) so the player starts from next to the bottom-right corner where "Start" was planned to be.
 
-Movement Challenges: The movement mechanics were tricky. At first, I had a hard time keeping the player from moving out of bounds or into empty spaces. I solved it by adding two checks: one to make sure the input was a valid direction, and another to ensure the player stays within the grid and doesn't walk into obstacles.
+Movement Challenges: The movement mechanics were tricky. At first, I had a hard time keeping the player from moving out of bounds or into empty spaces. I solved it by adding two checks: one to make sure the input was a valid direction/input, and another to ensure the player stays within the grid and doesn't walk into obstacles.
 
-Marking Player's Position: Initially, the only way the player knew their position was from a printout of the location's name, and it wasn't clear enough. So, I added a condition to mark their position with an "X", ensuring it wouldn’t mess up the rest of the grid display.
+Marking Player's Position: Initially, the only way the player knew their position was from a printout of the location's name, and it wasn't clear enough. So, I added a looped condition to mark their position with an "X" within the function that would print the map because that would be most efficient, ensuring it wouldn’t mess up the rest of the grid display.
 
 Filling Empty Spaces: I started by using a simple "-" to represent empty spaces, but it didn’t look right to me. After some quick research, I remembered I could use emojis in code, so I went with the tree emoji 🌲 to make it visually clear which areas were unwalkable.
 
 Compass Alignment: Aligning the compass with the map rows took a bit of trial and error. I eventually figured it out by integrating the compass printing into the iteration method that prints the map line by line.
- 
 
-Collabiration: Working with my coleagues was great as we communicated and voted for ideas building the game. The incorporation of the code into the main file was difficult specially since a lot of the other functions also relied on it. I had to write the plyrMove,gameMenu function so the user could choose to move or access the map and inventory, I tinkered with the welcome function, I renamed and separated the startGame into startgame and intro so i could call them separately and also trounleshoot later if needed. The back and forth was difficult as we all troubleshooted our code and tied everything in together.
+Menu design: I wanted to design a menu that was promted to the user with a single sentence and didnt make the screen busy. Therefore i had to check if the players input is a integer data type or string using the hasNextInt() function within a if else statement. I then wanted the menu to be presented to the player after every move or piece of the story so i used an open while loop and i put the joint prompt for the menu and directions at the top. I took the first scene outside of the loop so it can be played once and they are not prompted with the menu and directions before the games story begins.
+
+Reusability: I did not want to repeat unneccessary code so i passed down the scaner object and other things like the character down to the other functions down in a ladder format step by step t avoid creating new scanner objects. I also coded for a dynamic back button that i used through out the menu and the features that returned a boolean which made everything more playable with minnimum lines of code. At least relevant to the junior level that i currently am coding in.
+
+Collabiration: Working with my coleagues was great as we communicated and voted for ideas building the game. The incorporation of the code into the main file was difficult specially since a lot of the other functions also relied on it. I had to write the plyrMove,gameMenu function so the user could choose to move or access the map and inventory, I tinkered with the welcome function, I renamed and separated the startGame into startgame and intro so i could call them separately and also trounleshoot later if needed and wrote some more methods to compliment everything. The back and forth was difficult as we all troubleshooted our code and tied everything in together. But keeping in contact, keeping things single and documenting through a shared file helped greatly.
 
 
 
@@ -163,5 +170,3 @@ Overall, working on this project with my group members Arvin and Nikki has been 
 
 
 Emojipedia. (n.d.) Evergreen Tree Emoji. Available at: https://emojipedia.org/evergreen-tree (Accessed: 8 October 2024).
-
-Educative. (n.d.) How to generate random numbers in Java. Available at: https://www.educative.io/answers/how-to-generate-random-numbers-in-java (Accessed: 15 October 2024).
