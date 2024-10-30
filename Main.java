@@ -1,6 +1,5 @@
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
-
 public class Main{
 	static InventorySystem inventory = new InventorySystem();
 	static Map map = new Map();//Initialize the map object
@@ -304,33 +303,32 @@ public class Main{
 
     
     
-	static void AlienSlums() throws InterruptedException { 
+	static void AlienSlums() throws InterruptedException {
 		Scanner sc = new Scanner(System.in);
 		int userChoice;
-		MerchantSystem merchantSystem = new MerchantSystem();
-		
+	
 		DPO("You arrive in a wasteland riddled with less ugly aliens. It looks like this is their version of a market.", 25);
 		DPO("1 - Go to merchant  2 - Keep on walking", 25);
 		userChoice = sc.nextInt();
-		
+	
 		if (userChoice == 1) {
 			// Interact with the merchant
-			MerchantSystem.Merchant merchant = merchantSystem.new Merchant();
+			MerchantSystem.Merchant merchant = new MerchantSystem.Merchant();
 			boolean shopping = true;
 			while (shopping) {
 				merchant.displayInventory();
 				DPO("Which item would you like to buy? (Enter the item number or 0 to exit)", 10);
 				int itemChoice = sc.nextInt();
-				
+	
 				if (itemChoice == 0) {
 					shopping = false; // Exit shopping
 				} else {
 					MerchantSystem.Item boughtItem = merchant.buyItem(itemChoice - 1, inventory);
 					if (boughtItem != null) {
 						inventory.addItem(boughtItem.toString());
-						DPO("You bought: " + boughtItem, 10); // Notify the player of the purchase
+						DPO("You bought: " + boughtItem, 10);
 					} else {
-						DPO("You could not buy that item.", 10); // Notify the player of a failed purchase
+						DPO("You could not buy that item.", 10);
 					}
 				}
 			}
@@ -339,8 +337,6 @@ public class Main{
 			DPO("You decide to keep walking, leaving the market behind.", 25);
 		}
 	}
-    
-
 	static void Mansion(Character X, Scanner scanner) throws InterruptedException {
     	DPO("You arrive at the frontyard of a massive mansion, surrounded by golden gates and a delectable collection of trinkets",25);
     	while (true) {

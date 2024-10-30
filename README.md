@@ -129,7 +129,13 @@ The rest of the code, mainly consisting of dialogue and descriptions, wasn't tha
 
 
 **Difficulties of Minh:**
-I aimed to make 
+Inventory
+I aimed to make the Inventory System to have a kind of functionality that would give the player majority of what they would need that involved an inventory such as collecting items, dropping items when inventory is full, and displaying the inventory when traveling or in battle.
+Issues:
+A lot of the issues I had with the inventory was figuring out how I would implement it into a fully functional system while still in early development of the game. Of course I had a pretty clear image of how my inventory system would be like, but even then most of my struggles came from doubting what i could do with the limited knowledge I have in terms of coding. While creating the code of the Inevntory I ran through a lot of complications like having trouble with making the inventory display items in a certain order which was originally discussed with my fellow group members with having weapons always allocated to the first inventory slot and having other items allocated below them. In the end we later discussed to not continue further with that function. From the beginning, my inventory system was extremely simple and only added and displayed items as a simple creation of an Array List where it would ask the user to type in a name of an item and it would print it out once 5 items were entered. Later on I had struggles with implementing an adding to inventory feature due to having dificulties in making items in the Main file accessible to the Inventory File as well as being in early stages of development where it was difficult to determine which bits of the code would require the iventory function in which was basically creating an adding function blindly without anything in the main file to allow for me to test yet. Eventually I had a clearer picture of the code where I could see where my implementation could be put and in which way I could code it to fit appropriately to what is needed. My last struggle I had in terms of just the Inventory was for majority of the time working on the project, I had many struggles with fixing errors with my code overlapping majority of thing which most I could no pin point which took up a lot of my time in troubleshooting and looking over lines of codes to see any possible fixes that can benefit me. I cleared a few things up towards towards the end and everything seems stable.
+Merchant
+The merchant was my biggest obstacle for this project. For the merchant, I wanted to have it 
+Overall
 
 
 ## Task allocations
@@ -139,7 +145,6 @@ I aimed to make
 **Merchant -** Minh
 **Game Menu -** Arvin
 **Main -** Nikki
-**Stats display -** Minh
 **Map -** Arvin
 **Inventory -** Minh
 **Readme.md -** Arvin
