@@ -2,7 +2,7 @@ import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 public class Main{
 	static InventorySystem inventory = new InventorySystem();
-
+	static Map map = new Map();//Initialize the map object
 
 	static void welcome() throws InterruptedException { //renamed to avoid naming conflicts  // this is the method that greets the user and first interacts with them asking to confirm if they want to play
 		Scanner w = new Scanner(System.in);
@@ -28,7 +28,9 @@ public class Main{
 		DPO("Enter your name: ",35);
 		String name = uInput.next();
 		//uses userinput to get name 
-		Character x = new Character(name,100,100);
+
+		//CHARACTER CREATION HERE!!!! 
+		Character x = new Character(name,10,100);
 		//in this instance, whenever we refer to "x" we are referring to the main character aka the player.
 		startGame(uInput, x); //pass down the scanner object and player down to the main play fuction
 
@@ -375,29 +377,13 @@ public class Main{
         	}
         	else if (userInp == 2) {
         		DPO("You head to the backyard",25);
-        		Map.movePlayer(1, 2); 
-        		backYard(X);
+        		Map.setPlayerX(1);
+        		Map.setPlayerY(2);
         		//travel to backyard
         		break;
         	}
     	}
     }
-	
-	static void tinyCave(Character X) throws InterruptedException {
-		
-		DPO("You step foot into the dark cave and hear..\n\n",35);
-		
-		System.out.println("░▒▓███████▓▒░ ░▒▓██████▓▒░ ░▒▓██████▓▒░░▒▓███████▓▒░░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░ \r\n"
-		+ "░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░ \r\n"
-		+ "░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░ \r\n"
-		+ "░▒▓███████▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓████████▓▒░▒▓███████▓▒░░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░ \r\n"
-		+ "░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░ \r\n"
-		+ "░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░                   \r\n"
-		+ "░▒▓█▓▒░░▒▓█▓▒░░▒▓██████▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░ \r\n"
-		+ "                                                                       ");
-		
-		wingedbearF(X);
-	}
 
 	static void backYard(Character X) throws InterruptedException {
 		DPO("Upon arrival, the bird who stole your antenna notices you.",25);
@@ -461,15 +447,13 @@ public class Main{
 		DPO("Blarbazop:\nYou have killed my favourite pet, the only creature that I viewed as an equal in this mundane hellscape of a planet.",35);
 		DPO("\nYou inch away, spouting out mumbled apologies and desperately searching for a possible escape",25);
 		DPO("Blarbazop:\nI hope you don't believe that you're getting away with this.",35);
-		Map.movePlayer(1, 1);
 		finalBoss(X);
 		
 
 	}
 	
 	
-	static void mountainCrossRoads(Character X, Scanner scanner) throws InterruptedException {
-		scanner.nextLine();
+	static void mountainCrossRoads(Character x, Scanner scanner) throws InterruptedException {
 		DPO("The sight of a luscious green mountain coupled with an amazing waterfall greets your eyes.",25);
 		DPO("Where would you like to go?\n1 - Waterfall		2 - Mountain",25);
 		int userInp = scanner.nextInt();
@@ -477,15 +461,8 @@ public class Main{
 			DPO("You walk beneath the waterfall and find a hidden tunnel, with ancient hieroglyphics scattered across the walls",25);
 			DPO("You stumble across a pot of gold, with a note which contained an unknown phrase",25);
 			DPO(textBox("NEW ITEM UNLOCKED: pot of gold"),25);
-			DPO(X.getName() + ":\nI wonder if I can use this to trade...",35);
+			DPO("'I wonder if I can use this to trade...'",35);
 			Main.inventory.pickUpItem("pot of gold");
-			Map.movePlayer(3, 0);
-			
-			}
-		else if (userInp == 2) {
-			DPO("You hike up the steep mountain...",25);
-			slothF(X);
-			Map.movePlayer(2, 1);
 			}
 		}
 

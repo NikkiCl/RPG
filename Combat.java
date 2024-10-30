@@ -13,6 +13,7 @@ public class Combat {
 	        
 	        //if the arraylist contains the map location then the enemy has been killed before so you skip the combat sequence 
 	        if (deadEnemies.contains(Map.getCurrentLocation())) {
+	        	System.out.println(Map.getCurrentLocation());
 	        	DPO("You carefully step over the dead " + Enemy.getName(),25);
 	        	//should be able to pick up item if they wish 
 	        	itemPickup(X,Enemy,imp);
@@ -142,7 +143,7 @@ public class Combat {
 		                }
 	
 		                else if (userInp == 2) {
-		                	if (Map.getCurrentLocation().contains("Final boss fight") && Map.getCurrentLocation().contains("Mini boss fight")) {
+		                	if (Map.getCurrentLocation().contains("Backyard") || Map.getCurrentLocation().contains("Mansion")) {
 					//i made the decision to remove a players turn when they try to sneak, as to up the difficulty and make sure that
 		                	//they are 'punished' for thinking that they found a loophole. 
 		                		DPO("You try to make a run for it, with no success",25);
