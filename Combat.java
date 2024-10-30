@@ -142,7 +142,7 @@ public class Combat {
 		                }
 	
 		                else if (userInp == 2) {
-		                	if (Map.getCurrentLocation().contains("Final boss fight") && Map.getCurrentLocation().contains("Mini boss fight")) {
+		                	if (Map.getCurrentLocation().contains("Backyard") || Map.getCurrentLocation().contains("Mansion")) {
 					//i made the decision to remove a players turn when they try to sneak, as to up the difficulty and make sure that
 		                	//they are 'punished' for thinking that they found a loophole. 
 		                		DPO("You try to make a run for it, with no success",25);
