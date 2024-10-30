@@ -13,7 +13,6 @@ public class Combat {
 	        
 	        //if the arraylist contains the map location then the enemy has been killed before so you skip the combat sequence 
 	        if (deadEnemies.contains(Map.getCurrentLocation())) {
-	        	System.out.println(Map.getCurrentLocation());
 	        	DPO("You carefully step over the dead " + Enemy.getName(),25);
 	        	//should be able to pick up item if they wish 
 	        	itemPickup(X,Enemy,imp);
