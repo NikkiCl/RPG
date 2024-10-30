@@ -114,7 +114,15 @@ public class Combat {
 							"⠀⢠⣾⣿⣿⣟⣿⣿⣿⣿⢿⣧⡻⣗⣻⣿⣿⣿⣿⣿⣿⣿⣿⣯⣿⣿⣗⢳⣿⠿⣷⢏⣿⢸⣾⡹⣏⣿⠼⡿⣅⢿⣷⡎⢷⣿⢿⡽⣳⣶⢯⠻⣿⣿⣯⢷⡿⣿⣿⣿⣫⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣛⣿⣿⣿⣿⣯⣹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣆⠀\r\n" + //
 							"⠰⠺⠿⠿⠿⠯⠿⠿⠿⠿⠿⠿⠿⠿⠷⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠮⠿⠿⠿⠿⠿⠿⠿⠷⠷⠾⠿⠶⠿⠷⠿⠿⠶⠾⠾⠾⠾⠿⠶⠿⠿⠷⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠷⠿⠿⠿⠿⠿⠿⠿⠿⠷⠿⠿⠿⠿⠿⠿⠦");
 		        }
-		        DPO(textBox("You encounter a " + Enemy.getName()),35);
+			
+		        if (Enemy.getName().equals("Blarbazop")) {
+		        	//just want to make the boss fight more engaging 
+		        	DPO(textBox("Blarbazop starts inching towards you, ready to attack"),35);
+		        }
+		        else {
+			        DPO(textBox("You encounter a " + Enemy.getName()),35);
+		        }
+			
 		        Thread.sleep(400);
 		        //combat loop
 		        while (X.getHP() > 0 && Enemy.getHP() > 0) {
@@ -136,6 +144,8 @@ public class Combat {
 	
 		                else if (userInp == 2) {
 		                	if (map.getCurrentLocation().contains("Final boss fight") && map.getCurrentLocation().contains("Mini boss fight")) {
+					//i made the decision to remove a players turn when they try to sneak, as to up the difficulty and make sure that
+		                	//they are 'punished' for thinking that they found a loophole. 
 		                		DPO("You try to make a run for it, with no success",25);
 		                		continue;
 		                	}
