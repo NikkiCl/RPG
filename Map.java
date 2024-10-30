@@ -1,9 +1,10 @@
 public class Map {
-    private final int rows = 5; // Final means value can not be changed
-    private final int colms = 5;
-    private String[][] grid; // 2d Grid declared but not initialized with values yet assigned
-    private int playersX, playersY; // Players X and Y coordinates declared with no value
-    
+    private final static int rows = 5; // Final means value can not be changed
+    private final static int colms = 5;
+    private static String[][] grid; // 2d Grid declared but not initialized with values yet assigned
+    private static int playersX; // Players X and Y coordinates declared with no value
+	private static int playersY;
+    static Map map = new Map();
     // Default constructor with player's start position at (4, 4)
     public Map() {
         this(3, 4); // Calls the other Map constructor and gives it the default start position
@@ -17,37 +18,37 @@ public class Map {
     }
 
     // Getter for playerX
-    public int getPlayerX() {
+    public static int getPlayerX() {
         return playersX;
     }
 
     // Setter for playerX
-    public void setPlayerX(int X) {
-        this.playersX = X;
+    public static void setPlayerX(int X) {
+        playersX = X;
     }
 
     // Getter for playerY
-    public int getPlayerY() {
+    public static int getPlayerY() {
         return playersY;
     }
 
     // Setter for playerY
-    public void setPlayerY(int Y) {
-        this.playersY = Y;
+    public static void setPlayerY(int Y) {
+        playersY = Y;
     }
 
     // Get players current location method
-    public String getCurrentLocation() {
+    public static String getCurrentLocation() {
         return grid[playersX][playersY];
     }
 
     // Move the player to a new coordinate
-    public void movePlayer(int newX, int newY) {
+    public static void movePlayer(int newX, int newY) {
         setPlayerX(newX);
         setPlayerY(newY);
     }
 
-    public void locationChange(String dir) {
+    public static void locationChange(String dir) {
         int x = getPlayerX(); // Grab the player's x and y coordinates
         int y = getPlayerY();
         
@@ -83,9 +84,10 @@ public class Map {
         grid[2][0] = "|Tunnel       |";
         grid[2][4] = "|Soldier      |";
         grid[3][0] = "|Waterfall    |";
-        grid[3][1] = "|Mountain     |";
+        grid[2][1] = "|Mountain     |";
+        grid[3][1] = "|CrossRoads   |";
         grid[3][2] = "|Alien slums  |";
-        grid[3][3] = "|Angry bear   |";
+        grid[3][3] = "|Tiny Cave    |";
         grid[3][4] = "|Start        |";
         grid[4][2] = "|Merchant     |";
         
@@ -100,7 +102,7 @@ public class Map {
         }
     }
 
-    public void printMap() {
+    public static void printMap() {
         String[] compass = {
             "         N         ",  // Index 0 of compass
             "         |         ",
