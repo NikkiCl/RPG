@@ -38,12 +38,14 @@ public class Main{
 
 
 	static void startGame(Scanner uInput, Character x) throws InterruptedException {  //Recieves the scanner object as parameter    //This method loops infinately to keep plaayer inside of game until the player exits through the menu and calls each scene based on location of player
-		
+		boolean hasSceneOnePlayed = false;//Setting a condition to flag if scene one has been played by character
 		boolean isPlaying = true;// Main game loop, keeps running until/if broken in the menu otherwise almost infinate
 
-		if (Map.getCurrentLocation().contains("Start")) { // execute scene one outside of loop to avoid calling plyrChoice before it
-			SceneOne(x,uInput);
-		}
+		
+        if (!hasSceneOnePlayed && Map.getCurrentLocation().contains("Start")) {// && oporater checks to see if they are both true and if !hasplayed is true means it hasnt been played before it then checks to see if the location is start then it calls the method
+            SceneOne(x, uInput);
+            hasSceneOnePlayed = true; //and it sets the flag to true after SceneOne plays so the next time the loop is called back the !value will be false
+        }
 
 		while (isPlaying) {
 			
