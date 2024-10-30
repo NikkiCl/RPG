@@ -161,6 +161,7 @@ public class Main{
     
     
     public static void main(String[] args) throws InterruptedException {
+    	map.printMap();
 		welcome();
 		//Character t1 = new Character("d",50,100,0);
     	//backYard(t1);
@@ -309,7 +310,7 @@ public class Main{
 		DPO("You arrive in a wasteland riddled with less ugly aliens. It looks like this is their version of a market.", 25);
 		DPO("1 - Go to merchant  2 - Keep on walking", 25);
 		userChoice = sc.nextInt();
-	
+
 		if (userChoice == 1) {
 			// Interact with the merchant
 			MerchantSystem.Merchant merchant = new MerchantSystem.Merchant();

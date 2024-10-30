@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.util.Scanner;
-
 class InventorySystem {
 	private int slotMax = 4;
 	private Scanner itemScanner = new Scanner(System.in);
@@ -70,4 +69,3 @@ class InventorySystem {
 		return items;
 	}
  }
-
