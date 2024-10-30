@@ -1,561 +1,270 @@
+import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
-public class Main{
-	static InventorySystem inventory = new InventorySystem();
 
-
-	static void welcome() throws InterruptedException { //renamed to avoid naming conflicts
-		Scanner w = new Scanner(System.in);
-		int userInp;
-		DPO("Welcome to Alien Lands",10);
-		System.out.println("\n\n1. Start game\n2. Quit");
-		userInp = w.nextInt();
-		
-		if (userInp == 1) {
-			intro(w);//Passing the scanner object to the function to mainstream code and reuse the object
-		}else if (userInp == 2) {
-			System.out.println("Quitting");
-			System.exit(userInp);
-		} else {
-			System.out.println("Wrong input"); //just some input validation
-			welcome();
-		}
-	}
-	
-	
-	static void intro(Scanner uInput) throws InterruptedException {  //Recieves the scanner object as parameter and now seprated from startGame
-		//user input
-		DPO("Enter your name: ",35);
-		String name = uInput.next();
-		//uses userinput to get name 
-		
-		//CHARACTER CREATION HERE!!!! 
-		Character X = new Character(name,10,100);
-		// - -- - -  -- - - 
-		
-		
-		//in this instance, whenever we refer to "x" we are referring to the main character aka the player.
-		startGame(uInput, X);
-
-	}
-	static void startGame(Scanner uInput, Character X) throws InterruptedException {  //Recieves the scanner object as parameter
-		
-		boolean isPlaying = true;// Main game loop, keeps running until/if broken in the menu otherwise almost infinate
-
-		if (Map.getCurrentLocation().contains("Start")) { // execute scene one outside of loop to avoid calling plyrChoice before it
-			SceneOne(X,uInput);
-		}
-
-		while (isPlaying) {
+public class Combat {
+	static ArrayList<String> deadEnemies = new ArrayList<String>();
+	//when enemy dies the loc gets added to map 
+	static void combat(Character X, Alien Enemy) throws InterruptedException {
+	        int userInp;
+	        Scanner imp = new Scanner(System.in);
+	        int attackTime = Enemy.getTTA();
+	        
+	        //if the arraylist contains the map location then the enemy has been killed before so you skip the combat sequence 
+	        if (deadEnemies.contains(Map.getCurrentLocation())) {
+	        	System.out.println(Map.getCurrentLocation());
+	        	DPO("You carefully step over the dead " + Enemy.getName(),25);
+	        	//should be able to pick up item if they wish 
+	        	itemPickup(X,Enemy,imp);
+	        }
+	        
+	        else {
+		        if (Enemy.getName().equals("Weak Alien Soldier")) {
+		        	//fun little ascii art for enemies : ) 
+		        	System.out.println("          (o)    (o)\r\n"
+		        			+ "            \\    /\r\n"
+		        			+ "   /\\        \\  /\r\n"
+		        			+ "   ||        ----\r\n"
+		        			+ "   ||       /(o) \\\r\n"
+		        			+ "   ||      (  <   )\r\n"
+		        			+ "   ||       \\ -- /\r\n"
+		        			+ "/|_||_|\\__(--====--)\r\n"
+		        			+ "  (|_______\\======/\\ \\[[/\r\n"
+		        			+ "   ||        (--) \\ \\/ /\r\n"
+		        			+ "             /  \\  \\_-/\r\n"
+		        			+ "            |====|       \r\n"
+		        			+ "           (  /\\  )      \r\n"
+		        			+ "           |  )(  |     \r\n"
+		        			+ "           [  ][  ]\r\n"
+		        			+ "           _||  ||_\r\n"
+		        			+ "          (   ][   )");
+		        }
+		        
+		        else if (Enemy.getName().equals("Sloth")) {
+		        	System.out.println("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⢷⡄⠀⠀⠀⠀⣸⡇⠀⠀⠀\r\n"
+		        			+ "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡎⠈⡟⡄⠀⢠⠊⡜⢸⠀⠀⠀\r\n"
+		        			+ "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⠁⠀⡇⢱⣠⢃⡜⠀⢸⠀⠀⠀\r\n"
+		        			+ "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⠀⠀⡇⢸⠇⡎⠀⠀⡜⡀⠀⢀\r\n"
+		        			+ "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠸⡄⢸⡁⣼⡤⠷⣄⡜⠉⠀⡠⢪\r\n"
+		        			+ "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⡀⣀⡹⠞⠋⠁⠀⠀⣿⣶⣒⠮⠕⠁\r\n"
+		        			+ "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⡤⣄⣀⡴⠋⠀⠹⡅⠀⠀⠀⢀⡠⠞⠁⠀⠀⠀⠀⠀\r\n"
+		        			+ "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⢤⣀⡤⡶⡤⣀⣀⣀⡠⠤⠤⠤⠒⣺⢡⢃⣿⣼⠃⠀⠀⢸⠃⠀⣠⠔⠉⠀⠀⠀⠀⠀⠀⠀⠀\r\n"
+		        			+ "⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⣠⡴⠋⠀⠀⢹⠀⡇⢇⡇⠀⠀⠀⠀⠀⠀⠀⣿⣯⣾⡟⠁⠀⠀⢀⡧⠖⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n"
+		        			+ "⠀⠀⠀⠀⣀⡤⠖⠚⠉⠉⢠⠏⠀⠀⠀⠀⣼⢀⣱⡾⠀⠀⠀⠀⠀⠀⠀⠀⣠⡿⠋⠀⠀⠀⢀⠞⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n"
+		        			+ "⠀⠀⣠⠚⠁⠀⠀⠀⠀⢀⡎⠀⠀⠀⠀⢠⠏⠻⠟⠁⠀⠀⢀⣀⣀⡤⣤⠞⠁⠀⠀⠀⠀⡰⠋⠀⣠⣤⣶⡶⢶⠶⣄⡀⠀⠀⠀⠀⠀⠀\r\n"
+		        			+ "⠀⡼⠁⠀⠀⠀⠀⠀⠀⡼⠀⠀⠀⠀⠀⢸⠴⠶⡖⠚⠊⠉⠉⣸⠁⢠⠋⠀⠀⠀⠀⢀⠞⠀⣠⠞⡟⠁⠿⣟⡶⠖⢻⣿⣷⡀⠀⠀⠀⠀\r\n"
+		        			+ "⣼⠁⠀⠀⠀⠀⠀⣀⣰⠃⠀⠀⠀⠀⠀⢸⠀⠀⡇⠀⠀⠀⢀⠃⠀⡏⠀⠀⠀⠀⠀⡼⢤⡞⠁⠰⣷⣶⣤⡀⠀⠀⠀⠻⠿⢷⠀⠀⠀⠀\r\n"
+		        			+ "⣇⠀⢀⡤⠴⠚⠉⠁⡼⠀⠀⠀⠀⠀⠀⢸⠀⠀⣇⢀⣀⠤⠼⠖⠺⡇⠀⠀⠀⠀⠀⣧⣾⠀⠀⢀⣾⣿⣿⣧⠀⠀⠀⠀⠀⠘⠀⠀⠀⠀\r\n"
+		        			+ "⠉⠉⠁⠀⠀⠀⠀⢠⠇⠀⠀⠀⠀⠀⠀⢸⡀⡠⠛⠁⠀⠀⠀⠀⢸⠀⠀⠀⠀⠀⠀⢹⣿⠀⣠⠋⠙⠿⠟⠃⠀⠀⠀⠀⠀⢸⠀⠀⠀⠀\r\n"
+		        			+ "⠀⠀⠀⠀⠀⠀⠀⣸⠀⠀⠀⠀⠀⠀⠀⠘⡏⠀⠀⠀⠀⠀⠀⠀⢸⡆⠀⠀⠀⠀⠀⠀⠙⡇⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠏⠀⠀⠀⠀\r\n"
+		        			+ "⠀⠀⠀⠀⠀⠀⠀⣿⠀⠀⠀⠀⠀⠀⠀⠀⠙⣆⠀⠀⠀⠀⠀⠀⠀⢷⠀⠀⠀⠀⠀⠀⠀⠙⠧⠀⠀⠀⠀⠀⠀⠀⠀⣠⠏⠀⠀⠀⠀⠀\r\n"
+		        			+ "⠀⠀⠀⠀⠀⠀⠀⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⢧⠀⠀⠀⠀⠀⠀⠈⢧⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡠⠞⠁⠀⠀⠀⠀⠀⠀\r\n"
+		        			+ "⠀⠀⠀⠀⠀⠀⠀⢸⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢷⠀⠀⠀⠀⠀⠀⠀⠑⠄⠀⠀⠀⠀⠀⠀⢀⡠⠖⠒⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n"
+		        			+ "⠀⠀⠀⠀⠀⠀⠀⢸⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢧⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⠞⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n"
+		        			+ "⠀⠀⠀⠀⠀⠀⢀⡞⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠸⣆⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⠴⠚⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n"
+		        			+ "⠀⠀⠀⠀⠀⠀⠘⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠀⠀⠀⠀⠀⠀⠀⢠⡞⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n"
+		        			+ "⠀⠀⠀⠀⠀⠀⠀⢻⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡴⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n"
+		        			+ "⠀⠀⠀⠀⠀⠀⠀⠀⠻⣆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣤⠞⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n"
+		        			+ "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠛⠦⣤⣀⣀⣀⣀⣀⣀⣀⣤⠤⢖⠛⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀");
+		        }
+		        
+		        else if (Enemy.getName().equals("Blarbazop")) {
+		    		System.out.println("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡠⠔⠀⠀⢀⣀⣤⣶⣴⣶⣶⣿⣿⣿⣷⣾⣷⣤⡀⠐⢄⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
+							"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⠔⠋⠀⣀⣴⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣍⠺⣿⣿⣤⣈⠢⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
+							"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡚⠁⣀⣴⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣖⣿⣿⣿⣿⣷⣌⠢⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
+							"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣊⣴⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
+							"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
+							"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣬⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
+							"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢿⣿⣿⣿⣿⢿⡿⣿⣿⡿⣽⣟⣟⣿⣿⣿⣻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
+							"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣻⣞⡿⣟⣿⣻⣿⡷⣟⣷⣿⣻⡿⢿⡿⣿⣽⣾⣿⣿⢿⣿⣿⣿⣿⣿⣿⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
+							"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣻⣶⣿⣱⣯⣿⣾⣿⣷⠿⢟⢻⢖⣣⣟⣬⣷⣿⣿⣿⣽⣽⣿⣿⣿⣿⣿⣿⣿⣇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
+							"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⣮⣷⣿⣛⣫⣤⣶⠿⣶⣟⣿⣯⢽⣽⣾⣟⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣿⣷⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
+							"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⣽⠾⣽⣿⣿⣷⣯⣿⣿⣟⣻⣿⣯⣿⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
+							"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⡿⣟⣯⣿⣷⣿⣿⣿⣿⣯⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
+							"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⣟⣿⣽⣿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⣿⣿⣿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
+							"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢻⣿⣿⣿⣿⣿⣷⣿⣿⢟⣷⡿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡏⣉⠛⣿⣿⣿⢿⣿⣿⡿⣶⣟⠙⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
+							"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⡿⣫⣾⣿⣿⣿⣿⣯⣿⣿⣧⣻⢿⣟⣸⠿⢿⣿⣿⣿⣿⣿⣾⣿⠿⣿⣙⠿⡿⢃⣿⣿⣷⣺⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
+							"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠯⢹⣴⣴⣿⣿⣿⣿⣻⣿⣿⣿⣿⣶⣉⠋⠙⣛⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
+							"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⢟⣭⣿⣻⣿⣿⣿⣿⣿⣿⣿⡷⣭⣿⣿⣿⣿⣿⣷⣽⣟⢻⡛⢭⠧⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
+							"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣭⣿⣵⣿⣿⣿⣿⣿⣿⣿⣿⣿⣳⣿⣿⣿⣿⣿⣿⢿⣿⣷⣮⣽⢞⣾⣿⣿⣿⣿⡿⠁⢹⡿⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
+							"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⣿⣿⣿⡏⠉⠉⢻⣿⣿⡿⠿⡿⣷⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠀⠀⢸⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
+							"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣲⡏⣻⢟⣿⣷⣆⣱⣾⣿⣿⣿⣙⣦⢻⣿⣿⣿⣿⣿⣿⣿⣿⡿⠁⠀⠀⠸⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
+							"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⣧⢿⣽⣿⣿⣿⣿⣿⣿⣿⣿⣿⣟⠧⣛⡿⣿⣿⣿⣿⣿⣿⡿⠁⠀⠀⠀⠀⣧⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
+							"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠻⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣯⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣯⢷⣽⣿⣿⣿⣿⠿⠁⠀⠀⠀⠀⠀⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
+							"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠛⣿⣿⣿⣷⣿⣿⣿⣿⣿⣿⣭⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⠀⠀⠀⠀⠀⠀⠀⠀⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
+							"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢹⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⣿⣿⣿⣿⢿⣿⣿⣿⣿⣿⣿⣿⣿⠃⠀⠀⠀⠀⠀⠀⠀⠀⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
+							"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
+							"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣇⠀⠀⠀⠀⠀⠀⠀⠀⢠⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
+							"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣯⣟⣷⣿⣷⣾⣽⣿⣿⣿⣿⣿⣿⣿⣿⣿⣤⠤⡀⠀⠀⠀⠀⠀⠸⡿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
+							"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢼⡏⢲⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
+							"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢤⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣼⡷⠲⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
+							"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣿⣿⣿⡿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⡎⢦⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
+							"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⢞⠋⣡⣾⣿⣿⣴⣿⣿⣿⣿⣿⣿⣿⣿⣟⡿⡟⢯⣩⢗⣯⣻⣿⢿⣟⣾⣿⣿⣿⣿⣿⡿⢿⣿⣿⣷⣿⣿⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
+							"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣴⡿⠖⣼⣿⣿⣿⣿⣿⣿⣿⣿⡿⣿⣿⣿⣿⣿⣼⢫⢏⡵⢯⣶⣿⡿⣯⢾⣽⣿⣿⣿⣿⣿⣷⣿⣿⣿⣿⣿⣭⡳⠤⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
+							"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⠴⢶⣿⡿⢁⣽⣿⣺⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣯⢟⣿⣟⡾⣽⢳⣻⣿⣿⣿⣿⣿⣝⣿⣿⣿⢿⣿⣿⣿⣿⣦⠜⣿⡶⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
+							"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠴⢛⣤⣴⣿⠟⣠⣾⡿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣚⡿⣞⣾⣿⣱⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣌⠿⢿⣿⣿⣿⣿⣆⢸⣿⣿⣵⣦⣄⣀⣠⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
+							"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣴⣤⣾⣿⣿⣿⣿⡏⣩⣽⣿⣽⣯⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣿⣯⣿⣿⣿⣶⣿⣾⣿⣿⣿⣿⣿⣿⣯⣿⣿⣿⣿⣾⣿⠿⣿⣿⣿⣆⣺⣿⣿⣿⣿⣿⣿⣿⣿⣦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
+							"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣴⣾⣽⣿⣿⣿⣿⣿⣿⣿⣻⣿⣿⣽⣾⣻⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⢿⣿⣿⣿⣿⣿⣽⣿⠿⣵⣿⣿⣿⣿⣿⣿⣿⣿⣼⢿⣿⣿⣿⣿⣟⡅⡾⣿⣿⣿⣽⣻⣿⣿⣶⡿⠿⠿⣿⣿⡷⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
+							"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⣴⣾⣿⣿⣿⣿⣯⣜⣿⣿⣿⣿⣿⣿⣯⣿⣿⣿⣿⣿⣿⣿⠟⡻⣿⣻⣿⡿⣿⠿⡇⠹⣿⣿⣿⣿⡿⢃⡾⡿⢻⠟⡛⢳⡟⢋⠻⣿⣿⣿⣿⣋⡟⢻⣿⣷⣦⣿⣿⣿⣟⣿⣿⣿⣿⣷⣀⢴⣯⣗⣷⣮⣗⣤⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
+							"⠀⠀⠀⠀⠀⠀⠀⢀⣠⣶⣻⣿⡿⣿⣟⣯⣿⣿⣿⣿⣿⣿⣿⣿⣿⢿⣿⣿⣿⡿⣏⡿⣿⣿⣿⡷⣽⢷⣻⡵⣎⣖⣤⡐⠠⣙⢯⣝⣮⡟⣧⡟⡷⣞⣴⡿⣾⣷⣿⣿⣿⢛⡿⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣻⣿⣟⣿⣿⣯⣛⣿⣿⣝⣿⣿⣯⣳⣄⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
+							"⠀⠀⠀⠀⠀⣠⣶⣿⣯⣿⢿⣿⣷⣾⣿⣯⣿⣿⣿⣿⣿⣿⣿⣿⣼⣿⣿⣿⣿⣧⢹⣏⠿⣿⣷⢿⣯⣟⣷⣿⣶⢭⢣⠝⡶⣉⠾⣞⡵⣟⣳⣽⣳⢯⣾⣷⣿⢯⣿⣿⣟⣿⡇⣾⣿⣷⣿⣯⣿⣿⣿⣿⣿⣿⣿⣿⡿⣭⣿⣭⣹⣿⣿⣿⡟⣿⣿⣿⣷⣄⡀⠀⠀⠀⠀⠀\r\n" + //
+							"⠀⠀⠀⢀⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣟⣽⣿⣿⡇⢿⡄⣿⣿⣺⣎⣟⡻⢷⡬⢛⡷⡎⣵⢊⣿⢼⣳⢯⡾⢶⣹⣮⣿⣿⣯⢿⣿⣿⣾⡟⢉⣿⣿⣿⡼⣿⣿⣿⣿⣿⣿⣿⡿⣾⣿⣯⣿⣷⣺⣿⣿⣿⣿⣿⣿⣻⣿⣿⡙⣦⡀⠀⠀⠀\r\n" + //
+							"⠀⠀⢠⡿⣿⣿⣯⣿⣿⣿⣿⣿⣯⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡷⡍⣿⣿⡏⢸⣧⣿⣿⣳⢿⣺⣽⡟⣻⣵⢢⢵⡨⢯⣽⣾⢿⣿⣋⣯⢧⣿⣿⣿⣾⢯⣿⣿⢻⣇⣼⣿⣿⣿⣇⢟⣿⣿⣿⣿⣿⣿⣿⣿⣿⣯⢩⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣷⣷⣄⠀⠀\r\n" + //
+							"⠀⢠⣾⣿⣿⣟⣿⣿⣿⣿⢿⣧⡻⣗⣻⣿⣿⣿⣿⣿⣿⣿⣿⣯⣿⣿⣗⢳⣿⠿⣷⢏⣿⢸⣾⡹⣏⣿⠼⡿⣅⢿⣷⡎⢷⣿⢿⡽⣳⣶⢯⠻⣿⣿⣯⢷⡿⣿⣿⣿⣫⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣛⣿⣿⣿⣿⣯⣹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣆⠀\r\n" + //
+							"⠰⠺⠿⠿⠿⠯⠿⠿⠿⠿⠿⠿⠿⠿⠷⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠮⠿⠿⠿⠿⠿⠿⠿⠷⠷⠾⠿⠶⠿⠷⠿⠿⠶⠾⠾⠾⠾⠿⠶⠿⠿⠷⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠷⠿⠿⠿⠿⠿⠿⠿⠿⠷⠿⠿⠿⠿⠿⠿⠦");
+		        }
 			
-			plyrChoice(uInput,X);//passing the scanner object to the function to reuse and write less lines of code
-			//also calling it after any part of the story is ran
-
-				
-			if (Map.getCurrentLocation().contains("Tiny Cave")) {
-				tinyCave(X);
-			} else if (Map.getCurrentLocation().contains("Soldier")) {
-				weakAlienSoldierF(X); 
-			} else if (Map.getCurrentLocation().contains("Alien slums")) { // Check player's current location and trigger specific scenes or fights
-			AlienSlums();  // call Alien slums function
-			}else if (Map.getCurrentLocation().contains("CrossRoads")) {
-				mountainCrossRoads(X, uInput);  
-			}else if (Map.getCurrentLocation().contains("Tunnel")) {
-				DPO("You keep on wandering through the tunnel....",35);
-			}else if (Map.getCurrentLocation().contains("Secret door")) {
-				DPO("You arrive at a secret entrance...",35);
-			}else if (Map.getCurrentLocation().contains("Mansion")) { //placed in order for efficiency
-			Mansion(X,uInput);
-			} else if (Map.getCurrentLocation().contains("Backyard")) {
-			backYard(X,uInput);	
-			}else if (Map.getCurrentLocation().contains("Ending")) {
-			ending(X, uInput);	
+		        if (Enemy.getName().equals("Blarbazop")) {
+		        	//just want to make the boss fight more engaging 
+		        	DPO(textBox("Blarbazop starts inching towards you, ready to attack"),35);
+		        }
+		        else {
+			        DPO(textBox("You encounter a " + Enemy.getName()),35);
+		        }
+			
+		        Thread.sleep(400);
+		        //combat loop
+		        while (X.getHP() > 0 && Enemy.getHP() > 0) {
+		        	//while main character HP and enemy HP arent below 0:
+		            try {
+		                System.out.println("\n\n\n");
+		                DPO("What would you like to do?",10);
+		                DPO("1 - Fight	2 - Sneak	3 - Use item\n",10);
+		                TimeUnit.SECONDS.sleep(2);
+		                //if user inputs 1, they fight, else 2, they sneak.
+		                userInp = imp.nextInt();
+		                if (userInp == 1) {
+		                    Attack(X,Enemy,X.getTTA());
+		                    //if the enemy gets slain, it skips the enemy's turn and goes straight to the cutscene
+		                    if (Enemy.getHP() <= 0) {
+		                        continue;
+		                    }
+		                }
+	
+		                else if (userInp == 2) {
+		                	if (Map.getCurrentLocation().contains("Backyard") || Map.getCurrentLocation().contains("Mansion")) {
+					//i made the decision to remove a players turn when they try to sneak, as to up the difficulty and make sure that
+		                	//they are 'punished' for thinking that they found a loophole. 
+		                		DPO("You try to make a run for it, with no success",25);
+		                		continue;
+		                	}
+		                	//This is the sneak chance, 1 in 3 chance of getting away.
+		                    int sneakCh = ThreadLocalRandom.current().nextInt(1,4);
+	
+		                    if (sneakCh == 1) {
+		                        DPO("You've successfully snuck away from the " + Enemy.getName(),10);
+		                        break;
+		                    }
+		                    else {
+		                        DPO("Oh no! The attempt to sneak was unsuccessful!",10);
+	
+		                    }
+		                }
+	
+		                else if (userInp == 3) {
+							Main.inventory.displayInventory();
+		                	//should check for inventory before allowing to use item.
+		                }
+	
+		                //if user inputs any other number or letter, an error is raised.
+		                else {
+		                    throw new ArithmeticException();
+		               }
+	
+		                Thread.sleep(400);
+	
+		                //enemy's turn.
+		                Attack(Enemy,X,attackTime); 
+		                
+	
+		                Thread.sleep(400);
+		                System.out.println("\nHP: " + X.getHP());
+		                System.out.println("Enemy HP: " + Enemy.getHP());
+		                Thread.sleep(1000);
+		            }
+		            catch(Exception ArithmeticException) {
+		                System.out.println("Please enter a proper number between 1 - 3");
+	
+		            }
+	
+		        }
+	
+	
+		        //if the enemy's HP is below or equal to zero, then the cutscene plays and u get whatever the enemy drops.
+		        if (Enemy.getHP() <= 0) {
+		            DPO("Enemy " + Enemy.getName() + " has been slained!",10 );
+		            DPO(Enemy.getName() + " has dropped a " + Enemy.getItem(),10);
+		            itemPickup(X,Enemy,imp);
+		            X.setHP(100);
+		            deadEnemies.add(Map.getCurrentLocation());
+		            //when the enemy dies, it adds the location of the map to the arraylist 
+		        }
+		        
+		        
+		        //if YOUR hp is below or equal to zero then u get the end game cutscene 
+		        if (X.getHP() <= 0) {
+		        	DPO("You fall to the ground as the mixture of blood and exhaustion finally becomes too much for you to handle",25);
+		        	DPO("\n\n100 years into the future....",25);
+		        	DPO("Ugly man:\n'ere lies my good friend, I never quite got their name but I call them " + X.getName() + " short for " + X.getName() + "inchi.",35);
+		        	DPO("The skeletal remains of what looked like a human can be seen, surrounded by an assortment of flowers that the Alien citizens seemed to have placed to pay their respects",25);
+				DPO("A poem sat by the edge of the skeleton's head, which read:",35);
+				DPO("The one to save us landed here,\nalthough gone, have no fear,\nfor the next prophet will rise,\nand cause Blarbazop's eventual demise.",45);
+		        	Main.welcome();
+		        }
+	        }
+	}
+	    
+	
+	
+	
+	//function for picking up items 
+	static void itemPickup(Character X, Alien Enemy,Scanner scanner) throws InterruptedException {
+		scanner.nextLine();
+		if(!Main.inventory.items.contains(Enemy.getItem())){
+			DPO("1. Pick up " + Enemy.getItem() + " (Press 0 to Leave item): ", 10);
+			int pickUp = scanner.nextInt();
+			if(pickUp == 1){
+				Main.inventory.pickUpItem(Enemy.getItem());
+			}
+			else if(pickUp == 0){
+				DPO("You decided to leave the " + Enemy.getItem() + " behind and continued on." , 10);
+			}
+			else{
+				DPO("INVALID INPUT... leaving the " + Enemy.getItem() + " behind and continuing on." , 10);
 			}
 		}
 	}
-
-	static void gameMenu(Scanner uInput, Character x) throws InterruptedException {
-
-		// Display the menu options before getting user input
-		System.out.println("\n\n1. View Map\n2. Show Inventory\n3. Back\n4. Quit");
-		
-		// Get user input
-		int choice = uInput.nextInt();
-	
-		// Handle menu choices using a switch statement
-		switch (choice) {
-			case 1:
-				// Call print map method
-				Map.printMap();
-				 //give a way back to the student
-				 if (backBtn(uInput)) { // if returned true it means input is valid
-					gameMenu(uInput,x); // call gameMenu
-				} else {
-					return;
-				}
-				break;
-	
-			case 2:
-				inventory.displayInventory();
-				if (backBtn(uInput)) { // if returned true meaning input is valid
-					gameMenu(uInput,x); // call gameMenu
-				} else {
-					return;
-				}
-				break;
-			case 3:
-			startGame(uInput, x);// go back to startgame passing the players stats
-				break;
-			case 4:
-				// Quit the game
-				System.out.println("Exiting game,\n Going back to start");
-				welcome(); //goes back to the start of game
-				break;
-	
-			default:
-				// Handle invalid input
-				System.out.println("Invalid input. Please choose a valid option.");
-				gameMenu(uInput, x);//call the fuction again
-		}
-	}
-	
-    static void plyrChoice(Scanner uInput, Character x) throws InterruptedException { //Recieves scanner object as a parameter
-        System.out.println("\nEnter direction to move (n, e, s, w) or enter 1 to display menu:");
+    static void Attack(Character X, Character Enemy, int AttackT) throws InterruptedException {
+    	//get initial attack time 
+    	//if the turns to attack are 0, then they can attack.
+    	if (X.getTTA() == 0) {
+	    	X.dmg(Enemy);
+	    	DPO(X.getName() + " attacks " + Enemy.getName() + " and deals " + X.getDmg() + " damage",10);
+	    	X.setTTA(AttackT);
+    	}
+    	else {
+             DPO("Enemy " + X.getName() + " is charging up their attack...",10);
+             X.setTTA(X.getTTA() - 1);
+    		}
+    		//TTA--
+    	
+    }
+    
+    
         
-        
-        if (uInput.hasNextInt()) {//Checks if the next input is an integer and if so it will execute that block 
-            int input = uInput.nextInt(); //If so then put it into the scanner int object
-            
-            // If input is '1', open the menu
-            if (input == 1) {
-                System.out.println("Menu");
-                gameMenu(uInput,x);
-            } else {
-                System.out.println("Invalid number. Only '1' is valid for menu.");
-            }
-        } else { // Else, treat the input as a string (for movement directions)
-            String dir = uInput.next().toLowerCase(); //Cap safe
-            
-            // validate their input otherwise print error msg
-            switch (dir) {
-                case "n":
-                case "e":
-                case "s":
-                case "w":
-                    Map.locationChange(dir);
-					//DPO("\n\n\n\n\nTravelling...................\n\n\n",55);
-					//DPO(textBox("You have arrived at: " + map.getCurrentLocation()),25);
-                    break;
-                default:
-                    System.out.println("Invalid direction. Please enter 'n', 'e', 's', or 'w'.");
-                    break;
-            }
+    //TECHNICALLY.... you can avoid extra lines of code by going main.DPO but it also adds more characters by having the need to type main everytime
+    //so i went with copy n pasting the functions. 
+    static void DPO(String str, long delay) throws InterruptedException {
+    	//for character in string that has been turned into a list, print out the character after a certain amount of milliseconds.
+        System.out.println();
+        for (char ch : str.toCharArray()) {
+            System.out.print(ch);
+            TimeUnit.MILLISECONDS.sleep(delay);
         }
     }
-
-	static boolean backBtn(Scanner uInput) throws InterruptedException {//gets scanner passed as parameter
-		System.out.println("\nPress 1 to go back");//initially prints msg
-		boolean valid = true;//set initial value to true in the outer scope
-
-	if (uInput.hasNextInt()) { //if the user input contains an integer then go through with the next loop
-		int input = uInput.nextInt();
-		if (input == 1){// now is that input 1 or is it a diffrent number
-		return valid;	
-		} else {
-		System.out.println("Invalid number.");
-		return !valid;
-		}
-	} else { // if the user input does not contain an integer then just print that message below and return false
-		System.out.println("Invalid Input, Please try again.");
-		return !valid;
-	}
-	}
     
     
-    
-//=--------------------------------------------------------------------
-    //MAIN 
-    
-    
-    
-    public static void main(String[] args) throws InterruptedException {
-		welcome();
-		//Character t1 = new Character("d",50,100,0);
-    	//backYard(t1);
-        
-        
-    }
-    
-    
-    //-----------------------------------------------
-    
-	static void SceneOne(Character x, Scanner scanner) throws InterruptedException {
-		int userChoice;
-		DPO(textBox("WARNING!"),10);
-		DPO("Initiating scheduled update in 3 minutes. Please ensure your system is shut off at this time....",20);
-		Thread.sleep(400);
-		DPO("The system's warnings blared through the spaceship speakers, with flashing red lights now beginning to fill the room.",10);
-		DPO( x.getName() + ":\nOH moon DOGGIE, I completely forgot about this.",20);
-		Thread.sleep(400);
-		DPO("You hastily tap on the system radar, trying to view the last scan.\n",15);
-		DPO(x.getName() + ":\nCmon cmon...\n\n",25);
-		Thread.sleep(1000);
-		DPO(textBox("INITIATING EMERGENCY LANDING"),10);
-		Thread.sleep(500);
-		DPO("You stare in horror as the spaceship autopilot takes control and begins to veer itself onto an unknown sphere\n",10);
-		DPO(textBox("LANDING COMPLETE. SYSTEM UNABLE TO COMPLETE UPDATE. SIGNAL STRENGTH WEAK"),25);
-		DPO("\n1 - search for antenna",10);
-		boolean cont = false;
-		while (!cont) {
-			try {
-				userChoice = scanner.nextInt();
-				if (userChoice == 1) {
-					DPO("You rummage through a pile of old junk before finally obtaining the antenna.\n",25);
-					DPO(textBox("NEW ITEM UNLOCKED: antenna"),10);
-					cont = true;
-				}
-				else {
-					DPO("Please enter 1",10);
-				}
-			}
-			catch (Exception e) {
-				System.out.println("Please enter a number");
-				scanner.next();
-				continue;
-			}
-		}
-		DPO("1 - place antenna on roof		2 - place antenna on hood",10);
-		userChoice = scanner.nextInt();
-		if (userChoice == 1) {
-			DPO("You head up to the roof and carefully place the antenna onto the tip of the spaceship",25);
-		}
-		else if (userChoice == 2) {
-			DPO("You pop open the spaceship’s hood and attempt to place the antenna",25);
-		}
-		
-		System.out.println("\n\n\n   _______          ______   ____   _____ _    _ _ "+
-				"\n  / ____\\ \\        / / __ \\ / __ \\ / ____| |  | | |\n"
-				+ " | (___  \\ \\  /\\  / / |  | | |  | | (___ | |__| | |\n"
-				+ "  \\___ \\  \\ \\/  \\/ /| |  | | |  | |\\___ \\|  __  | |\n"
-				+ "  ____) |  \\  /\\  / | |__| | |__| |____) | |  | |_|\n"
-				+ " |_____/    \\/  \\/   \\____/ \\____/|_____/|_|  |_(_)");
-		Thread.sleep(1000);
-		
-		System.out.print("\n\n\nJock Bird:");
-		DPO("CAW CAW!! Dork.",25);
-		Thread.sleep(400);
-		DPO("\nan unknown winged creature swoops down upon you and snatches the antenna\n",25);
-		
-		DPO(x.getName() + ":\nHEY IM NOT A DORK!!!! YOU GIVE THAT BACK!!!!!!!.... AND YOU TAKE THAT BACK!!!",25);
-		
-		DPO("1 - chase after bird 		2 - Look down and ponder",25);
-		userChoice = scanner.nextInt();
-		if (userChoice == 2) {
-			DPO("After some pondering",10);
-		}
-		DPO("You chase after the bird, yelling obscenities and pleading for the bird to rethink it’s decision.\nSuddenly, the bird starts circling back, dropping something towards you.\n\n",25);
-		DPO(x.getName() + ":\nYES!! THANK YOU FOR MY ANTENNA",35);
-		Thread.sleep(400);
-		
-		System.out.println("\n\n\n  _____  _      ____  _____  \n"
-				+ " |  __ \\| |    / __ \\|  __ \\ \n"
-				+ " | |__) | |   | |  | | |__) |\n"
-				+ " |  ___/| |   | |  | |  ___/ \n"
-				+ " | |    | |___| |__| | |     \n"
-				+ " |_|    |______\\____/|_| ");
-		Thread.sleep(1000);
-		DPO("\nAn abhorrent smell reeks from the blob of brown substance on the ground before you.",25);
-		DPO("You shake your first at the bird, whose figure was now barely visible, as it flew further and further away",25);
-		DPO(x.getName() + ":\nCOSMIC PEST!!\n\n",35);
-		DPO(textBox("A voice loomed in the distance"),15);
-		Thread.sleep(400);
-		DPO("\n?????:\nYou alright there partner? Haven’t seen a spaceship xxx999 except on the galactic screen",35);
-		
-		DPO("\nYou turn around and awkwardly meet a face that only a mother could love\n",25);
-		
-		System.out.println("\n                _\r\n"
-				+ "            ,.-\" \"-.,\r\n"
-				+ "           /   ===   \\\r\n"
-				+ "          /  =======  \\\r\n"
-				+ "       __|  (o)   (0)  |__      \r\n"
-				+ "      / _|    .---.    |_ \\         \r\n"
-				+ "     | /.----/ O O \\----.\\ |       \r\n"
-				+ "      \\/     |     |     \\/        \r\n"
-				+ "      |                   |            \r\n"
-				+ "      |                   |           \r\n"
-				+ "      |                   |          \r\n"
-				+ "      _\\   -.,_____,.-   /_         \r\n"
-				+ "  ,.-\"  \"-.,_________,.-\"  \"-.,");
-		
-		for (int i = 2; i >= 0 ; i--) {
-			DPO("1 - take a step back",25);
-			
-			userChoice = scanner.nextInt();
-			
-			//simple loop for comedy aspect. once the iteration hits 0 it continues automatically 
-			if (userChoice == 1) {
-				if (i == 0) {
-					continue;
-				}
-				DPO("You are unable to take a step back, STUNNED BY UGLINESS (" + i + " turn(s)) ",25);	
-			}
-			else {
-				DPO("Please pick the number 1.",25);
-				i ++;
-			}
-		}
-		
-		DPO("\n\n\nYou finally regain your speech",25);
-		DPO(x.getName() + ":\nYeah... Thanks...",35);
-		
-		DPO("\nThe ugly man noticed you slowly backing away and frowned, puzzled.",25);
-		DPO("Ugly man:\nDid I say somethin to upset ye? Or is it my breath? I’ve only had fermented eggs this mornin",35);
-		
-		DPO(x.getName() + ":\nUhm.. oh no..its just.. I've had a lot on my mind recently, a large bird just took something important from me.\n",35);
-		
-		DPO("Ugly man:\nOh yea i saw that, that'll be Blarbazops little pet. Hes the biggest thief. \nMatter a fact the reason why everyone is poor here. He just keeps stealing our things that are valuable\n",35);
-		
-		DPO(x.getName() + ":\nWell whatever that 'thing' is, he stole the antenna that I need to get home so i need to find that *bleep blap* and get my antenna back from him. Sad thing is, I dont know where it went.",35);
-		
-		DPO("\nUgly man:\nTo find him you have to climb that mountain….uhhmm oh no this other one… orrrr umm maybe the ones back that way. You know what Ill just give you my map. I dont leave my farm anyways\n",35);
-		
-		DPO(textBox("NEW ITEM UNLOCKED: map"),25);
-		DPO("\n\n",35);
-		Map.printMap();
-		
-		
-    }
-
-    
-    
-	static void AlienSlums() throws InterruptedException {
-		Scanner sc = new Scanner(System.in);
-		int userChoice;
-	
-		DPO("You arrive in a wasteland riddled with less ugly aliens. It looks like this is their version of a market.", 25);
-		DPO("1 - Go to merchant  2 - Keep on walking", 25);
-		userChoice = sc.nextInt();
-
-		if (userChoice == 1) {
-			// Interact with the merchant
-			MerchantSystem.Merchant merchant = new MerchantSystem.Merchant();
-			boolean shopping = true;
-			while (shopping) {
-				merchant.displayInventory();
-				DPO("Which item would you like to buy? (Enter the item number or 0 to exit)", 10);
-				int itemChoice = sc.nextInt();
-	
-				if (itemChoice == 0) {
-					shopping = false; // Exit shopping
-				} else {
-					MerchantSystem.Item boughtItem = merchant.buyItem(itemChoice - 1, inventory);
-					if (boughtItem != null) {
-						inventory.addItem(boughtItem.toString());
-						DPO("You bought: " + boughtItem + "\n\n", 10);
-					} else {
-						DPO("You could not buy that item.", 10);
-					}
-				}
-			}
-		} else if (userChoice == 2) {
-			// Move past the alien slums 
-			DPO("You decide to keep walking, leaving the market behind.", 25);
-		}
-	}
-	static void Mansion(Character X, Scanner scanner) throws InterruptedException {
-    	DPO("You arrive at the frontyard of a massive mansion, surrounded by golden gates and a delectable collection of trinkets",25);
-    	while (true) {
-        	DPO("1 - Open front door	2 - Head to backyard",25);
-        	int userInp = scanner.nextInt();
-        	if (userInp == 1) {
-        		DPO("Your height limits you from being able to reach the door handle.",25);
-        		
-        	}
-        	else if (userInp == 2) {
-        		DPO("You head to the backyard",25);
-        		Map.movePlayer(1, 2); 
-        		backYard(X,scanner);
-        		//travel to backyard
-        		break;
-        	}
-    	}
-    }
-	
-	static void tinyCave(Character X) throws InterruptedException {
-		
-		DPO("You step foot into the dark cave and hear..\n\n",35);
-		
-		System.out.println("░▒▓███████▓▒░ ░▒▓██████▓▒░ ░▒▓██████▓▒░░▒▓███████▓▒░░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░ \r\n"
-		+ "░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░ \r\n"
-		+ "░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░ \r\n"
-		+ "░▒▓███████▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓████████▓▒░▒▓███████▓▒░░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░ \r\n"
-		+ "░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░ \r\n"
-		+ "░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░                   \r\n"
-		+ "░▒▓█▓▒░░▒▓█▓▒░░▒▓██████▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░ \r\n"
-		+ "                                                                       ");
-		
-		wingedbearF(X);
-	}
-
-	static void backYard(Character X,Scanner scanner) throws InterruptedException {
-		DPO("Upon arrival, the bird who stole your antenna notices you.",25);
-		DPO("Jock Bird:\nCAW CAW. DORK, DORK\n",35);
-		DPO("Blarbazop:\nWhat are you doing here!! Chris Hansen kill that stranger!!!!!\n",35);
-		DPO("Chris Hansen(Previously known as Jock Bird):\nCAWWWWWW!",35);
-		System.out.println("\n\n\n   _______          ______   ____   _____ _    _ _ "+
-		"\n  / ____\\ \\        / / __ \\ / __ \\ / ____| |  | | |\n"
-		+ " | (___  \\ \\  /\\  / / |  | | |  | | (___ | |__| | |\n"
-		+ "  \\___ \\  \\ \\/  \\/ /| |  | | |  | |\\___ \\|  __  | |\n"
-		+ "  ____) |  \\  /\\  / | |__| | |__| |____) | |  | |_|\n"
-		+ " |_____/    \\/  \\/   \\____/ \\____/|_____/|_|  |_(_)");
-		wingedCreatureMiniBoss(X);
-		DPO("You hastily make a run for the antenna, before hearing a loud siren",25);
-		DPO(textBox("LOCK DOWN INITIATING... INTRUDER DETECTED...."),25);
-		DPO("You look up in horror as the gates, once still and devoid of life, had begun to transform itself into an impenetrable fortress, blocking each and every crevice of the area.",25);
-
-		System.out.println("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡠⠔⠀⠀⢀⣀⣤⣶⣴⣶⣶⣿⣿⣿⣷⣾⣷⣤⡀⠐⢄⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
-						"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⠔⠋⠀⣀⣴⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣍⠺⣿⣿⣤⣈⠢⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
-						"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡚⠁⣀⣴⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣖⣿⣿⣿⣿⣷⣌⠢⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
-						"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣊⣴⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
-						"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
-						"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣬⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
-						"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢿⣿⣿⣿⣿⢿⡿⣿⣿⡿⣽⣟⣟⣿⣿⣿⣻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
-						"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣻⣞⡿⣟⣿⣻⣿⡷⣟⣷⣿⣻⡿⢿⡿⣿⣽⣾⣿⣿⢿⣿⣿⣿⣿⣿⣿⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
-						"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣻⣶⣿⣱⣯⣿⣾⣿⣷⠿⢟⢻⢖⣣⣟⣬⣷⣿⣿⣿⣽⣽⣿⣿⣿⣿⣿⣿⣿⣇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
-						"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⣮⣷⣿⣛⣫⣤⣶⠿⣶⣟⣿⣯⢽⣽⣾⣟⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣿⣷⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
-						"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⣽⠾⣽⣿⣿⣷⣯⣿⣿⣟⣻⣿⣯⣿⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
-						"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⡿⣟⣯⣿⣷⣿⣿⣿⣿⣯⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
-						"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⣟⣿⣽⣿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⣿⣿⣿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
-						"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢻⣿⣿⣿⣿⣿⣷⣿⣿⢟⣷⡿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡏⣉⠛⣿⣿⣿⢿⣿⣿⡿⣶⣟⠙⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
-						"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⡿⣫⣾⣿⣿⣿⣿⣯⣿⣿⣧⣻⢿⣟⣸⠿⢿⣿⣿⣿⣿⣿⣾⣿⠿⣿⣙⠿⡿⢃⣿⣿⣷⣺⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
-						"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠯⢹⣴⣴⣿⣿⣿⣿⣻⣿⣿⣿⣿⣶⣉⠋⠙⣛⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
-						"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⢟⣭⣿⣻⣿⣿⣿⣿⣿⣿⣿⡷⣭⣿⣿⣿⣿⣿⣷⣽⣟⢻⡛⢭⠧⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
-						"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣭⣿⣵⣿⣿⣿⣿⣿⣿⣿⣿⣿⣳⣿⣿⣿⣿⣿⣿⢿⣿⣷⣮⣽⢞⣾⣿⣿⣿⣿⡿⠁⢹⡿⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
-						"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⣿⣿⣿⡏⠉⠉⢻⣿⣿⡿⠿⡿⣷⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠀⠀⢸⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
-						"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣲⡏⣻⢟⣿⣷⣆⣱⣾⣿⣿⣿⣙⣦⢻⣿⣿⣿⣿⣿⣿⣿⣿⡿⠁⠀⠀⠸⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
-						"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⣧⢿⣽⣿⣿⣿⣿⣿⣿⣿⣿⣿⣟⠧⣛⡿⣿⣿⣿⣿⣿⣿⡿⠁⠀⠀⠀⠀⣧⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
-						"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠻⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣯⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣯⢷⣽⣿⣿⣿⣿⠿⠁⠀⠀⠀⠀⠀⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
-						"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠛⣿⣿⣿⣷⣿⣿⣿⣿⣿⣿⣭⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⠀⠀⠀⠀⠀⠀⠀⠀⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
-						"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢹⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⣿⣿⣿⣿⢿⣿⣿⣿⣿⣿⣿⣿⣿⠃⠀⠀⠀⠀⠀⠀⠀⠀⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
-						"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
-						"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣇⠀⠀⠀⠀⠀⠀⠀⠀⢠⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
-						"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣯⣟⣷⣿⣷⣾⣽⣿⣿⣿⣿⣿⣿⣿⣿⣿⣤⠤⡀⠀⠀⠀⠀⠀⠸⡿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
-						"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢼⡏⢲⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
-						"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢤⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣼⡷⠲⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
-						"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣿⣿⣿⡿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⡎⢦⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
-						"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⢞⠋⣡⣾⣿⣿⣴⣿⣿⣿⣿⣿⣿⣿⣿⣟⡿⡟⢯⣩⢗⣯⣻⣿⢿⣟⣾⣿⣿⣿⣿⣿⡿⢿⣿⣿⣷⣿⣿⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
-						"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣴⡿⠖⣼⣿⣿⣿⣿⣿⣿⣿⣿⡿⣿⣿⣿⣿⣿⣼⢫⢏⡵⢯⣶⣿⡿⣯⢾⣽⣿⣿⣿⣿⣿⣷⣿⣿⣿⣿⣿⣭⡳⠤⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
-						"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⠴⢶⣿⡿⢁⣽⣿⣺⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣯⢟⣿⣟⡾⣽⢳⣻⣿⣿⣿⣿⣿⣝⣿⣿⣿⢿⣿⣿⣿⣿⣦⠜⣿⡶⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
-						"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠴⢛⣤⣴⣿⠟⣠⣾⡿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣚⡿⣞⣾⣿⣱⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣌⠿⢿⣿⣿⣿⣿⣆⢸⣿⣿⣵⣦⣄⣀⣠⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
-						"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣴⣤⣾⣿⣿⣿⣿⡏⣩⣽⣿⣽⣯⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣿⣯⣿⣿⣿⣶⣿⣾⣿⣿⣿⣿⣿⣿⣯⣿⣿⣿⣿⣾⣿⠿⣿⣿⣿⣆⣺⣿⣿⣿⣿⣿⣿⣿⣿⣦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
-						"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣴⣾⣽⣿⣿⣿⣿⣿⣿⣿⣻⣿⣿⣽⣾⣻⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⢿⣿⣿⣿⣿⣿⣽⣿⠿⣵⣿⣿⣿⣿⣿⣿⣿⣿⣼⢿⣿⣿⣿⣿⣟⡅⡾⣿⣿⣿⣽⣻⣿⣿⣶⡿⠿⠿⣿⣿⡷⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
-						"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⣴⣾⣿⣿⣿⣿⣯⣜⣿⣿⣿⣿⣿⣿⣯⣿⣿⣿⣿⣿⣿⣿⠟⡻⣿⣻⣿⡿⣿⠿⡇⠹⣿⣿⣿⣿⡿⢃⡾⡿⢻⠟⡛⢳⡟⢋⠻⣿⣿⣿⣿⣋⡟⢻⣿⣷⣦⣿⣿⣿⣟⣿⣿⣿⣿⣷⣀⢴⣯⣗⣷⣮⣗⣤⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
-						"⠀⠀⠀⠀⠀⠀⠀⢀⣠⣶⣻⣿⡿⣿⣟⣯⣿⣿⣿⣿⣿⣿⣿⣿⣿⢿⣿⣿⣿⡿⣏⡿⣿⣿⣿⡷⣽⢷⣻⡵⣎⣖⣤⡐⠠⣙⢯⣝⣮⡟⣧⡟⡷⣞⣴⡿⣾⣷⣿⣿⣿⢛⡿⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣻⣿⣟⣿⣿⣯⣛⣿⣿⣝⣿⣿⣯⣳⣄⠀⠀⠀⠀⠀⠀⠀⠀\r\n" + //
-						"⠀⠀⠀⠀⠀⣠⣶⣿⣯⣿⢿⣿⣷⣾⣿⣯⣿⣿⣿⣿⣿⣿⣿⣿⣼⣿⣿⣿⣿⣧⢹⣏⠿⣿⣷⢿⣯⣟⣷⣿⣶⢭⢣⠝⡶⣉⠾⣞⡵⣟⣳⣽⣳⢯⣾⣷⣿⢯⣿⣿⣟⣿⡇⣾⣿⣷⣿⣯⣿⣿⣿⣿⣿⣿⣿⣿⡿⣭⣿⣭⣹⣿⣿⣿⡟⣿⣿⣿⣷⣄⡀⠀⠀⠀⠀⠀\r\n" + //
-						"⠀⠀⠀⢀⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣟⣽⣿⣿⡇⢿⡄⣿⣿⣺⣎⣟⡻⢷⡬⢛⡷⡎⣵⢊⣿⢼⣳⢯⡾⢶⣹⣮⣿⣿⣯⢿⣿⣿⣾⡟⢉⣿⣿⣿⡼⣿⣿⣿⣿⣿⣿⣿⡿⣾⣿⣯⣿⣷⣺⣿⣿⣿⣿⣿⣿⣻⣿⣿⡙⣦⡀⠀⠀⠀\r\n" + //
-						"⠀⠀⢠⡿⣿⣿⣯⣿⣿⣿⣿⣿⣯⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡷⡍⣿⣿⡏⢸⣧⣿⣿⣳⢿⣺⣽⡟⣻⣵⢢⢵⡨⢯⣽⣾⢿⣿⣋⣯⢧⣿⣿⣿⣾⢯⣿⣿⢻⣇⣼⣿⣿⣿⣇⢟⣿⣿⣿⣿⣿⣿⣿⣿⣿⣯⢩⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣷⣷⣄⠀⠀\r\n" + //
-						"⠀⢠⣾⣿⣿⣟⣿⣿⣿⣿⢿⣧⡻⣗⣻⣿⣿⣿⣿⣿⣿⣿⣿⣯⣿⣿⣗⢳⣿⠿⣷⢏⣿⢸⣾⡹⣏⣿⠼⡿⣅⢿⣷⡎⢷⣿⢿⡽⣳⣶⢯⠻⣿⣿⣯⢷⡿⣿⣿⣿⣫⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣛⣿⣿⣿⣿⣯⣹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣆⠀\r\n" + //
-						"⠰⠺⠿⠿⠿⠯⠿⠿⠿⠿⠿⠿⠿⠿⠷⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠮⠿⠿⠿⠿⠿⠿⠿⠷⠷⠾⠿⠶⠿⠷⠿⠿⠶⠾⠾⠾⠾⠿⠶⠿⠿⠷⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠷⠿⠿⠿⠿⠿⠿⠿⠿⠷⠿⠿⠿⠿⠿⠿⠦");
-		DPO("Blarbazop:\nYou have killed my favourite pet, the only creature that I viewed as an equal in this mundane hellscape of a planet.",35);
-		DPO("\nYou inch away, spouting out mumbled apologies and desperately searching for a possible escape",25);
-		DPO("Blarbazop:\nI hope you don't believe that you're getting away with this.",35);
-		Map.movePlayer(1, 1);
-		finalBoss(X);
-		ending(X,scanner);
-		
-
-	}
-	
-	
-	static void mountainCrossRoads(Character X, Scanner scanner) throws InterruptedException {
-		scanner.nextLine();
-		DPO("The sight of a luscious green mountain coupled with an amazing waterfall greets your eyes.",25);
-		DPO("Where would you like to go?\n1 - Waterfall		2 - Mountain",25);
-		int userInp = scanner.nextInt();
-		if (userInp == 1) {
-			DPO("You walk beneath the waterfall and find a hidden tunnel, with ancient hieroglyphics scattered across the walls",25);
-			DPO("You stumble across a pot of gold, with a note which contained an unknown phrase",25);
-			DPO(textBox("NEW ITEM UNLOCKED: pot of gold"),25);
-			DPO(X.getName() + ":\nI wonder if I can use this to trade...",35);
-			Main.inventory.pickUpItem("pot of gold");
-			Map.movePlayer(3, 0);
-			
-			}
-		else if (userInp == 2) {
-			DPO("You hike up the steep mountain...",25);
-			slothF(X);
-			Map.movePlayer(2, 1);
-			}
-		}
-
-	static void ending(Character x,Scanner scanner) throws InterruptedException {
-		scanner.nextLine();
-		DPO("You take a deep breath of relief and walk up to grab your antenna before noticing the ugly man you had met from earlier, who seemed somehow even uglier than before.",25);
-		
-		System.out.println("\n                _\r\n"
-				+ "            ,.-\" \"-.,\r\n"
-				+ "           /   ===   \\\r\n"
-				+ "          /  =======  \\\r\n"
-				+ "       __|  (-)   (-)  |__      \r\n"
-				+ "      / _|   |.---.|   |_ \\         \r\n"
-				+ "     | /.----/ O O \\----.\\ |       \r\n"
-				+ "      \\/     |     |     \\/        \r\n"
-				+ "      |                   |            \r\n"
-				+ "      |                   |           \r\n"
-				+ "      |                   |          \r\n"
-				+ "      _\\   -.,_____,.-   /_         \r\n"
-				+ "  ,.-\"  \"-.,_________,.-\"  \"-.,");
-		DPO("Ugly man(sniffling):\nAll praise the prophet. Oh holy is the day you have freed us from that evil evil man. Please stay back and guid us back into building our society. Help us live the golden days again.",35);
-		DPO("What would you like to do?\n1 - stay and rule 		2 - return back to your planet",25);
-		int userInp = scanner.nextInt();
-		if (userInp == 1) {
-			DPO("\n'OH BLESSED THEE!'\nThe ugly man exclaimed, wrapping his wrinkly arms around you\n",25);
-			DPO(x.getName() + ":\nOkay okay, that's enough...\nYou inch away from the ugly man, still trying to wrap your brain around everything that has happened over the past few days",25);
-			DPO("You carefully place the crown on top of your head.",25);
-			DPO("'I guess this is home now.'",35);
-			System.exit(userInp);
-		}
-		
-		else if (userInp == 2) {
-			DPO("\n" + x.getName() + ":\nSorry but I can't just pick up and leave like that.",35);
-			DPO("You try to avoid the ugly man's gaze, as his tears, once filled with joy were now overrun by sadness\n",25);
-			DPO(x.getName() + ":\nI'll still come and visit though!",35);
-			DPO("After waiting for the ugly man to calm down, you head back to the spaceship and attach the antenna onto the rooftop before finally being able to start the update",25);
-			DPO(textBox("UPDATE COMPLETE"),25);
-			DPO("By now, the sun had started to set and before starting up the engine, you gazed back at the planet solemnly as it finally sets in that you will have to return to your mundane life as a cog in the machine.",25);
-			System.exit(userInp);
-		}
-	}
-    
-    
-    //fights to gain items. 
-    static void wingedbearF(Character x) throws InterruptedException {
-    	//initiates the first player fight with a winged bear
-    	Alien WingedBear = new Alien("Winged Bear",10,35,0,"pair of Bear Claws");
-    	Combat.combat(x,WingedBear);
-    }
-    
-    static void weakAlienSoldierF(Character x) throws InterruptedException {
-    	Alien soldier = new Alien("Weak Alien Soldier",10,25,0,"Rusty Sword");
-    	Combat.combat(x, soldier);
-    }
-    
-    static void slothF(Character x) throws InterruptedException {
-    	Alien sloth = new Alien("Sloth",50,50,3,"pair of Sloth Claws");
-    	Combat.combat(x, sloth);
-    }
-
-	static void wingedCreatureMiniBoss(Character x) throws InterruptedException{
-		Alien jock = new Alien("Jock Bird",50,50,0,"Antenna");
-		Combat.combat(x, jock);
-	}
-
-	static void finalBoss(Character x) throws InterruptedException{
-		Alien finalBoss = new Alien("Blarbazop",75,120,2,"Crown");
-		Combat.combat(x,finalBoss);
-	}
-
-
     static String textBox(String str) {
     	//function for a framed word 
     	String d = "";
@@ -586,14 +295,5 @@ public class Main{
     	}
     	
     	return d;
-    }
-
-    static void DPO(String str, long delay) throws InterruptedException {
-    	//for character in string that has been turned into a list, print out the character after a certain amount of milliseconds.
-        System.out.println();
-        for (char ch : str.toCharArray()) {
-            System.out.print(ch);
-            TimeUnit.MILLISECONDS.sleep(delay);
-        }
     }
 }
