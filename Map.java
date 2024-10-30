@@ -64,7 +64,9 @@ public class Map {
             return; // Stop and return nothing --- Later on we will have to return another function
                     // to enable movement again
         }
-
+        
+        movePlayer(x, y); // Move player to new coordinates
+        
         if (grid[x][y].equals("|      🌲     |")) {
             System.out.println("You can't move to an empty space. Try a different direction.");
             return; // Do not move player and return nothing if they are at empty space
@@ -73,7 +75,7 @@ public class Map {
 			System.out.println("You have arrived at: " + getCurrentLocation());
         }
 
-        movePlayer(x, y); // Move player to new coordinates
+        
     }
 
     private void initializeMap() { // Initilize 2d grid with String values assigned to each location
