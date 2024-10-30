@@ -63,7 +63,7 @@ public class Main{
 			Mansion(x,uInput);
 			} else if (Map.getCurrentLocation().contains("Backyard")) {
 			backYard(x);	
-			}else if (Map.getCurrentLocation().contains("Ending")) {
+			}else if (Map.getCurrentLocation().contains("🌲🌲")) {
 			ending(x, uInput);	//pass the character and scanner down
 			}
 		}
@@ -176,13 +176,12 @@ public class Main{
     
     
     
-//=--------------------------------------------------------------------
+//=------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     //MAIN 
     
     
     
     public static void main(String[] args) throws InterruptedException {
-		Map.printMap();
 		welcome();
 		//Character t1 = new Character("d",50,100,0);
     	//backYard(t1);
@@ -191,7 +190,7 @@ public class Main{
     }
     
     
-    //-----------------------------------------------
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     
 	static void SceneOne(Character x, Scanner scanner) throws InterruptedException {
 		int userChoice;
