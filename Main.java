@@ -55,10 +55,14 @@ public class Main{
 			AlienSlums();  // call Alien slums function
 			}else if (Map.getCurrentLocation().contains("CrossRoads")) {
 				mountainCrossRoads(X, uInput);  
-			} else if (Map.getCurrentLocation().contains("Mansion")) { //placed in order for efficiency
+			}else if (Map.getCurrentLocation().contains("Tunnel")) {
+				DPO("You keep on wandering through the tunnel....",35);
+			}else if (Map.getCurrentLocation().contains("Secret door")) {
+				DPO("You arrive at a secret entrance...",35);
+			}else if (Map.getCurrentLocation().contains("Mansion")) { //placed in order for efficiency
 			Mansion(X,uInput);
 			} else if (Map.getCurrentLocation().contains("Backyard")) {
-			backYard(X);	
+			backYard(X,uInput);	
 			}else if (Map.getCurrentLocation().contains("Ending")) {
 			ending(X, uInput);	
 			}
