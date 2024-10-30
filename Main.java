@@ -8,7 +8,7 @@ public class Main{
 	static void welcome() throws InterruptedException { //renamed to avoid naming conflicts
 		Scanner w = new Scanner(System.in);
 		int userInp;
-		DPO("Welcome to RPG game name here idk",10);
+		DPO("Welcome to Alien Lands",10);
 		System.out.println("\n\n1. Start game\n2. Quit");
 		userInp = w.nextInt();
 		
@@ -80,8 +80,10 @@ public class Main{
 				// Call print map method
 				map.printMap();
 				 //give a way back to the student
-				 if (backBtn(uInput)) { // if returned true meaning input is valid
+				 if (backBtn(uInput)) { // if returned true it means input is valid
 					gameMenu(uInput,x); // call gameMenu
+				} else {
+					return;
 				}
 				break;
 	
@@ -89,9 +91,10 @@ public class Main{
 				inventory.displayInventory();
 				if (backBtn(uInput)) { // if returned true meaning input is valid
 					gameMenu(uInput,x); // call gameMenu
+				} else {
+					return;
 				}
 				break;
-	
 			case 3:
 			startGame(uInput, x);// go back to startgame passing the players stats
 				break;
@@ -104,7 +107,7 @@ public class Main{
 			default:
 				// Handle invalid input
 				System.out.println("Invalid input. Please choose a valid option.");
-				break;
+				gameMenu(uInput, x);//call the fuction again
 		}
 	}
 	
@@ -142,14 +145,20 @@ public class Main{
         }
     }
 
-	static boolean backBtn(Scanner uInput) throws InterruptedException {
-		
-		System.out.println("\nPress 1 to go back");
-		int input = uInput.nextInt();boolean valid = true;
-	if (input == 1) {
-		return valid;
-	} else {
+	static boolean backBtn(Scanner uInput) throws InterruptedException {//gets scanner passed as parameter
+		System.out.println("\nPress 1 to go back");//initially prints msg
+		boolean valid = true;//set initial value to true in the outer scope
+
+	if (uInput.hasNextInt()) { //if the user input contains an integer then go through with the next loop
+		int input = uInput.nextInt();
+		if (input == 1){// now is that input 1 or is it a diffrent number
+		return valid;	
+		} else {
 		System.out.println("Invalid number.");
+		return !valid;
+		}
+	} else { // if the user input does not contain an integer then just print that message below and return false
+		System.out.println("Invalid Input, Please try again.");
 		return !valid;
 	}
 	}
@@ -173,20 +182,20 @@ public class Main{
     
     //-----------------------------------------------
     
-    static void SceneOne(Character x, Scanner scanner) throws InterruptedException {
+	static void SceneOne(Character x, Scanner scanner) throws InterruptedException {
 		int userChoice;
 		DPO(textBox("WARNING!"),10);
 		DPO("Initiating scheduled update in 3 minutes. Please ensure your system is shut off at this time....",20);
 		Thread.sleep(400);
 		DPO("The system's warnings blared through the spaceship speakers, with flashing red lights now beginning to fill the room.",10);
-		DPO("\n'OH moon DOGGIE, I completely forgot about this.'",20);
+		DPO( x.getName() + ":\nOH moon DOGGIE, I completely forgot about this.",20);
 		Thread.sleep(400);
 		DPO("You hastily tap on the system radar, trying to view the last scan.\n",15);
-		DPO("'Cmon cmon...'\n\n",25);
+		DPO(x.getName() + ":\nCmon cmon...\n\n",25);
 		Thread.sleep(1000);
 		DPO(textBox("INITIATING EMERGENCY LANDING"),10);
 		Thread.sleep(500);
-		DPO("The spaceship began to veer itself onto an unknown sphere\n",10);
+		DPO("You stare in horror as the spaceship autopilot takes control and begins to veer itself onto an unknown sphere\n",10);
 		DPO(textBox("LANDING COMPLETE. SYSTEM UNABLE TO COMPLETE UPDATE. SIGNAL STRENGTH WEAK"),25);
 		DPO("\n1 - search for antenna",10);
 		boolean cont = false;
@@ -228,17 +237,17 @@ public class Main{
 		System.out.print("\n\n\nJock Bird:");
 		DPO("CAW CAW!! Dork.",25);
 		Thread.sleep(400);
-		DPO("\nan unknown winged creature swoops down upon you and snatches the antenna",25);
+		DPO("\nan unknown winged creature swoops down upon you and snatches the antenna\n",25);
 		
-		DPO("\n'HEY IM NOT A DORK!!!! YOU GIVE THAT BACK!!!!!!!.... AND YOU TAKE THAT BACK!!!'",25);
+		DPO(x.getName() + ":\nHEY IM NOT A DORK!!!! YOU GIVE THAT BACK!!!!!!!.... AND YOU TAKE THAT BACK!!!",25);
 		
 		DPO("1 - chase after bird 		2 - Look down and ponder",25);
 		userChoice = scanner.nextInt();
 		if (userChoice == 2) {
 			DPO("After some pondering",10);
 		}
-		DPO("You chase after the bird, yelling obscenities and pleading for the bird to rethink it’s decision.\nSuddenly, the bird starts circling back, dropping something towards me.\n\n",25);
-		DPO("'YES. THANK YOU FOR MY ANTENNA'",35);
+		DPO("You chase after the bird, yelling obscenities and pleading for the bird to rethink it’s decision.\nSuddenly, the bird starts circling back, dropping something towards you.\n\n",25);
+		DPO(x.getName() + ":\nYES!! THANK YOU FOR MY ANTENNA",35);
 		Thread.sleep(400);
 		
 		System.out.println("\n\n\n  _____  _      ____  _____  \n"
@@ -249,14 +258,13 @@ public class Main{
 				+ " |_|    |______\\____/|_| ");
 		Thread.sleep(1000);
 		DPO("\nAn abhorrent smell reeks from the blob of brown substance on the ground before you.",25);
-		DPO("I shake my first at the bird, who’s appearance now seemed like a blur as it flew further and further away",25);
-		DPO("'COSMIC PEST!!'\n\n",35);
+		DPO("You shake your first at the bird, whose figure was now barely visible, as it flew further and further away",25);
+		DPO(x.getName() + ":\nCOSMIC PEST!!\n\n",35);
 		DPO(textBox("A voice loomed in the distance"),15);
 		Thread.sleep(400);
-		System.out.print("\n\n ?????:");
-		DPO("'You alright there partner? Haven’t seen a spaceship xxx999 except on the galactic screen'",35);
+		DPO("\n?????:\nYou alright there partner? Haven’t seen a spaceship xxx999 except on the galactic screen",35);
 		
-		DPO("\nYou turn around and awkwardly meet a person who has a face that only a mother could love\n",25);
+		DPO("\nYou turn around and awkwardly meet a face that only a mother could love\n",25);
 		
 		System.out.println("\n                _\r\n"
 				+ "            ,.-\" \"-.,\r\n"
@@ -272,28 +280,37 @@ public class Main{
 				+ "      _\\   -.,_____,.-   /_         \r\n"
 				+ "  ,.-\"  \"-.,_________,.-\"  \"-.,");
 		
-		for (int i = 2; i > 1 ; i--) {
+		for (int i = 2; i >= 0 ; i--) {
 			DPO("1 - take a step back",25);
 			
 			userChoice = scanner.nextInt();
+			
+			//simple loop for comedy aspect. once the iteration hits 0 it continues automatically 
 			if (userChoice == 1) {
+				if (i == 0) {
+					continue;
+				}
 				DPO("You are unable to take a step back, STUNNED BY UGLINESS (" + i + " turn(s)) ",25);	
+			}
+			else {
+				DPO("Please pick the number 1.",25);
+				i ++;
 			}
 		}
 		
 		DPO("\n\n\nYou finally regain your speech",25);
-		DPO("'Yeah... Thanks...'",35);
+		DPO(x.getName() + ":\nYeah... Thanks...",35);
 		
-		DPO("\nThe ugly man notices you slowly backing away and frowns, puzzled.",25);
-		DPO("'Ugly man:\nDid I say somethin to upset ye? Or is it my breath? I’ve only had fermented eggs this mornin'",35);
+		DPO("\nThe ugly man noticed you slowly backing away and frowned, puzzled.",25);
+		DPO("Ugly man:\nDid I say somethin to upset ye? Or is it my breath? I’ve only had fermented eggs this mornin",35);
 		
-		DPO("\n“Uhm.. oh no..its just.. I've had a lot on my mind recently, a large bird just took something important from me.\n",35);
+		DPO(x.getName() + ":\nUhm.. oh no..its just.. I've had a lot on my mind recently, a large bird just took something important from me.\n",35);
 		
-		DPO("Ugly man:\n'Oh yea i saw that, that'll be Blarbazops little pet. Hes the biggest thief. \nMatter a fact the reason why everyone is poor here. He just keeps stealing our things that are valuable'",35);
+		DPO("Ugly man:\nOh yea i saw that, that'll be Blarbazops little pet. Hes the biggest thief. \nMatter a fact the reason why everyone is poor here. He just keeps stealing our things that are valuable\n",35);
 		
-		DPO("\n'Well that thing he took was my only way to get back home so i need to find that *bleep blap* and get my antenna back from him. Sad thing is i dont know where it went.'",35);
+		DPO(x.getName() + ":\nWell whatever that 'thing' is, he stole the antenna that I need to get home so i need to find that *bleep blap* and get my antenna back from him. Sad thing is, I dont know where it went.",35);
 		
-		DPO("\nUgly man:\n'To find him you have to climb that mountain….uhhmm oh no this other one… orrrr umm maybe the ones back that way. You know what Ill just give you my map. I dont leave my farm anyways'\n",35);
+		DPO("\nUgly man:\nTo find him you have to climb that mountain….uhhmm oh no this other one… orrrr umm maybe the ones back that way. You know what Ill just give you my map. I dont leave my farm anyways\n",35);
 		
 		DPO(textBox("NEW ITEM UNLOCKED: map"),25);
 		DPO("\n\n",35);
@@ -349,6 +366,8 @@ public class Main{
         	}
         	else if (userInp == 2) {
         		DPO("You head to the backyard",25);
+        		map.setPlayerX(1);
+        		map.setPlayerY(2);
         		//travel to backyard
         		break;
         	}
@@ -422,6 +441,19 @@ public class Main{
 
 	}
 	
+	
+	static void mountainCrossRoads(Character x, Scanner scanner) throws InterruptedException {
+		DPO("The sight of a luscious green mountain coupled with an amazing waterfall greets your eyes.",25);
+		DPO("Where would you like to go?\n1 - Waterfall		2 - Mountain",25);
+		int userInp = scanner.nextInt();
+		if (userInp == 1) {
+			DPO("You walk beneath the waterfall and find a hidden tunnel, with ancient hieroglyphics scattered across the walls",25);
+			DPO("You stumble across a pot of gold, with a note which contained an unknown phrase",25);
+			DPO(textBox("NEW ITEM UNLOCKED: pot of gold"),25);
+			DPO("'I wonder if I can use this to trade...'",35);
+			}
+		}
+
 	static void ending(Character x,Scanner scanner) throws InterruptedException {
 		DPO("You take a deep breath of relief and walk up to grab your antenna before noticing the ugly man you had met from earlier, who seemed somehow even uglier than before.",25);
 		
@@ -443,33 +475,21 @@ public class Main{
 		int userInp = scanner.nextInt();
 		if (userInp == 1) {
 			DPO("\n'OH BLESSED THEE!'\nThe ugly man exclaimed, wrapping his wrinkly arms around you",25);
-			DPO("'Okay okay, that's enough...'\nYou inch away from the ugly man, still trying to wrap your brain around everything that has happened over the past few days",25);
+			DPO(x.getName() + ":\nOkay okay, that's enough...\nYou inch away from the ugly man, still trying to wrap your brain around everything that has happened over the past few days",25);
 			DPO("You pick up the crown from the ground, and carefully place it atop your head.",25);
 			DPO("'I guess this is home now.'",35);
 		}
 		
 		else if (userInp == 2) {
-			DPO("'Sorry but I can't just pick up and leave like that.'",35);
+			DPO(x.getName() + ":\nSorry but I can't just pick up and leave like that.",35);
 			DPO("You try to avoid the ugly man's gaze, as his tears, once filled with joy were now overrun by sadness",25);
-			DPO("'I'll still come and visit though!'",35);
+			DPO(x.getName() + ":\nI'll still come and visit though!",35);
 			DPO("After waiting for the ugly man to calm down, you head back to the spaceship and attach the antenna onto the rooftop before finally being able to start the update",25);
 			DPO(textBox("UPDATE COMPLETE"),25);
 			DPO("By now, the sun had started to set and before starting up the engine, you gazed back at the planet solemnly as it finally sets in that you will have to return to your mundane life as a cog in the machine.",25);
 			
 		}
 	}
-	
-	static void mountainCrossRoads(Character x, Scanner scanner) throws InterruptedException {
-		DPO("The sight of a luscious green mountain coupled with an amazing waterfall greets your eyes.",25);
-		DPO("Where would you like to go?\n1 - Waterfall		2 - Mountain",25);
-		int userInp = scanner.nextInt();
-		if (userInp == 1) {
-			DPO("You walk beneath the waterfall and find a hidden tunnel, with ancient hieroglyphics scattered across the walls",25);
-			DPO("You stumble across a pot of gold, with a note which contained an unknown phrase",25);
-			DPO(textBox("NEW ITEM UNLOCKED: pot of gold"),25);
-			DPO("'I wonder if I can use this to trade...'",35);
-			}
-		}
     
     
     //fights to gain items. 
