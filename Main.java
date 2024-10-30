@@ -488,7 +488,7 @@ public class Main{
 			DPO("After waiting for the ugly man to calm down, you head back to the spaceship and attach the antenna onto the rooftop before finally being able to start the update",25);
 			DPO(textBox("UPDATE COMPLETE"),25);
 			DPO("By now, the sun had started to set and before starting up the engine, you gazed back at the planet solemnly as it finally sets in that you will have to return to your mundane life as a cog in the machine.",25);
-			System.exit();
+			System.exit(userInp);
 		}
 	}
     

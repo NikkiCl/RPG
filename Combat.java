@@ -220,6 +220,7 @@ public class Combat {
 	
 	//function for picking up items 
 	static void itemPickup(Character X, Alien Enemy,Scanner scanner) throws InterruptedException {
+	if(!Main.inventory.items.contains(Enemy.getItem())){
 		DPO("1. Pick up " + Enemy.getItem() + " (Press 0 to Leave item): ", 10);
 		int pickUp = scanner.nextInt();
 		if(pickUp == 1){
@@ -232,7 +233,7 @@ public class Combat {
 			DPO("INVALID INPUT... leaving the " + Enemy.getItem() + " behind and continuing on." , 10);
 		}
 	}
-    
+	}
     static void Attack(Character X, Character Enemy, int AttackT) throws InterruptedException {
     	//get initial attack time 
     	//if the turns to attack are 0, then they can attack.
