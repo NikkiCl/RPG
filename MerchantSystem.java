@@ -60,7 +60,7 @@ class MerchantSystem {
         private boolean canAfford(Item item, InventorySystem characterInventory) {
             switch (item.name) {
                 case "Health Potion":
-                    return characterInventory.getItems().contains("Pot of Gold"); // requirements
+                    return characterInventory.getItems().contains("pot of gold"); // requirements
                 case "Sword":
                     return characterInventory.getItems().contains("pair of Bear Claws");
                 default:

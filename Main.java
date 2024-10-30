@@ -457,6 +457,7 @@ public class Main{
 			DPO("You stumble across a pot of gold, with a note which contained an unknown phrase",25);
 			DPO(textBox("NEW ITEM UNLOCKED: pot of gold"),25);
 			DPO("'I wonder if I can use this to trade...'",35);
+			Main.inventory.pickUpItem("pot of gold");
 			}
 		}
 
