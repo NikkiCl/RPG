@@ -4,7 +4,7 @@ public class Main{
 	static InventorySystem inventory = new InventorySystem();
 	static Map map = new Map();//Initialize the map object
 
-	static void welcome() throws InterruptedException { //renamed to avoid naming conflicts
+	static void welcome() throws InterruptedException { //renamed to avoid naming conflicts  // this is the method that greets the user and first interacts with them asking to confirm if they want to play
 		Scanner w = new Scanner(System.in);
 		int userInp;
 		DPO("Welcome to Alien Lands",10);
@@ -23,23 +23,23 @@ public class Main{
 	}
 	
 	
-	static void intro(Scanner uInput) throws InterruptedException {  //Recieves the scanner object as parameter and now seprated from startGame
+	static void intro(Scanner uInput) throws InterruptedException {  //Recieves the scanner object as parameter and now seprated from startGame    //This method actually initialises an instance of the Character class (the player) by getting their name and setting their stats
 		//user input
 		DPO("Enter your name: ",35);
 		String name = uInput.next();
 		//uses userinput to get name 
 		Character x = new Character(name,10,100);
 		//in this instance, whenever we refer to "x" we are referring to the main character aka the player.
-		startGame(uInput, x);
+		startGame(uInput, x); //pass down the scanner object and player down to the main play fuction
 
 	}
-	static void startGame(Scanner uInput, Character x) throws InterruptedException {  //Recieves the scanner object as parameter
+	static void startGame(Scanner uInput, Character x) throws InterruptedException {  //Recieves the scanner object and character as parameter    //This fuction sets an open loop without an end that keeps the player in the game until they exit from menue it plays scenes based on locations
 		
 		boolean isPlaying = true;// Main game loop, keeps running until/if broken in the menu otherwise almost infinate
 
-		if (map.getCurrentLocation().contains("Start")) { // execute scene one outside of loop to avoid calling plyrChoice before it
-			SceneOne(x,uInput);
-		}
+		//if (map.getCurrentLocation().contains("Start")) { // execute scene one outside of loop to avoid calling plyrChoice before it
+		//	SceneOne(x,uInput);
+		//}
 
 		while (isPlaying) {
 			
@@ -51,27 +51,27 @@ public class Main{
 				wingedbearF(x);
 			} else if (map.getCurrentLocation().contains("Soldier")) {
 				weakAlienSoldierF(x); 
-			} else if (map.getCurrentLocation().contains("Alien slums")) { // Check player's current location and trigger specific scenes or fights
+			} else if (map.getCurrentLocation().contains("Alien slums")) { // Check player's current location and trigger the related method containing the content
 			AlienSlums();  // call Alien slums function
 			}else if (map.getCurrentLocation().contains("Mountain")) {
 				mountainCrossRoads(x, uInput);  
-			} else if (map.getCurrentLocation().contains("Mansion")) { //placed in order for efficiency
+			} else if (map.getCurrentLocation().contains("Mansion")) { //placed in map order for efficiency
 			Mansion(x,uInput);
 			} else if (map.getCurrentLocation().contains("Backyard")) {
 			backYard(x);	
 			}else if (map.getCurrentLocation().contains("Ending")) {
-			ending(x, uInput);	
+			ending(x, uInput);	//pass the character and scanner down
 			}
 		}
 	}
 
-	static void gameMenu(Scanner uInput, Character x) throws InterruptedException {
+	static void gameMenu(Scanner uInput, Character x) throws InterruptedException {// This method is to be displayed when selected by the user and it calls other fuctions giving the user access to a bunch of things also looping back into the game to avoid errors
 
 		// Display the menu options before getting user input
 		System.out.println("\n\n1. View Map\n2. Show Inventory\n3. Display Stats\n4. Back\n5. Quit");
 		
-		// Get user input
-		int choice = uInput.nextInt();
+		
+		int choice = uInput.nextInt();// Get user input as int
 	
 		// Handle menu choices using a switch statement
 		switch (choice) {
@@ -118,7 +118,7 @@ public class Main{
 		}
 	}
 	
-    static void plyrChoice(Scanner uInput, Character x) throws InterruptedException { //Recieves scanner object as a parameter
+    static void plyrChoice(Scanner uInput, Character x) throws InterruptedException { //this method prompts the player to either enter a drection or call the menu after every scene used in the startGame while loop
         System.out.println("\nEnter direction to move (n, e, s, w) or enter 1 to display menu:");
         
         
@@ -152,7 +152,7 @@ public class Main{
         }
     }
 
-	static boolean backBtn(Scanner uInput) throws InterruptedException {//gets scanner passed as parameter
+	static boolean backBtn(Scanner uInput) throws InterruptedException {//This method streamlines the code and prevents repetetive code. just a back button to loop menus back to the main game and  validate the user input to prevent errors
 		System.out.println("\nPress 1 to go back");//initially prints msg
 		boolean valid = true;//set initial value to true in the outer scope
 
