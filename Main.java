@@ -38,9 +38,9 @@ public class Main{
 		
 		boolean isPlaying = true;// Main game loop, keeps running until/if broken in the menu otherwise almost infinate
 
-		if (map.getCurrentLocation().contains("Start")) { // execute scene one outside of loop to avoid calling plyrChoice before it
-			SceneOne(x,uInput);
-		}
+		//if (map.getCurrentLocation().contains("Start")) { // execute scene one outside of loop to avoid calling plyrChoice before it
+		//	SceneOne(x,uInput);
+		//}
 
 		while (isPlaying) {
 			
@@ -80,8 +80,10 @@ public class Main{
 				// Call print map method
 				map.printMap();
 				 //give a way back to the student
-				 if (backBtn(uInput)) { // if returned true meaning input is valid
+				 if (backBtn(uInput)) { // if returned true it means input is valid
 					gameMenu(uInput,x); // call gameMenu
+				} else {
+					return;
 				}
 				break;
 	
@@ -89,9 +91,10 @@ public class Main{
 				inventory.displayInventory();
 				if (backBtn(uInput)) { // if returned true meaning input is valid
 					gameMenu(uInput,x); // call gameMenu
+				} else {
+					return;
 				}
 				break;
-	
 			case 3:
 			startGame(uInput, x);// go back to startgame passing the players stats
 				break;
@@ -104,7 +107,7 @@ public class Main{
 			default:
 				// Handle invalid input
 				System.out.println("Invalid input. Please choose a valid option.");
-				break;
+				gameMenu(uInput, x);//call the fuction again
 		}
 	}
 	
@@ -142,14 +145,20 @@ public class Main{
         }
     }
 
-	static boolean backBtn(Scanner uInput) throws InterruptedException {
-		
-		System.out.println("\nPress 1 to go back");
-		int input = uInput.nextInt();boolean valid = true;
-	if (input == 1) {
-		return valid;
-	} else {
+	static boolean backBtn(Scanner uInput) throws InterruptedException {//gets scanner passed as parameter
+		System.out.println("\nPress 1 to go back");//initially prints msg
+		boolean valid = true;//set initial value to true in the outer scope
+
+	if (uInput.hasNextInt()) { //if the user input contains an integer then go through with the next loop
+		int input = uInput.nextInt();
+		if (input == 1){// now is that input 1 or is it a diffrent number
+		return valid;	
+		} else {
 		System.out.println("Invalid number.");
+		return !valid;
+		}
+	} else { // if the user input does not contain an integer then just print that message below and return false
+		System.out.println("Invalid Input, Please try again.");
 		return !valid;
 	}
 	}
