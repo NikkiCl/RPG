@@ -2,7 +2,7 @@ import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 public class Main{
 	static InventorySystem inventory = new InventorySystem();
-
+	static Map map = new Map();//Initialize the map object
 
 	static void welcome() throws InterruptedException { //renamed to avoid naming conflicts
 		Scanner w = new Scanner(System.in);
@@ -28,48 +28,41 @@ public class Main{
 		DPO("Enter your name: ",35);
 		String name = uInput.next();
 		//uses userinput to get name 
-		
+
 		//CHARACTER CREATION HERE!!!! 
-		Character X = new Character(name,10,100);
-		// - -- - -  -- - - 
-		
-		
+		Character x = new Character(name,10,100);
 		//in this instance, whenever we refer to "x" we are referring to the main character aka the player.
-		startGame(uInput, X);
+		startGame(uInput, x);
 
 	}
-	static void startGame(Scanner uInput, Character X) throws InterruptedException {  //Recieves the scanner object as parameter
+	static void startGame(Scanner uInput, Character x) throws InterruptedException {  //Recieves the scanner object as parameter
 		
 		boolean isPlaying = true;// Main game loop, keeps running until/if broken in the menu otherwise almost infinate
 
-		if (Map.getCurrentLocation().contains("Start")) { // execute scene one outside of loop to avoid calling plyrChoice before it
-			SceneOne(X,uInput);
+		if (map.getCurrentLocation().contains("Start")) { // execute scene one outside of loop to avoid calling plyrChoice before it
+			SceneOne(x,uInput);
 		}
 
 		while (isPlaying) {
 			
-			plyrChoice(uInput,X);//passing the scanner object to the function to reuse and write less lines of code
+			plyrChoice(uInput,x);//passing the scanner object to the function to reuse and write less lines of code
 			//also calling it after any part of the story is ran
 
 				
-			if (Map.getCurrentLocation().contains("Tiny Cave")) {
-				tinyCave(X);
-			} else if (Map.getCurrentLocation().contains("Soldier")) {
-				weakAlienSoldierF(X); 
-			} else if (Map.getCurrentLocation().contains("Alien slums")) { // Check player's current location and trigger specific scenes or fights
+			if (map.getCurrentLocation().contains("Angry bear")) {
+				wingedbearF(x);
+			} else if (map.getCurrentLocation().contains("Soldier")) {
+				weakAlienSoldierF(x); 
+			} else if (map.getCurrentLocation().contains("Alien slums")) { // Check player's current location and trigger specific scenes or fights
 			AlienSlums();  // call Alien slums function
-			}else if (Map.getCurrentLocation().contains("CrossRoads")) {
-				mountainCrossRoads(X, uInput);  
-			}else if (Map.getCurrentLocation().contains("Tunnel")) {
-				DPO("You keep on wandering through the tunnel....",35);
-			}else if (Map.getCurrentLocation().contains("Secret door")) {
-				DPO("You arrive at a secret entrance...",35);
-			}else if (Map.getCurrentLocation().contains("Mansion")) { //placed in order for efficiency
-			Mansion(X,uInput);
-			} else if (Map.getCurrentLocation().contains("Backyard")) {
-			backYard(X,uInput);	
-			}else if (Map.getCurrentLocation().contains("Ending")) {
-			ending(X, uInput);	
+			}else if (map.getCurrentLocation().contains("Mountain")) {
+				mountainCrossRoads(x, uInput);  
+			} else if (map.getCurrentLocation().contains("Mansion")) { //placed in order for efficiency
+			Mansion(x,uInput);
+			} else if (map.getCurrentLocation().contains("Backyard")) {
+			backYard(x);	
+			}else if (map.getCurrentLocation().contains("Ending")) {
+			ending(x, uInput);	
 			}
 		}
 	}
@@ -77,7 +70,7 @@ public class Main{
 	static void gameMenu(Scanner uInput, Character x) throws InterruptedException {
 
 		// Display the menu options before getting user input
-		System.out.println("\n\n1. View Map\n2. Show Inventory\n3. Back\n4. Quit");
+		System.out.println("\n\n1. View Map\n2. Show Inventory\n3. Display Stats\n4. Back\n5. Quit");
 		
 		// Get user input
 		int choice = uInput.nextInt();
@@ -86,7 +79,7 @@ public class Main{
 		switch (choice) {
 			case 1:
 				// Call print map method
-				Map.printMap();
+				map.printMap();
 				 //give a way back to the student
 				 if (backBtn(uInput)) { // if returned true it means input is valid
 					gameMenu(uInput,x); // call gameMenu
@@ -104,9 +97,17 @@ public class Main{
 				}
 				break;
 			case 3:
+			System.out.println(x.toString());
+			if (backBtn(uInput)) { // if returned true meaning input is valid
+				gameMenu(uInput,x);
+			} else {
+				return;
+			}
+			break;
+			case 4:
 			startGame(uInput, x);// go back to startgame passing the players stats
 				break;
-			case 4:
+			case 5:
 				// Quit the game
 				System.out.println("Exiting game,\n Going back to start");
 				welcome(); //goes back to the start of game
@@ -142,7 +143,7 @@ public class Main{
                 case "e":
                 case "s":
                 case "w":
-                    Map.locationChange(dir);
+                    map.locationChange(dir);
 					//DPO("\n\n\n\n\nTravelling...................\n\n\n",55);
 					//DPO(textBox("You have arrived at: " + map.getCurrentLocation()),25);
                     break;
@@ -321,7 +322,7 @@ public class Main{
 		
 		DPO(textBox("NEW ITEM UNLOCKED: map"),25);
 		DPO("\n\n",35);
-		Map.printMap();
+		map.printMap();
 		
 		
     }
@@ -373,34 +374,18 @@ public class Main{
         	}
         	else if (userInp == 2) {
         		DPO("You head to the backyard",25);
-        		Map.movePlayer(1, 2); 
-        		backYard(X,scanner);
+        		map.setPlayerX(1);
+        		map.setPlayerY(2);
         		//travel to backyard
         		break;
         	}
     	}
     }
-	
-	static void tinyCave(Character X) throws InterruptedException {
-		
-		DPO("You step foot into the dark cave and hear..\n\n",35);
-		
-		System.out.println("░▒▓███████▓▒░ ░▒▓██████▓▒░ ░▒▓██████▓▒░░▒▓███████▓▒░░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░ \r\n"
-		+ "░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░ \r\n"
-		+ "░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░ \r\n"
-		+ "░▒▓███████▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓████████▓▒░▒▓███████▓▒░░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░ \r\n"
-		+ "░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░ \r\n"
-		+ "░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░                   \r\n"
-		+ "░▒▓█▓▒░░▒▓█▓▒░░▒▓██████▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░ \r\n"
-		+ "                                                                       ");
-		
-		wingedbearF(X);
-	}
 
-	static void backYard(Character X,Scanner scanner) throws InterruptedException {
+	static void backYard(Character X) throws InterruptedException {
 		DPO("Upon arrival, the bird who stole your antenna notices you.",25);
-		DPO("Jock Bird:\nCAW CAW. DORK, DORK\n",35);
-		DPO("Blarbazop:\nWhat are you doing here!! Chris Hansen kill that stranger!!!!!\n",35);
+		DPO("Jock Bird:\nCAW CAW. DORK, DORK",35);
+		DPO("Blarbazop:\nWhat are you doing here!! Chris Hansen kill that stranger!!!!!",35);
 		DPO("Chris Hansen(Previously known as Jock Bird):\nCAWWWWWW!",35);
 		System.out.println("\n\n\n   _______          ______   ____   _____ _    _ _ "+
 		"\n  / ____\\ \\        / / __ \\ / __ \\ / ____| |  | | |\n"
@@ -459,16 +444,13 @@ public class Main{
 		DPO("Blarbazop:\nYou have killed my favourite pet, the only creature that I viewed as an equal in this mundane hellscape of a planet.",35);
 		DPO("\nYou inch away, spouting out mumbled apologies and desperately searching for a possible escape",25);
 		DPO("Blarbazop:\nI hope you don't believe that you're getting away with this.",35);
-		Map.movePlayer(1, 1);
 		finalBoss(X);
-		ending(X,scanner);
 		
 
 	}
 	
 	
-	static void mountainCrossRoads(Character X, Scanner scanner) throws InterruptedException {
-		scanner.nextLine();
+	static void mountainCrossRoads(Character x, Scanner scanner) throws InterruptedException {
 		DPO("The sight of a luscious green mountain coupled with an amazing waterfall greets your eyes.",25);
 		DPO("Where would you like to go?\n1 - Waterfall		2 - Mountain",25);
 		int userInp = scanner.nextInt();
@@ -476,20 +458,12 @@ public class Main{
 			DPO("You walk beneath the waterfall and find a hidden tunnel, with ancient hieroglyphics scattered across the walls",25);
 			DPO("You stumble across a pot of gold, with a note which contained an unknown phrase",25);
 			DPO(textBox("NEW ITEM UNLOCKED: pot of gold"),25);
-			DPO(X.getName() + ":\nI wonder if I can use this to trade...",35);
+			DPO("'I wonder if I can use this to trade...'",35);
 			Main.inventory.pickUpItem("pot of gold");
-			Map.movePlayer(3, 0);
-			
-			}
-		else if (userInp == 2) {
-			DPO("You hike up the steep mountain...",25);
-			slothF(X);
-			Map.movePlayer(2, 1);
 			}
 		}
 
 	static void ending(Character x,Scanner scanner) throws InterruptedException {
-		scanner.nextLine();
 		DPO("You take a deep breath of relief and walk up to grab your antenna before noticing the ugly man you had met from earlier, who seemed somehow even uglier than before.",25);
 		
 		System.out.println("\n                _\r\n"
@@ -509,16 +483,16 @@ public class Main{
 		DPO("What would you like to do?\n1 - stay and rule 		2 - return back to your planet",25);
 		int userInp = scanner.nextInt();
 		if (userInp == 1) {
-			DPO("\n'OH BLESSED THEE!'\nThe ugly man exclaimed, wrapping his wrinkly arms around you\n",25);
+			DPO("\n'OH BLESSED THEE!'\nThe ugly man exclaimed, wrapping his wrinkly arms around you",25);
 			DPO(x.getName() + ":\nOkay okay, that's enough...\nYou inch away from the ugly man, still trying to wrap your brain around everything that has happened over the past few days",25);
-			DPO("You carefully place the crown on top of your head.",25);
+			DPO("You pick up the crown from the ground, and carefully place it atop your head.",25);
 			DPO("'I guess this is home now.'",35);
 			System.exit(userInp);
 		}
 		
 		else if (userInp == 2) {
-			DPO("\n" + x.getName() + ":\nSorry but I can't just pick up and leave like that.",35);
-			DPO("You try to avoid the ugly man's gaze, as his tears, once filled with joy were now overrun by sadness\n",25);
+			DPO(x.getName() + ":\nSorry but I can't just pick up and leave like that.",35);
+			DPO("You try to avoid the ugly man's gaze, as his tears, once filled with joy were now overrun by sadness",25);
 			DPO(x.getName() + ":\nI'll still come and visit though!",35);
 			DPO("After waiting for the ugly man to calm down, you head back to the spaceship and attach the antenna onto the rooftop before finally being able to start the update",25);
 			DPO(textBox("UPDATE COMPLETE"),25);

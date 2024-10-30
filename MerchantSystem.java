@@ -22,11 +22,12 @@ class MerchantSystem {
     static class Merchant {
         List<Item> inventory; // List of items available for sale
 
-        // Constructor initializes the merchant's inventory with items
+        // Constructor to initialize the merchant's inventory with items
         public Merchant() {
             inventory = new ArrayList<>();
             inventory.add(new Item("Health Potion"));
             inventory.add(new Item("Sword"));
+            inventory.add(new Item("Pickle"));
         }
 
         // Display the merchant's inventory to the character
@@ -60,10 +61,12 @@ class MerchantSystem {
         private boolean canAfford(Item item, InventorySystem characterInventory) {
             switch (item.name) {
                 case "Health Potion":
-                    return characterInventory.getItems().contains("pot of gold"); // requirements
+                    return characterInventory.getItems().contains("pot of gold"); // requirements for a health potion
                 case "Sword":
-                    return characterInventory.getItems().contains("pair of Bear Claws");
-                default:
+                    return characterInventory.getItems().contains("pair of Bear Claws");// requirements for a sword
+                case "Pickle":
+                    return characterInventory.getItems().contains("pair of Sloth Claws");// requirements for a pickle
+                    default:
                     return false; // Default case
             }
         }
@@ -72,10 +75,12 @@ class MerchantSystem {
         private void removeItems(Item item, InventorySystem characterInventory) {
             switch (item.name) {
                 case "Health Potion":
-                    characterInventory.getItems().remove("Pot of Gold"); // Remove 1 Stick
+                    characterInventory.getItems().remove("Pot of Gold"); // Remove the pot of gold from inventory
                     break;
                 case "Sword":
-                    characterInventory.getItems().remove("pair of Bear Claws"); // Remove 1 Shield
+                    characterInventory.getItems().remove("pair of Bear Claws"); // Remove the bear claws for inventory
+                case "Pickle":
+                    characterInventory.getItems().remove("pair of Sloth Claws"); // Remove the sloth claws from inventory
                     break;
             }
         }
