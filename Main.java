@@ -209,7 +209,7 @@ public class Main{
 		Thread.sleep(500);
 		DPO("You stare in horror as the spaceship autopilot takes control and begins to veer itself onto an unknown sphere\n",10);
 		DPO(textBox("LANDING COMPLETE. SYSTEM UNABLE TO COMPLETE UPDATE. SIGNAL STRENGTH WEAK"),25);
-		DPO("\n1 - search for antenna",10);
+		DPO("\n1 - search for antenna\n",10);
 		boolean cont = false;
 		while (!cont) {
 			try {
@@ -229,7 +229,7 @@ public class Main{
 				continue;
 			}
 		}
-		DPO("1 - place antenna on roof		2 - place antenna on hood",10);
+		DPO("1 - place antenna on roof		2 - place antenna on hood\n",10);
 		userChoice = scanner.nextInt();
 		if (userChoice == 1) {
 			DPO("You head up to the roof and carefully place the antenna onto the tip of the spaceship",25);
@@ -253,7 +253,7 @@ public class Main{
 		
 		DPO(x.getName() + ":\nHEY IM NOT A DORK!!!! YOU GIVE THAT BACK!!!!!!!.... AND YOU TAKE THAT BACK!!!",25);
 		
-		DPO("1 - chase after bird 		2 - Look down and ponder",25);
+		DPO("1 - chase after bird 		2 - Look down and ponder\n",25);
 		userChoice = scanner.nextInt();
 		if (userChoice == 2) {
 			DPO("After some pondering",10);
@@ -293,7 +293,7 @@ public class Main{
 				+ "  ,.-\"  \"-.,_________,.-\"  \"-.,");
 		
 		for (int i = 2; i >= 0 ; i--) {
-			DPO("1 - take a step back",25);
+			DPO("1 - take a step back\n",25);
 			
 			userChoice = scanner.nextInt();
 			
@@ -305,7 +305,7 @@ public class Main{
 				DPO("You are unable to take a step back, STUNNED BY UGLINESS (" + i + " turn(s)) ",25);	
 			}
 			else {
-				DPO("Please pick the number 1.",25);
+				DPO("Please pick the number 1.\n",25);
 				i ++;
 			}
 		}
@@ -338,7 +338,7 @@ public class Main{
 		int userChoice;
 	
 		DPO("You arrive in a wasteland riddled with less ugly aliens. It looks like this is their version of a market.", 25);
-		DPO("1 - Go to merchant  2 - Keep on walking", 25);
+		DPO("1 - Go to merchant  2 - Keep on walking\n", 25);
 		userChoice = sc.nextInt();
 
 		if (userChoice == 1) {
@@ -370,7 +370,7 @@ public class Main{
 	static void Mansion(Character X, Scanner scanner) throws InterruptedException {
     	DPO("You arrive at the frontyard of a massive mansion, surrounded by golden gates and a delectable collection of trinkets",25);
     	while (true) {
-        	DPO("1 - Open front door	2 - Head to backyard",25);
+        	DPO("1 - Open front door	2 - Head to backyard\n",25);
         	int userInp = scanner.nextInt();
         	if (userInp == 1) {
         		DPO("Your height limits you from being able to reach the door handle.",25);
@@ -456,7 +456,7 @@ public class Main{
 	
 	static void mountainCrossRoads(Character x, Scanner scanner) throws InterruptedException {
 		DPO("The sight of a luscious green mountain coupled with an amazing waterfall greets your eyes.",25);
-		DPO("Where would you like to go?\n1 - Waterfall		2 - Mountain",25);
+		DPO("Where would you like to go?\n1 - Waterfall		2 - Mountain\n",25);
 		int userInp = scanner.nextInt();
 		if (userInp == 1) {
 			DPO("You walk beneath the waterfall and find a hidden tunnel, with ancient hieroglyphics scattered across the walls",25);
@@ -484,7 +484,7 @@ public class Main{
 				+ "      _\\   -.,_____,.-   /_         \r\n"
 				+ "  ,.-\"  \"-.,_________,.-\"  \"-.,");
 		DPO("Ugly man(sniffling):\nAll praise the prophet. Oh holy is the day you have freed us from that evil evil man. Please stay back and guid us back into building our society. Help us live the golden days again.",35);
-		DPO("What would you like to do?\n1 - stay and rule 		2 - return back to your planet",25);
+		DPO("What would you like to do?\n1 - stay and rule 		2 - return back to your planet\n",25);
 		int userInp = scanner.nextInt();
 		if (userInp == 1) {
 			DPO("\n'OH BLESSED THEE!'\nThe ugly man exclaimed, wrapping his wrinkly arms around you",25);
