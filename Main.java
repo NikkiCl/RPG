@@ -4,7 +4,6 @@ public class Main{
 	static InventorySystem inventory = new InventorySystem();
 	static Map map = new Map();//Initialize the map object
 
-
 	static void welcome() throws InterruptedException { //renamed to avoid naming conflicts
 		Scanner w = new Scanner(System.in);
 		int userInp;
@@ -38,9 +37,9 @@ public class Main{
 		
 		boolean isPlaying = true;// Main game loop, keeps running until/if broken in the menu otherwise almost infinate
 
-		if (map.getCurrentLocation().contains("Start")) { // execute scene one outside of loop to avoid calling plyrChoice before it
-			SceneOne(x,uInput);
-		}
+		//if (map.getCurrentLocation().contains("Start")) { // execute scene one outside of loop to avoid calling plyrChoice before it
+		//	SceneOne(x,uInput);
+		//}
 
 		while (isPlaying) {
 			
@@ -69,7 +68,7 @@ public class Main{
 	static void gameMenu(Scanner uInput, Character x) throws InterruptedException {
 
 		// Display the menu options before getting user input
-		System.out.println("\n\n1. View Map\n2. Show Inventory\n3. Back\n4. Quit");
+		System.out.println("\n\n1. View Map\n2. Show Inventory\n3. Display Stats\n4. Back\n5. Quit");
 		
 		// Get user input
 		int choice = uInput.nextInt();
@@ -96,9 +95,17 @@ public class Main{
 				}
 				break;
 			case 3:
+			System.out.println(x.toString());
+			if (backBtn(uInput)) { // if returned true meaning input is valid
+				gameMenu(uInput,x);
+			} else {
+				return;
+			}
+			break;
+			case 4:
 			startGame(uInput, x);// go back to startgame passing the players stats
 				break;
-			case 4:
+			case 5:
 				// Quit the game
 				System.out.println("Exiting game,\n Going back to start");
 				welcome(); //goes back to the start of game
