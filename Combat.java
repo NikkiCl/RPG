@@ -196,16 +196,17 @@ public class Combat {
 		            DPO("Enemy " + Enemy.getName() + " has been slained!",10 );
 		            DPO(Enemy.getName() + " has dropped a " + Enemy.getItem(),10);
 		            itemPickup(X,Enemy,imp);
-					X.setHP(100);
+		            X.setHP(100);
 		            deadEnemies.add(map.getCurrentLocation());
 		            //when the enemy dies, it adds the location of the map to the arraylist 
 		        }
+		        
 		        
 		        //if YOUR hp is below or equal to zero then u get the end game cutscene 
 		        if (X.getHP() <= 0) {
 		        	DPO("You fall to the ground as the mixture of blood and exhaustion finally becomes too much for you to handle",25);
 		        	DPO("\n\n100 years into the future....",25);
-		        	DPO("Ugly man:\n'ere lies my good friend, I never quite got their name but I call them " + X.getName() + " short for " + X.getName()"inchi.",35);
+		        	DPO("Ugly man:\n'ere lies my good friend, I never quite got their name but I call them " + X.getName() + " short for " + X.getName() + "inchi.",35);
 		        	DPO("The skeletal remains of what looked like a human can be seen, surrounded by an assortment of flowers that the Alien citizens seemed to have placed to pay their respects",25);
 				DPO("A poem sat by the edge of the skeleton's head, which read:",35);
 				DPO("The one to save us landed here,\nalthough gone, have no fear,\nfor the next prophet will rise,\nand cause Blarbazop's eventual demise.",45);
