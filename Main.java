@@ -4,7 +4,7 @@ import java.util.concurrent.TimeUnit;
 
 public class Main{
 	static InventorySystem inventory = new InventorySystem();
-	static boolean hasSceneOnePlayed = false;//Setting a condition to flag to latwer be used in the welcome method
+	static boolean startedPlaying = false;//Setting a condition to flag to later be used in the welcome method to keep player within game loop
 	static void welcome() throws InterruptedException { //renamed to avoid naming conflicts  // this is the method that greets the user and first interacts with them asking to confirm if they want to play
 		Scanner w = new Scanner(System.in);
 		int userInp;
@@ -44,15 +44,12 @@ public class Main{
 
 	static void startGame(Scanner uInput, Character X) throws InterruptedException {  //Recieves the scanner object as parameter    //This method loops infinately to keep plaayer inside of game until the player exits through the menu and calls each scene based on location of player
 		
-		boolean isPlaying = true;// Main game loop, keeps running until/if broken in the menu otherwise almost infinate
-
-		
-        if (!hasSceneOnePlayed && Map.getCurrentLocation().contains("Start")) {// && oporater checks to see if they are both true and if !hasplayed is true means it hasnt been played before it then checks to see if the location is start then it calls the method
+        if (!startedPlaying && Map.getCurrentLocation().contains("Start")) {// && oporater checks to see if they are both true and if startedPlaying is true means it hasnt been played before it then checks to see if the location is start then it calls the method
            SceneOne(X, uInput);
-            hasSceneOnePlayed = true; //and it sets the flag to true after SceneOne plays so the next time the loop is called back the !value will be false
+		   startedPlaying = true; //and it sets the flag to true after SceneOne plays so the next time the loop is called back the !value will be false
         }
 
-		while (isPlaying) {
+		while (startedPlaying) {//Main game loop, keeps running until/if broken in the menu otherwise almost infinate
 			
 			plyrChoice(uInput,X);//passing the scanner object to the function to reuse and write less lines of code
 			//also calling it after any part of the story is ran
@@ -83,7 +80,7 @@ public class Main{
 	static void gameMenu(Scanner uInput, Character x) throws InterruptedException {
 
 		// Display the menu options before getting user input
-		System.out.println("\n\n1. View Map\n2. Show Inventory\n3. Back\n4. Quit");
+		System.out.println("\n\n1. View Map\n2. Show Inventory\n3. Show Stats\n4. Back\n5. Quit");
 		
 		// Get user input
 		int choice = uInput.nextInt();
@@ -109,17 +106,26 @@ public class Main{
 					return;
 				}
 				break;
-			case 3:
-			startGame(uInput, x);// go back to startgame passing the players stats
+
+			case 3://Print character stats 
+			System.out.println(x.toString());
+			if (backBtn(uInput)) { // if returned true meaning input is valid
+				gameMenu(uInput,x); // call gameMenu
+			} else {
+				return;
+			}
+			break;
+			
+			case 4:// go back to startgame passing the players stats
+			startGame(uInput, x);
 				break;
-			case 4:
-				// Quit the game
+			
+			case 5:// Quit the game
 				System.out.println("Exiting game,\n Going back to start");
 				welcome(); //goes back to the start of game
 				break;
 	
-			default:
-				// Handle invalid input
+			default:// Handle invalid input
 				System.out.println("Invalid input. Please choose a valid option.");
 				gameMenu(uInput, x);//call the fuction again
 		}
