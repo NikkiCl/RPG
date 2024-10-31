@@ -1,12 +1,12 @@
 public class Character {
 
     private String name;
-    private int damage;
-    private int HP;
+    public int damage;
+    public int HP;
     private int Counter;
     private int turnsToAttack;
     
-    
+
     public void dmg(Character enemy) {
         enemy.HP -= this.damage;
     
@@ -33,6 +33,17 @@ public class Character {
         HP = health;
         this.turnsToAttack = turnsToAttack;
     }
+        //CODE BELOW IS USELESS DUE TO FUNCTION WITH USING ITEMS IN THE INVENTORYSYSTEM CLASS NOT BEING FUNCTIONAL (COMMENT IN "useItem" function has a short & breif explanation)
+    //public void useHealthPotion() {
+    //    int amount = 50; // Fixed amount for health potion
+    //    HP += amount;
+    //    System.out.printf("%s used a health potion and restored %d HP. Total HP: %d\n", this.name, amount, HP);
+    //}
+    //public void useSword() {
+    //    int damageIncrease = 5; // Default damage increase
+    //    damage += damageIncrease;
+    //    System.out.printf("%s used your sword! Damage increased by %d. Total damage: %d.\n", this.name, damageIncrease, damage);
+    //}
 
 
 //setters

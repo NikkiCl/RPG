@@ -29,7 +29,8 @@ class InventorySystem {
 		//if there are items in the inventory yet when displaying
 		if (!items.isEmpty()) {
 			System.out.printf("\nWhat item would you like to use?: ");//asks what the player would like to use
-			String chosenItem = itemScanner.nextLine();
+			String chosen = itemScanner.nextLine();
+			String chosenItem = chosen.toLowerCase();
 			useItem(chosenItem);
 		} else {
 			System.out.println("There is nothing in your Inventory."); // if nothing is currently in the inventory when displaying
@@ -39,10 +40,19 @@ class InventorySystem {
 	private void useItem(String chosenItem) {
 		if (items.contains(chosenItem)) {
 			System.out.printf("You used %s!\n", chosenItem);
+				//COULD NOT GET THE FUNCTION BELOW WORKING DUE TO CHARACTER VARIABLE IN MAIN FILE CAN'T BE ACCESSED OR DEFINED/RESOLVED
+			//if (chosenItem.equals("Health Potion")) {
+			//	Main.X.useHealthPotion();
+			//}else if (chosenItem.equals("Rusty Sword")) {
+			//	Main.X.useSword();
+			//}else if (chosenItem.equals("Sword")) {
+			//	Main.X.useSword();
+			//items.remove(chosenItem); // Remove the item after use
 		} else {
 			System.out.println("Item not found in inventory. (Check for spelling mistakes)\n");
 		}
 	}
+
 //displaying inventory when inventory is full to ask if they would like to drop an item to make room for the newly picked up item
 	public void displayInventoryDrop() {
 		System.out.println("\nYour Inventory:");
@@ -51,8 +61,8 @@ class InventorySystem {
 		}
 
 		System.out.printf("\nWhat item would you like to drop? (Enter the name): ");//asks for which item they want to drop
-		String chosenItem = itemScanner.nextLine();
-
+		String chosen = itemScanner.nextLine();
+		String chosenItem = chosen.toLowerCase();
 		dropItem(chosenItem);
 	}
 
@@ -63,8 +73,8 @@ class InventorySystem {
 			System.out.println("Item not found in inventory.");//if name of item doesnt exist
 		}
 	}
-
-	public ArrayList<String> getItems() {
+ //method for merchant to use the to perform trades with the player 
+ public ArrayList<String> getItems() {
 		return items;
 	}
  }
