@@ -53,22 +53,22 @@ public class Main{
 			//also calling it after any part of the story is ran
 
 				
-			if (Map.getCurrentLocation().contains("Tiny Cave ")) {
-				wingedbearF(x);
+			if (Map.getCurrentLocation().contains("Tiny Cave")) {
+				tinyCave(X);
 			} else if (Map.getCurrentLocation().contains("Soldier")) {
-				weakAlienSoldierF(x); 
-			} else if (Map.getCurrentLocation().contains("Alien slums")) { // Check player's current location and trigger the related method containing the content
-			AlienSlums();  // call Alien slums function
+				weakAlienSoldierF(X); 
+			} else if (Map.getCurrentLocation().contains("Alien slums")) { // Check player's current location and trigger specific scenes or fights
+				AlienSlums();  // call Alien slums function
+
 			}else if (Map.getCurrentLocation().contains("CrossRoads")) {
-				mountainCrossRoads(x, uInput);  
-			} else if (Map.getCurrentLocation().contains("Mansion")) { //placed in map order for efficiency
-			Mansion(x,uInput);
+				mountainCrossRoads(X, uInput);  
+			} else if (Map.getCurrentLocation().contains("Mansion")) { //placed in order for efficiency
+			Mansion(X,uInput);
 			} else if (Map.getCurrentLocation().contains("Backyard")) {
-			backYard(x);	
-			}else if (Map.getCurrentLocation().contains("🌲🌲")) {
-			ending(x, uInput);	//pass the character and scanner down
+			backYard(X);	
+			}else if (Map.getCurrentLocation().contains("Ending")) {
+			ending(X, uInput);	
 			}
-		}
 	}
 
 	static void gameMenu(Scanner uInput, Character x) throws InterruptedException {// This method is to be displayed when selected by the user and it calls other fuctions giving the user access to a bunch of things also looping back into the game to avoid errors
@@ -272,7 +272,7 @@ public class Main{
 		DPO("\nAn abhorrent smell reeks from the blob of brown substance on the ground before you.",25);
 		DPO("You shake your first at the bird, whose figure was now barely visible, as it flew further and further away",25);
 		DPO(x.getName() + ":\nCOSMIC PEST!!\n\n",35);
-		DPO(textBox("A voice loomed in the distance"),15);
+
 		Thread.sleep(400);
 		DPO("\n?????:\nYou alright there partner? Haven’t seen a spaceship xxx999 except on the galactic screen",35);
 		
