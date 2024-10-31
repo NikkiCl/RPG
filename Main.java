@@ -4,7 +4,7 @@ import java.util.concurrent.TimeUnit;
 
 public class Main{
 	static InventorySystem inventory = new InventorySystem();
-	static boolean hasSceneOnePlayed = false;//Setting a condition to flag if scene one has been played by character
+	static boolean hasSceneOnePlayed = false;//Setting a condition to flag to latwer be used in the welcome method
 	static void welcome() throws InterruptedException { //renamed to avoid naming conflicts  // this is the method that greets the user and first interacts with them asking to confirm if they want to play
 		Scanner w = new Scanner(System.in);
 		int userInp;
@@ -24,62 +24,69 @@ public class Main{
 	}
 	
 	
-	static void intro(Scanner uInput) throws InterruptedException {  //Recieves the scanner object as parameter and now seprated from startGame    //This method actually initialises an instance of the Character class (the player) by getting their name and setting their stats
+	static void intro(Scanner uInput) throws InterruptedException {  //Recieves the scanner object as parameter and now seprated from startGame
 		//user input
 		DPO("Enter your name: ",35);
 		String name = uInput.next();
 		//uses userinput to get name 
-
+		
 		//CHARACTER CREATION HERE!!!! 
-		Character x = new Character(name,10,100);
+		Character X = new Character(name,10,100);
+		// - -- - -  -- - - 
+		
+		
 		//in this instance, whenever we refer to "x" we are referring to the main character aka the player.
-		startGame(uInput, x); //pass down the scanner object and player down to the main play fuction
+		startGame(uInput, X);
 
 	}
 
 	
 
-	static void startGame(Scanner uInput, Character x) throws InterruptedException {  //Recieves the scanner object as parameter    //This method loops infinately to keep plaayer inside of game until the player exits through the menu and calls each scene based on location of player
+	static void startGame(Scanner uInput, Character X) throws InterruptedException {  //Recieves the scanner object as parameter    //This method loops infinately to keep plaayer inside of game until the player exits through the menu and calls each scene based on location of player
 		
 		boolean isPlaying = true;// Main game loop, keeps running until/if broken in the menu otherwise almost infinate
 
 		
         if (!hasSceneOnePlayed && Map.getCurrentLocation().contains("Start")) {// && oporater checks to see if they are both true and if !hasplayed is true means it hasnt been played before it then checks to see if the location is start then it calls the method
-           SceneOne(x, uInput);
+           SceneOne(X, uInput);
             hasSceneOnePlayed = true; //and it sets the flag to true after SceneOne plays so the next time the loop is called back the !value will be false
         }
 
 		while (isPlaying) {
 			
-			plyrChoice(uInput,x);//passing the scanner object to the function to reuse and write less lines of code
+			plyrChoice(uInput,X);//passing the scanner object to the function to reuse and write less lines of code
 			//also calling it after any part of the story is ran
 
 				
-			if (Map.getCurrentLocation().contains("Tiny Cave ")) {
-				wingedbearF(x);
+			if (Map.getCurrentLocation().contains("Tiny Cave")) {
+				tinyCave(X);
 			} else if (Map.getCurrentLocation().contains("Soldier")) {
-				weakAlienSoldierF(x); 
-			} else if (Map.getCurrentLocation().contains("Alien slums")) { // Check player's current location and trigger the related method containing the content
+				weakAlienSoldierF(X); 
+			} else if (Map.getCurrentLocation().contains("Alien slums")) { // Check player's current location and trigger specific scenes or fights
 			AlienSlums();  // call Alien slums function
 			}else if (Map.getCurrentLocation().contains("CrossRoads")) {
-				mountainCrossRoads(x, uInput);  
-			} else if (Map.getCurrentLocation().contains("Mansion")) { //placed in map order for efficiency
-			Mansion(x,uInput);
+				mountainCrossRoads(X, uInput);  
+			}else if (Map.getCurrentLocation().contains("Tunnel")) {
+				DPO("You keep on wandering through the tunnel....",35);
+			}else if (Map.getCurrentLocation().contains("Secret door")) {
+				DPO("You arrive at a secret entrance...",35);
+			}else if (Map.getCurrentLocation().contains("Mansion")) { //placed in order for efficiency
+			Mansion(X,uInput);
 			} else if (Map.getCurrentLocation().contains("Backyard")) {
-			backYard(x);	
-			}else if (Map.getCurrentLocation().contains("🌲🌲")) {
-			ending(x, uInput);	//pass the character and scanner down
+			backYard(X,uInput);	
+			}else if (Map.getCurrentLocation().contains("Ending")) {
+			ending(X, uInput);	
 			}
 		}
 	}
 
-	static void gameMenu(Scanner uInput, Character x) throws InterruptedException {// This method is to be displayed when selected by the user and it calls other fuctions giving the user access to a bunch of things also looping back into the game to avoid errors
+	static void gameMenu(Scanner uInput, Character x) throws InterruptedException {
 
 		// Display the menu options before getting user input
-		System.out.println("\n\n1. View Map\n2. Show Inventory\n3. Display Stats\n4. Back\n5. Quit");
+		System.out.println("\n\n1. View Map\n2. Show Inventory\n3. Back\n4. Quit");
 		
-		
-		int choice = uInput.nextInt();// Get user input as int
+		// Get user input
+		int choice = uInput.nextInt();
 	
 		// Handle menu choices using a switch statement
 		switch (choice) {
@@ -103,17 +110,9 @@ public class Main{
 				}
 				break;
 			case 3:
-			System.out.println(x.toString());
-			if (backBtn(uInput)) { // if returned true meaning input is valid
-				gameMenu(uInput,x); // call gameMenu
-			} else {
-				return;
-			}
-			break;	
-			case 4:
 			startGame(uInput, x);// go back to startgame passing the players stats
 				break;
-			case 5:
+			case 4:
 				// Quit the game
 				System.out.println("Exiting game,\n Going back to start");
 				welcome(); //goes back to the start of game
@@ -126,7 +125,7 @@ public class Main{
 		}
 	}
 	
-    static void plyrChoice(Scanner uInput, Character x) throws InterruptedException { //this method prompts the player to either enter a drection or call the menu after every scene used in the startGame while loop with input validation before it passes the input to the function
+    static void plyrChoice(Scanner uInput, Character x) throws InterruptedException { //Recieves scanner object as a parameter
         System.out.println("\nEnter direction to move (n, e, s, w) or enter 1 to display menu:");
         
         
@@ -160,7 +159,7 @@ public class Main{
         }
     }
 
-	static boolean backBtn(Scanner uInput) throws InterruptedException {//This method streamlines the code and prevents repetetive code. just a back button to loop menus back to the main game and  validate the user input to prevent errors
+	static boolean backBtn(Scanner uInput) throws InterruptedException {//gets scanner passed as parameter
 		System.out.println("\nPress 1 to go back");//initially prints msg
 		boolean valid = true;//set initial value to true in the outer scope
 
@@ -180,7 +179,7 @@ public class Main{
     
     
     
-//=------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+//=--------------------------------------------------------------------
     //MAIN 
     
     
@@ -194,7 +193,7 @@ public class Main{
     }
     
     
-//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    //-----------------------------------------------
     
 	static void SceneOne(Character x, Scanner scanner) throws InterruptedException {
 		int userChoice;
@@ -211,7 +210,7 @@ public class Main{
 		Thread.sleep(500);
 		DPO("You stare in horror as the spaceship autopilot takes control and begins to veer itself onto an unknown sphere\n",10);
 		DPO(textBox("LANDING COMPLETE. SYSTEM UNABLE TO COMPLETE UPDATE. SIGNAL STRENGTH WEAK"),25);
-		DPO("\n1 - search for antenna\n",10);
+		DPO("\n1 - search for antenna",10);
 		boolean cont = false;
 		while (!cont) {
 			try {
@@ -231,7 +230,7 @@ public class Main{
 				continue;
 			}
 		}
-		DPO("1 - place antenna on roof		2 - place antenna on hood\n",10);
+		DPO("1 - place antenna on roof		2 - place antenna on hood",10);
 		userChoice = scanner.nextInt();
 		if (userChoice == 1) {
 			DPO("You head up to the roof and carefully place the antenna onto the tip of the spaceship",25);
@@ -255,7 +254,7 @@ public class Main{
 		
 		DPO(x.getName() + ":\nHEY IM NOT A DORK!!!! YOU GIVE THAT BACK!!!!!!!.... AND YOU TAKE THAT BACK!!!",25);
 		
-		DPO("1 - chase after bird 		2 - Look down and ponder\n",25);
+		DPO("1 - chase after bird 		2 - Look down and ponder",25);
 		userChoice = scanner.nextInt();
 		if (userChoice == 2) {
 			DPO("After some pondering",10);
@@ -295,7 +294,7 @@ public class Main{
 				+ "  ,.-\"  \"-.,_________,.-\"  \"-.,");
 		
 		for (int i = 2; i >= 0 ; i--) {
-			DPO("1 - take a step back\n",25);
+			DPO("1 - take a step back",25);
 			
 			userChoice = scanner.nextInt();
 			
@@ -307,7 +306,7 @@ public class Main{
 				DPO("You are unable to take a step back, STUNNED BY UGLINESS (" + i + " turn(s)) ",25);	
 			}
 			else {
-				DPO("Please pick the number 1.\n",25);
+				DPO("Please pick the number 1.",25);
 				i ++;
 			}
 		}
@@ -340,7 +339,7 @@ public class Main{
 		int userChoice;
 	
 		DPO("You arrive in a wasteland riddled with less ugly aliens. It looks like this is their version of a market.", 25);
-		DPO("1 - Go to merchant  2 - Keep on walking\n", 25);
+		DPO("1 - Go to merchant  2 - Keep on walking", 25);
 		userChoice = sc.nextInt();
 
 		if (userChoice == 1) {
@@ -372,7 +371,7 @@ public class Main{
 	static void Mansion(Character X, Scanner scanner) throws InterruptedException {
     	DPO("You arrive at the frontyard of a massive mansion, surrounded by golden gates and a delectable collection of trinkets",25);
     	while (true) {
-        	DPO("1 - Open front door	2 - Head to backyard\n",25);
+        	DPO("1 - Open front door	2 - Head to backyard",25);
         	int userInp = scanner.nextInt();
         	if (userInp == 1) {
         		DPO("Your height limits you from being able to reach the door handle.",25);
@@ -380,18 +379,34 @@ public class Main{
         	}
         	else if (userInp == 2) {
         		DPO("You head to the backyard",25);
-        		Map.setPlayerX(1);
-        		Map.setPlayerY(2);
+        		Map.movePlayer(1, 2); 
+        		backYard(X,scanner);
         		//travel to backyard
         		break;
         	}
     	}
     }
+	
+	static void tinyCave(Character X) throws InterruptedException {
+		
+		DPO("You step foot into the dark cave and hear..\n\n",35);
+		
+		System.out.println("░▒▓███████▓▒░ ░▒▓██████▓▒░ ░▒▓██████▓▒░░▒▓███████▓▒░░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░ \r\n"
+		+ "░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░ \r\n"
+		+ "░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░ \r\n"
+		+ "░▒▓███████▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓████████▓▒░▒▓███████▓▒░░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░ \r\n"
+		+ "░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░ \r\n"
+		+ "░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░                   \r\n"
+		+ "░▒▓█▓▒░░▒▓█▓▒░░▒▓██████▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░ \r\n"
+		+ "                                                                       ");
+		
+		wingedbearF(X);
+	}
 
-	static void backYard(Character X) throws InterruptedException {
+	static void backYard(Character X,Scanner scanner) throws InterruptedException {
 		DPO("Upon arrival, the bird who stole your antenna notices you.",25);
-		DPO("Jock Bird:\nCAW CAW. DORK, DORK",35);
-		DPO("Blarbazop:\nWhat are you doing here!! Chris Hansen kill that stranger!!!!!",35);
+		DPO("Jock Bird:\nCAW CAW. DORK, DORK\n",35);
+		DPO("Blarbazop:\nWhat are you doing here!! Chris Hansen kill that stranger!!!!!\n",35);
 		DPO("Chris Hansen(Previously known as Jock Bird):\nCAWWWWWW!",35);
 		System.out.println("\n\n\n   _______          ______   ____   _____ _    _ _ "+
 		"\n  / ____\\ \\        / / __ \\ / __ \\ / ____| |  | | |\n"
@@ -450,26 +465,39 @@ public class Main{
 		DPO("Blarbazop:\nYou have killed my favourite pet, the only creature that I viewed as an equal in this mundane hellscape of a planet.",35);
 		DPO("\nYou inch away, spouting out mumbled apologies and desperately searching for a possible escape",25);
 		DPO("Blarbazop:\nI hope you don't believe that you're getting away with this.",35);
+		Map.movePlayer(1, 1);
+		//moves the player to the mansion before beginning the boss fight due to the deadEnemies list.
 		finalBoss(X);
+		//after the boss fight is completed, the user gets the ending scene.
+		ending(X,scanner);
 		
 
 	}
 	
 	
-	static void mountainCrossRoads(Character x, Scanner scanner) throws InterruptedException {
+	static void mountainCrossRoads(Character X, Scanner scanner) throws InterruptedException {
+		scanner.nextLine();
 		DPO("The sight of a luscious green mountain coupled with an amazing waterfall greets your eyes.",25);
-		DPO("Where would you like to go?\n1 - Waterfall		2 - Mountain\n",25);
+		DPO("Where would you like to go?\n1 - Waterfall		2 - Mountain",25);
 		int userInp = scanner.nextInt();
 		if (userInp == 1) {
 			DPO("You walk beneath the waterfall and find a hidden tunnel, with ancient hieroglyphics scattered across the walls",25);
 			DPO("You stumble across a pot of gold, with a note which contained an unknown phrase",25);
 			DPO(textBox("NEW ITEM UNLOCKED: pot of gold"),25);
-			DPO("'I wonder if I can use this to trade...'",35);
+			DPO(X.getName() + ":\nI wonder if I can use this to trade...",35);
 			Main.inventory.pickUpItem("pot of gold");
+			Map.movePlayer(3, 0);
+			
+			}
+		else if (userInp == 2) {
+			DPO("You hike up the steep mountain...",25);
+			slothF(X);
+			Map.movePlayer(2, 1);
 			}
 		}
 
 	static void ending(Character x,Scanner scanner) throws InterruptedException {
+		scanner.nextLine();
 		DPO("You take a deep breath of relief and walk up to grab your antenna before noticing the ugly man you had met from earlier, who seemed somehow even uglier than before.",25);
 		
 		System.out.println("\n                _\r\n"
@@ -486,19 +514,19 @@ public class Main{
 				+ "      _\\   -.,_____,.-   /_         \r\n"
 				+ "  ,.-\"  \"-.,_________,.-\"  \"-.,");
 		DPO("Ugly man(sniffling):\nAll praise the prophet. Oh holy is the day you have freed us from that evil evil man. Please stay back and guid us back into building our society. Help us live the golden days again.",35);
-		DPO("What would you like to do?\n1 - stay and rule 		2 - return back to your planet\n",25);
+		DPO("What would you like to do?\n1 - stay and rule 		2 - return back to your planet",25);
 		int userInp = scanner.nextInt();
 		if (userInp == 1) {
-			DPO("\n'OH BLESSED THEE!'\nThe ugly man exclaimed, wrapping his wrinkly arms around you",25);
+			DPO("\n'OH BLESSED THEE!'\nThe ugly man exclaimed, wrapping his wrinkly arms around you\n",25);
 			DPO(x.getName() + ":\nOkay okay, that's enough...\nYou inch away from the ugly man, still trying to wrap your brain around everything that has happened over the past few days",25);
-			DPO("You pick up the crown from the ground, and carefully place it atop your head.",25);
+			DPO("You carefully place the crown on top of your head.",25);
 			DPO("'I guess this is home now.'",35);
 			System.exit(userInp);
 		}
 		
 		else if (userInp == 2) {
-			DPO(x.getName() + ":\nSorry but I can't just pick up and leave like that.",35);
-			DPO("You try to avoid the ugly man's gaze, as his tears, once filled with joy were now overrun by sadness",25);
+			DPO("\n" + x.getName() + ":\nSorry but I can't just pick up and leave like that.",35);
+			DPO("You try to avoid the ugly man's gaze, as his tears, once filled with joy were now overrun by sadness\n",25);
 			DPO(x.getName() + ":\nI'll still come and visit though!",35);
 			DPO("After waiting for the ugly man to calm down, you head back to the spaceship and attach the antenna onto the rooftop before finally being able to start the update",25);
 			DPO(textBox("UPDATE COMPLETE"),25);
@@ -512,6 +540,7 @@ public class Main{
     static void wingedbearF(Character x) throws InterruptedException {
     	//initiates the first player fight with a winged bear
     	Alien WingedBear = new Alien("Winged Bear",10,35,0,"pair of Bear Claws");
+	//creates the enemy and provides the statistics
     	Combat.combat(x,WingedBear);
     }
     
@@ -526,12 +555,12 @@ public class Main{
     }
 
 	static void wingedCreatureMiniBoss(Character x) throws InterruptedException{
-		Alien jock = new Alien("Jock Bird",25,50,1,"Antenna");
+		Alien jock = new Alien("Jock Bird",50,50,0,"Antenna");
 		Combat.combat(x, jock);
 	}
 
 	static void finalBoss(Character x) throws InterruptedException{
-		Alien finalBoss = new Alien("Blarbazop",30,120,2,"Crown");
+		Alien finalBoss = new Alien("Blarbazop",75,120,2,"Crown");
 		Combat.combat(x,finalBoss);
 	}
 
