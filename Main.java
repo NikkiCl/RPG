@@ -74,7 +74,7 @@ public class Main{
 			Mansion(X,uInput);
 			} else if (Map.getCurrentLocation().contains("Backyard")) {
 			backYard(X,uInput);	
-			}else if (Map.getCurrentLocation().contains("Ending")) {
+			}else if (Map.getCurrentLocation().contains("🌲🌲")) {
 			ending(X, uInput);	
 			}
 		}
