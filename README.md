@@ -130,6 +130,12 @@ As I was writing my code, I noticed that I was using the text box too often, so 
 
 The rest of the code, mainly consisting of dialogue and descriptions, wasn't that hard to implement. I added the dialogue options and little comments of where my groupmates should add in their functions after a certain dialogue is pressed (such as 1 - climb mountain). So it mainly consisted of copying and pasting the text that we agreed upon in one of our group meetings.
 
+ALGORITHMIC THINKING: 
+The loops used in this project were quite straightforward, with the while loops and such not being hard to figure out. However, one of the harder loops to do was the "framed word" function. I knew I wanted to implement the text box and I thought about how I could structure the code so that a word sits within the frame. Although I wasn't able to find a solution as efficient as one I made with Python, I was able to achieve this by a loop which added the lines one by one. 
+
+For the while loops, break; and continue; were my best friends. In all honesty, it may be a copout but I found that using while(true) for simplicity's sake worked the best. Other times however, when a while(true) loop could've been utilised but I felt as though I should initiate a boolean variable just in case the function needed changes, I just added a cont (short for continue) variable. 
+
+
 
 
 
