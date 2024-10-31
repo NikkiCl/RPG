@@ -460,7 +460,9 @@ public class Main{
 		DPO("\nYou inch away, spouting out mumbled apologies and desperately searching for a possible escape",25);
 		DPO("Blarbazop:\nI hope you don't believe that you're getting away with this.",35);
 		Map.movePlayer(1, 1);
+		//moves the player to the mansion before beginning the boss fight due to the deadEnemies list.
 		finalBoss(X);
+		//after the boss fight is completed, the user gets the ending scene.
 		ending(X,scanner);
 		
 
