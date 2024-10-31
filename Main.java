@@ -203,11 +203,17 @@ public class Main{
     
 	static void SceneOne(Character x, Scanner scanner) throws InterruptedException {
 		int userChoice;
+		//variable for user input 
+		
+		
+		
+		//All of this here is dialogue with a few loops, so the comments will be small.
+		//----------------------------------
 		DPO(textBox("WARNING!"),10);
 		DPO("Initiating scheduled update in 3 minutes. Please ensure your system is shut off at this time....",20);
 		Thread.sleep(400);
 		DPO("The system's warnings blared through the spaceship speakers, with flashing red lights now beginning to fill the room.",10);
-		DPO( x.getName() + ":\nOH moon DOGGIE, I completely forgot about this.",20);
+		DPO("\n" + x.getName() + ":\nOH moon DOGGIE, I completely forgot about this.",20);
 		Thread.sleep(400);
 		DPO("You hastily tap on the system radar, trying to view the last scan.\n",15);
 		DPO(x.getName() + ":\nCmon cmon...\n\n",25);
@@ -218,6 +224,7 @@ public class Main{
 		DPO(textBox("LANDING COMPLETE. SYSTEM UNABLE TO COMPLETE UPDATE. SIGNAL STRENGTH WEAK"),25);
 		DPO("\n1 - search for antenna",10);
 		boolean cont = false;
+		//boolean value continue for a small loop where if the player doesnt pick 1, it'll keep playing until they pick 1
 		while (!cont) {
 			try {
 				userChoice = scanner.nextInt();
@@ -228,9 +235,11 @@ public class Main{
 				}
 				else {
 					DPO("Please enter 1",10);
+					//if user enters a number other than 1 it prompts the user to enter 1 
 				}
 			}
 			catch (Exception e) {
+			//simple try catch function, if the user enters a letter or something other than an integer, it brings an error 
 				System.out.println("Please enter a number");
 				scanner.next();
 				continue;
@@ -256,7 +265,7 @@ public class Main{
 		System.out.print("\n\n\nJock Bird:");
 		DPO("CAW CAW!! Dork.",25);
 		Thread.sleep(400);
-		DPO("\nan unknown winged creature swoops down upon you and snatches the antenna\n",25);
+		DPO("\nAn unknown winged creature swoops down upon you and snatches the antenna\n",25);
 		
 		DPO(x.getName() + ":\nHEY IM NOT A DORK!!!! YOU GIVE THAT BACK!!!!!!!.... AND YOU TAKE THAT BACK!!!",25);
 		
@@ -277,7 +286,7 @@ public class Main{
 				+ " |_|    |______\\____/|_| ");
 		Thread.sleep(1000);
 		DPO("\nAn abhorrent smell reeks from the blob of brown substance on the ground before you.",25);
-		DPO("You shake your first at the bird, whose figure was now barely visible, as it flew further and further away",25);
+		DPO("You shake your first at the bird, whose figure was now barely visible, as it flew further and further away\n",25);
 		DPO(x.getName() + ":\nCOSMIC PEST!!\n\n",35);
 		DPO(textBox("A voice loomed in the distance"),15);
 		Thread.sleep(400);
@@ -314,6 +323,7 @@ public class Main{
 			else {
 				DPO("Please pick the number 1.",25);
 				i ++;
+				//if the user picks smth other than 1, the loop keeps on playing. 
 			}
 		}
 		
@@ -321,7 +331,7 @@ public class Main{
 		DPO(x.getName() + ":\nYeah... Thanks...",35);
 		
 		DPO("\nThe ugly man noticed you slowly backing away and frowned, puzzled.",25);
-		DPO("Ugly man:\nDid I say somethin to upset ye? Or is it my breath? I’ve only had fermented eggs this mornin",35);
+		DPO("Ugly man:\nDid I say somethin to upset ye? Or is it my breath? I’ve only had fermented eggs this mornin\n",35);
 		
 		DPO(x.getName() + ":\nUhm.. oh no..its just.. I've had a lot on my mind recently, a large bird just took something important from me.\n",35);
 		
@@ -337,7 +347,24 @@ public class Main{
 		
 		
     }
+	
+	
+	static void tinyCave(Character X) throws InterruptedException {
+		
+		DPO("You step foot into the dark cave and hear..\n\n",35);
+		
+		System.out.println("░▒▓███████▓▒░ ░▒▓██████▓▒░ ░▒▓██████▓▒░░▒▓███████▓▒░░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░ \r\n"
+		+ "░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░ \r\n"
+		+ "░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░ \r\n"
+		+ "░▒▓███████▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓████████▓▒░▒▓███████▓▒░░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░ \r\n"
+		+ "░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░ \r\n"
+		+ "░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░                   \r\n"
+		+ "░▒▓█▓▒░░▒▓█▓▒░░▒▓██████▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░ \r\n"
+		+ "                                                                       ");
 
+		//fight starts 
+		wingedbearF(X);
+	}
     
     
 	static void AlienSlums() throws InterruptedException {
@@ -374,8 +401,13 @@ public class Main{
 			DPO("You decide to keep walking, leaving the market behind.", 25);
 		}
 	}
+
+
+	
 	static void Mansion(Character X, Scanner scanner) throws InterruptedException {
     	DPO("You arrive at the frontyard of a massive mansion, surrounded by golden gates and a delectable collection of trinkets",25);
+
+	//while loop where the loop keeps repeating until the user selects 2. There is no debugging for this since I asked the teacher and he said I didnt have to. 
     	while (true) {
         	DPO("1 - Open front door	2 - Head to backyard",25);
         	int userInp = scanner.nextInt();
@@ -393,21 +425,7 @@ public class Main{
     	}
     }
 	
-	static void tinyCave(Character X) throws InterruptedException {
-		
-		DPO("You step foot into the dark cave and hear..\n\n",35);
-		
-		System.out.println("░▒▓███████▓▒░ ░▒▓██████▓▒░ ░▒▓██████▓▒░░▒▓███████▓▒░░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░ \r\n"
-		+ "░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░ \r\n"
-		+ "░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░ \r\n"
-		+ "░▒▓███████▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓████████▓▒░▒▓███████▓▒░░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░ \r\n"
-		+ "░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░ \r\n"
-		+ "░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░                   \r\n"
-		+ "░▒▓█▓▒░░▒▓█▓▒░░▒▓██████▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░ \r\n"
-		+ "                                                                       ");
-		
-		wingedbearF(X);
-	}
+
 
 	static void backYard(Character X,Scanner scanner) throws InterruptedException {
 		DPO("Upon arrival, the bird who stole your antenna notices you.",25);
@@ -491,14 +509,16 @@ public class Main{
 			DPO("You stumble across a pot of gold, with a note which contained an unknown phrase",25);
 			DPO(textBox("NEW ITEM UNLOCKED: pot of gold"),25);
 			DPO(X.getName() + ":\nI wonder if I can use this to trade...",35);
+			//if the user picks 1, they stumble across a pot of gold which gets added to their inventory and the map moves the player to the waterfall manually
 			Main.inventory.pickUpItem("pot of gold");
 			Map.movePlayer(3, 0);
 			
 			}
 		else if (userInp == 2) {
 			DPO("You hike up the steep mountain...",25);
-			slothF(X);
+			//if the user picks 2, they hike up the mountain and fight a sloth, and the map moves the player to the mountain manually
 			Map.movePlayer(2, 1);
+			slothF(X);
 			}
 		}
 
