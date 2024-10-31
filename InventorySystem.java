@@ -28,9 +28,8 @@ class InventorySystem {
 		}
 		//if there are items in the inventory yet when displaying
 		if (!items.isEmpty()) {
-			System.out.printf("\nWhat item would you like to use?: ");//asks what the player would like to use
-			String chosen = itemScanner.nextLine();
-			String chosenItem = chosen.toLowerCase();
+			System.out.printf("\nWhat item would you like to use? (Enter the Name *CASE SENSITIVE*): ");//asks what the player would like to use
+			String chosenItem = itemScanner.nextLine();
 			useItem(chosenItem);
 		} else {
 			System.out.println("There is nothing in your Inventory."); // if nothing is currently in the inventory when displaying
@@ -60,9 +59,8 @@ class InventorySystem {
 			System.out.println("- " + item);
 		}
 
-		System.out.printf("\nWhat item would you like to drop? (Enter the name): ");//asks for which item they want to drop
-		String chosen = itemScanner.nextLine();
-		String chosenItem = chosen.toLowerCase();
+		System.out.printf("\nWhat item would you like to drop? (Enter the name *CASE SENSITIVE*): ");//asks for which item they want to drop
+		String chosenItem = itemScanner.nextLine();
 		dropItem(chosenItem);
 	}
 
