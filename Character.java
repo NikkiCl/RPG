@@ -5,8 +5,12 @@ public class Character {
     public int HP;
     private int Counter;
     private int turnsToAttack;
+    //variables
     
 
+
+
+    //damage function 
     public void dmg(Character enemy) {
         enemy.HP -= this.damage;
     
@@ -33,6 +37,7 @@ public class Character {
         HP = health;
         this.turnsToAttack = turnsToAttack;
     }
+    
         //CODE BELOW IS USELESS DUE TO FUNCTION WITH USING ITEMS IN THE INVENTORYSYSTEM CLASS NOT BEING FUNCTIONAL (COMMENT IN "useItem" function has a short & breif explanation)
     //public void useHealthPotion() {
     //    int amount = 50; // Fixed amount for health potion
@@ -46,8 +51,8 @@ public class Character {
     //}
 
 
-//setters
-
+    
+    //setters
     public void setTTA(int amt) {
     	turnsToAttack = amt;
     }
@@ -68,8 +73,8 @@ public class Character {
         HP = health;
     }
 
-    //getters
     
+    //getters    
     public int getCounter() {
         return Counter;
     }
@@ -90,6 +95,7 @@ public class Character {
     }
 
 
+    //toString function to get stats 
     public String toString() {
         return "----------------\nName: " + name + "\nDamage: " + damage + "\nHealth: " + HP;
     }
