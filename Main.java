@@ -155,8 +155,6 @@ public class Main{
                 case "s":
                 case "w":
                     Map.locationChange(dir);
-					//DPO("\n\n\n\n\nTravelling...................\n\n\n",55);
-					//DPO(textBox("You have arrived at: " + map.getCurrentLocation()),25);
                     break;
                 default:
                     System.out.println("Invalid direction. Please enter 'n', 'e', 's', or 'w'.");
@@ -190,12 +188,8 @@ public class Main{
     
     
     
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) throws InterruptedException {//Where the main function is called
 		welcome();
-		//Character t1 = new Character("d",50,100,0);
-    	//backYard(t1);
-        
-        
     }
     
     
